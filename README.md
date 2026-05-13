@@ -14,6 +14,12 @@ This repository will become a multi-skill suite for turning ASO keyword research
 
 The intended outcome is a reusable skill suite that helps apps rank organically for relevant search terms and drive more downloads from users actively looking for an app like it.
 
+## Skills
+
+### aso-context
+
+Internal foundation skill used by specialized skills and workflows to create or update `.agents/aso-context.md`, which captures context that other skills reference so users do not repeat themselves. Users typically do not need to call this skill explicitly.
+
 ## Inspiration
 
 This skill suite is inspired by the following MIT-licensed projects:

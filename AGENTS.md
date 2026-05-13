@@ -122,8 +122,8 @@ description: Research App Store keyword candidates with popularity and difficult
 
 ## Skill Suite Guidance
 
-- Use `aso-app-context` as the foundation skill for capturing and storing reusable context and data, so agents do not repeat the same questions and can pass context and data between skills.
-- Specialists skills should check `.agents/aso-app-context.md` before starting. If it exists, use it as canonical app context. If it is missing or incomplete, invoke or recommend `aso-app-context` first.
+- Use `aso-context` as the foundation skill for capturing and storing reusable context and data, so agents do not repeat the same questions and can pass context and data between skills.
+- Specialists skills should check `.agents/aso-context.md` before starting. If it exists, use it as canonical app context. If it is missing or incomplete, invoke or recommend `aso-context` first.
 - Use an `aso-*` prefix for ASO-specific skills so installed skills remain clearly namespaced.
 - Use workflow skills, such as `aso-metadata-workflow`, as the primary entrypoint for workflows.
 - Workflow skills should not duplicate specialist skill instructions. They should point to the relevant skill for each phase and pass along the required context or artifacts.
