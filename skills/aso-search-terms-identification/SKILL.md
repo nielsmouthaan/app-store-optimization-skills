@@ -139,5 +139,6 @@ Ask only questions that improve the backlog materially:
 ## Related Skills
 
 - Use `aso-context` to create or update shared app context and store the search-term backlog.
-- Use future prioritization skills to evaluate popularity, difficulty, relevance, and strategic value.
+- Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance scores to the backlog.
+- Use future prioritization skills to evaluate popularity, difficulty, and strategic value.
 - Use future metadata skills to turn selected terms into App Store names, subtitles, and keyword fields.

@@ -24,6 +24,10 @@ Internal foundation skill used by specialized skills and workflows to create or 
 
 Identifies a broad backlog of App Store search-term candidates from app context, competitor research, store suggestions, reviews, SEO/ASO tools, user input, brand terms, and phrase variants. Use this before prioritization or metadata generation.
 
+### aso-search-terms-relevance-scoring
+
+Assigns user-reviewed 0-5 relevance scores to search terms in the shared ASO context, based on how well the app satisfies each term's search intent. Use this after search-term identification and before later prioritization or metadata strategy work.
+
 ## Inspiration
 
 This skill suite is inspired by the following MIT-licensed projects:
