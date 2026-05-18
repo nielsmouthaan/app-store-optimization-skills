@@ -7,7 +7,7 @@ description: Provides, creates, and updates the context stored in `.agents/aso-c
 
 Create and maintain `.agents/aso-context.md`, which captures context that other skills reference so users do not repeat themselves.
 
-The context should be compact, factual, and useful for later keyword research, search term ideation, metadata generation, and localization.
+The context should be compact, factual, and useful for later search-term identification, keyword research, metadata generation, and localization.
 
 ## Workflow
 
@@ -117,6 +117,11 @@ Create or update `.agents/aso-context.md` using this structure:
 
 ## Competitors And Similar Apps
 - [App name](https://apps.apple.com/...)
+
+## Search Terms Backlog
+| Search term | Source | Status | Notes |
+| --- | --- | --- | --- |
+| example term | app description | candidate | feature phrase |
 ```
 
 Omit unavailable sections when they add no value. For example, omit `## Reviews` for a pre-launch app with no public reviews.
@@ -129,4 +134,7 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 - Preserve keyword-rich phrases from source material when they are natural and accurate.
 - Summarize reviews into themes instead of copying long review text.
 - Include competitor and similar app links when available; otherwise use plain app names.
+- Use `candidate`, `confirmed`, or `rejected` for search-term backlog status values.
+- Use `Notes` for compact context that helps later skills interpret a search term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.
+- Preserve rejected search terms when they prevent repeated suggestions.
 - Update `*Last updated:*` whenever the file changes.

@@ -18,7 +18,11 @@ The intended outcome is a reusable skill suite that helps apps rank organically 
 
 ### aso-context
 
-Internal foundation skill used by specialized skills and workflows to create or update `.agents/aso-context.md`, which captures context that other skills reference so users do not repeat themselves. Users typically do not need to call this skill explicitly.
+Internal foundation skill used by specialized skills and workflows to create or update `.agents/aso-context.md`, which captures app context and reusable ASO artifacts such as the search-term backlog. Users typically do not need to call this skill explicitly.
+
+### aso-search-terms-identification
+
+Identifies a broad backlog of App Store search-term candidates from app context, competitor research, store suggestions, reviews, SEO/ASO tools, user input, brand terms, and phrase variants. Use this before prioritization or metadata generation.
 
 ## Inspiration
 
