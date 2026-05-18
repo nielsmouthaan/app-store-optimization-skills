@@ -5,7 +5,7 @@ description: Assigns relative 0-5 relevance scores to App Store search terms in 
 
 # ASO Search Terms Relevance Scoring
 
-Act as an ASO relevance analyst. Help the user score how well each search term in the backlog matches the app, the user's likely search intent, and the app's ability to satisfy that intent.
+Act as an ASO relevance analyst. Help the user score how well each search term in the backlog matches App Store search intent, the app, and the app's ability to satisfy that intent.
 
 Optimize for **consistent, user-validated relevance scoring**. Do not prioritize by volume, competition, metadata placement, or final strategic value unless the user explicitly asks.
 
@@ -31,13 +31,13 @@ If `## Search Terms Backlog` is missing or empty:
 
 ## Relevance Score
 
-Use a **0-5 relevance score** to describe how well the app satisfies the search intent behind a term.
+Use a **0-5 relevance score** to describe how well the app satisfies the App Store search intent behind a term.
 
 | Score | Meaning |
 | --- | --- |
 | `0` | Irrelevant, misleading, or clearly not an intent the app should target. |
-| `1` | Very weak fit, mostly ambiguous, or likely to disappoint most searchers. |
-| `2` | Adjacent or partial fit; the app may help some searchers, but it is not a primary expectation. |
+| `1` | Very weak fit, mostly ambiguous, unlikely as an App Store query, or likely to disappoint most searchers. |
+| `2` | Adjacent or partial fit; the app may help some searchers, but it is not a primary App Store expectation. |
 | `3` | Relevant, but broad, mixed-intent, or not one of the app's strongest promises. |
 | `4` | Strong fit for a meaningful app use case, feature, audience, or problem. |
 | `5` | Exact or core intent the app directly serves and should confidently satisfy. |
@@ -65,6 +65,7 @@ For each non-rejected term, infer what a searcher probably wants.
 Consider:
 
 - **Specificity:** Long-tail terms often reveal clearer intent than short, broad terms.
+- **App Store query fit:** Whether the term sounds like something a user would type in the App Store to find an app.
 - **Feature fit:** Whether the app directly offers the feature, workflow, content, or outcome implied by the term.
 - **Audience fit:** Whether the likely searcher is part of the app's intended audience.
 - **Problem fit:** Whether the app solves the problem implied by the term.
@@ -72,6 +73,8 @@ Consider:
 - **Ambiguity:** Whether the same term could mean unrelated things in the App Store.
 - **Search-result evidence:** If available, whether top-ranking apps for the term satisfy a different intent.
 - **User evidence:** Whether user wording, reviews, support requests, or provided source material confirm the intent.
+
+Do not treat product-feature fit alone as relevance. A term can describe a real feature but still deserve a low score if it is unlikely to be used as an App Store search.
 
 Do not treat search volume as relevance. A high-volume term can be irrelevant, and a low-volume term can be highly relevant.
 
@@ -133,6 +136,7 @@ When updating the table, follow these rules:
 - Scoring terms in isolation instead of calibrating across the whole backlog.
 - Using popularity, competition, or ranking difficulty as a proxy for relevance.
 - Giving broad category words high scores when search intent is unclear.
+- Giving feature-internal or UI-action phrases high scores only because the app supports the feature.
 - Penalizing relevant long-tail terms only because they may have lower volume.
 - Scoring competitor brand names as usable targets without noting legal or metadata risk.
 - Saving proposed scores before the user reviews them.
@@ -143,6 +147,7 @@ When updating the table, follow these rules:
 Ask only questions that materially improve scoring:
 
 - "Would a user searching this term expect the app's core workflow, or something adjacent?"
+- "Would a user plausibly type this phrase in the App Store?"
 - "Does the app fully support this feature today, or is it only related?"
 - "Are these two terms equally relevant, or should one score higher?"
 - "Should this broad term stay in the backlog with a low relevance score, or be rejected?"

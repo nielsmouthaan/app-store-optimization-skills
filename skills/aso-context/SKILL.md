@@ -32,6 +32,7 @@ Ask for any source that can help build the context:
 
 - App Store URL
 - Marketing or landing page URL
+- App Store Connect keyword field terms
 - Local product docs, metadata files, README, or website copy
 - User-provided app description
 
@@ -55,6 +56,8 @@ When using a **marketing or landing page URL**, extract only ASO-useful context:
 - Solution to problem
 - Keywords and app category
 
+When using **App Store Connect keyword field terms**, capture them as source material for search-term discovery. Do not treat them as automatically approved or final search terms.
+
 When using **local files**, prefer sources that describe the app for users:
 
 - App Store metadata files
@@ -73,7 +76,7 @@ Good follow-up questions are narrow:
 
 - "Is this the category you want to optimize for?"
 - "Are any of these similar apps not real competitors?"
-- "Which countries or languages should later ASO work focus on?"
+- "Which search language should the initial backlog use?"
 - "Is any review or screenshot language misleading for the app?"
 
 Avoid asking the user to complete a long questionnaire.
@@ -87,9 +90,12 @@ Create or update `.agents/aso-context.md` using this structure:
 *Last updated: YYYY-MM-DD*
 
 ## Source
+**Search language:** English, unless otherwise specified.
 **App Store URL:**
 **Marketing URL:**
+**App Store Connect keywords:**
 **Other sources:**
+**Source gaps:**
 
 ## Metadata
 **Name:**
@@ -134,6 +140,8 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 - Preserve keyword-rich phrases from source material when they are natural and accurate.
 - Summarize reviews into themes instead of copying long review text.
 - Include competitor and similar app links when available; otherwise use plain app names.
+- Store one active search language for the backlog; default to English when unspecified.
+- Note missing high-value sources, such as App Store URL, marketing URL, or App Store Connect keywords, when the user skips them.
 - Use `candidate`, `confirmed`, or `rejected` for search-term backlog status values.
 - Use `Notes` for compact context that helps later skills interpret a search term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.
 - Preserve rejected search terms when they prevent repeated suggestions.
