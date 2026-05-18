@@ -35,8 +35,11 @@ Ask for any source that can help build the context:
 - App Store Connect keyword field terms
 - Local product docs, metadata files, README, or website copy
 - User-provided app description
+- Any additional source that may help search-term discovery, such as competitor lists, customer language, support requests, review exports, ASO tool exports, SEO tool exports, Apple Search Ads terms, or keyword research files
 
 Use whichever sources are available. If multiple sources are available, combine them.
+
+If an App Store URL or marketing URL is provided, inspect it before deriving ASO context from local files alone. If the current environment cannot access the URL, ask the user to paste relevant copy and note the access gap.
 
 ### 3. Populate From Sources
 
@@ -65,6 +68,8 @@ When using **local files**, prefer sources that describe the app for users:
 - Landing page copy
 - Product docs
 - Release notes
+
+Local files are useful context, but they are not a substitute for the public App Store listing or marketing page when those sources are available.
 
 When using a **user description**, capture the user's wording directly where it may help later search term generation.
 

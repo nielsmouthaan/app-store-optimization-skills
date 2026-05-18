@@ -40,9 +40,11 @@ Use a **0-5 relevance score** to describe how well the app satisfies the App Sto
 | `2` | Adjacent or partial fit; the app may help some searchers, but it is not a primary App Store expectation. |
 | `3` | Relevant, but broad, mixed-intent, or not one of the app's strongest promises. |
 | `4` | Strong fit for a meaningful app use case, feature, audience, or problem. |
-| `5` | Exact or core intent the app directly serves and should confidently satisfy. |
+| `5` | Exact brand, brand-plus-category, or core intent the app directly serves and should confidently satisfy. |
 
 Score terms **relative to the whole backlog**. If two terms have the same level of fit for the app, give them the same score even when they differ in wording, length, or expected search volume.
+
+The app's own brand name and natural brand variants are always highly relevant. Score own-brand terms as `5`; if the brand is also a generic word, note the ambiguity, but do not downgrade the own-brand intent.
 
 ## Scoring Workflow
 
@@ -66,6 +68,7 @@ Consider:
 
 - **Specificity:** Long-tail terms often reveal clearer intent than short, broad terms.
 - **App Store query fit:** Whether the term sounds like something a user would type in the App Store to find an app.
+- **Search phrase shape:** Whether the term is a compact app-search phrase rather than a sentence, UI command, or product-internal label.
 - **Feature fit:** Whether the app directly offers the feature, workflow, content, or outcome implied by the term.
 - **Audience fit:** Whether the likely searcher is part of the app's intended audience.
 - **Problem fit:** Whether the app solves the problem implied by the term.
@@ -98,7 +101,7 @@ Before saving anything, present a review table:
 | example term | 4 | Strong feature fit; search intent matches a core workflow. |
 ```
 
-Ask the user to validate, correct, or reject the proposed scores. Make clear that later ASO prioritization depends on accurate relevance scoring.
+Ask the user to carefully validate, correct, or reject the proposed scores. Make clear that these scores strongly influence later prioritization, keyword research, and metadata strategy, so they should not approve them casually.
 
 When useful, split the review into groups:
 
@@ -137,6 +140,7 @@ When updating the table, follow these rules:
 - Using popularity, competition, or ranking difficulty as a proxy for relevance.
 - Giving broad category words high scores when search intent is unclear.
 - Giving feature-internal or UI-action phrases high scores only because the app supports the feature.
+- Downgrading the app's own brand terms because the brand is broad or generic.
 - Penalizing relevant long-tail terms only because they may have lower volume.
 - Scoring competitor brand names as usable targets without noting legal or metadata risk.
 - Saving proposed scores before the user reviews them.

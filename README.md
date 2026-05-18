@@ -22,11 +22,11 @@ Internal foundation skill used by specialized skills and workflows to create or 
 
 ### aso-search-terms-identification
 
-Identifies a broad single-language backlog of plausible App Store search-term candidates from app context, public listing/marketing sources, existing ASC keyword terms, competitor research, reviews, SEO/ASO tools, user input, brand terms, and phrase variants. Use this before relevance scoring, prioritization, or metadata generation.
+Identifies a broad single-language backlog of plausible App Store search-term candidates from app context, public listing/marketing sources, existing ASC keyword terms, competitor research, reviews, SEO/ASO tools, user input, brand terms, and phrase variants. It asks for key external sources before the first backlog and filters candidates for App Store search plausibility. Use this before relevance scoring, prioritization, or metadata generation.
 
 ### aso-search-terms-relevance-scoring
 
-Assigns user-reviewed 0-5 relevance scores to search terms in the shared ASO context, based on App Store search intent and how well the app satisfies that intent. Use this after search-term identification and before later prioritization or metadata strategy work.
+Assigns carefully user-reviewed 0-5 relevance scores to search terms in the shared ASO context, based on App Store search intent and how well the app satisfies that intent. Own-brand terms are treated as highly relevant. Use this after search-term identification and before later prioritization or metadata strategy work.
 
 ## Inspiration
 

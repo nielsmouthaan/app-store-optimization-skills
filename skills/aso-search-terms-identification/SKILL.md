@@ -7,7 +7,7 @@ description: Identifies broad App Store search-term candidates for ASO. Use when
 
 Act as an ASO search-term researcher. Help the user create a large backlog of search terms that potential users might reasonably type in the App Store and expect to find the app in the results.
 
-Optimize for **breadth and App Store search plausibility**. Do not prioritize terms, assign metadata fields, or decide final targeting unless the user explicitly asks.
+Optimize for **breadth and App Store search plausibility**. Do not assign relevance scores, prioritize terms, assign metadata fields, or decide final targeting unless the user explicitly asks.
 
 ## Before Starting
 
@@ -25,14 +25,15 @@ If it does not exist or lacks meaningful app context:
 - Invoke or recommend `aso-context` before continuing.
 - Ask only for the minimum app description needed to suggest an initial backlog.
 
-Before generating a first backlog, ask for optional high-value sources when they are missing:
+Before generating a first backlog, ask directly for these high-value sources when they are missing:
 
 - App Store listing URL
 - Marketing or landing page URL
 - Existing App Store Connect keyword field terms
-- Known competitors, ASO tool exports, SEO tool exports, or other search-term data
 
-These sources are optional. If the user skips them, continue with available context and note the source gap in `.agents/aso-context.md`.
+Wait for the user to provide sources or explicitly skip them. If the user skips any source, continue with available context and note the source gap in `.agents/aso-context.md`.
+
+When an App Store listing URL or marketing URL is available, inspect it before creating or expanding the backlog. If the current environment cannot access a URL, ask the user to paste the relevant listing or page copy and note the access gap.
 
 ## Search-Term Backlog Rules
 
@@ -43,6 +44,8 @@ These sources are optional. If the user skips them, continue with available cont
 - Include the app's own brand name and natural brand variants.
 - Use one active search language. Default to English unless the prompt or `.agents/aso-context.md` specifies another language.
 - Do not generate translated or localized terms just because localized app strings exist.
+- Prefer compact search phrases that sound like App Store queries.
+- Avoid full-sentence descriptions, UI commands, or product-internal wording unless external evidence shows users search that way.
 - Ask for clarification when a user-provided term looks like an accidental grammar or spelling mistake.
 - Warn clearly when a candidate appears to be a competitor brand name because the App Store forbids using competitor brand names in final metadata.
 - Keep source information so later skills can judge evidence quality.
@@ -62,6 +65,8 @@ Use the context file as the canonical source for:
 - Existing saved search terms
 
 Call out obvious gaps only when they block useful suggestions.
+
+Do not treat local repository files as complete source coverage when public listing or marketing sources are missing.
 
 ### 2. Generate Candidate Terms
 
@@ -87,6 +92,7 @@ Avoid or mark as `questionable search intent`:
 
 - Internal feature labels or implementation details
 - UI-action fragments and settings labels
+- Sentence-like phrases
 - Integration-only terms that are not likely app discovery queries
 - Phrases that describe a workflow but do not sound like search terms
 - Adjacent category terms that would likely return apps with a different core promise
@@ -135,6 +141,8 @@ When updating the table, follow these rules:
 - Preserve rejected terms when they prevent repeated suggestions.
 - Update `*Last updated:*` in the context file.
 
+Stop after saving or presenting the backlog. Do not propose relevance scores from this skill; use `aso-search-terms-relevance-scoring` only when the user asks for scoring.
+
 ## Competitor Brand Handling
 
 Apple and Google prohibit using competitor names in final app metadata unless the term is generic or legally safe in context.
@@ -151,6 +159,8 @@ When a candidate appears to be a competitor brand:
 - Creating only a short list of polished terms too early.
 - Removing variants because they look similar.
 - Adding phrases only because they appear in source files, even when they are not plausible App Store searches.
+- Treating local files as enough without asking for App Store listing, marketing page, and ASC keyword sources.
+- Proposing relevance scores during search-term identification.
 - Generating translated terms from localized strings when the active search language is English.
 - Correcting realistic misspellings or grammar mistakes without checking whether they were intentional.
 - Treating web search volume as App Store demand without caveats.
@@ -165,6 +175,7 @@ Ask only questions that improve the backlog materially:
 - "Do you have an App Store URL, marketing URL, ASC keyword terms, or competitor list I should use before creating the first backlog?"
 - "Are these similar apps real competitors, inspiration, or irrelevant?"
 - "Would a user searching this term reasonably expect an app like yours?"
+- "Do you have existing App Store Connect keyword terms I should treat as source material?"
 - "Does this phrase sound like something a user would type in the App Store, or is it just internal product language?"
 - "Was this spelling or grammar mistake intentional because users may search that way?"
 - "Should I keep competitor brand names only as warnings, or exclude them entirely?"
