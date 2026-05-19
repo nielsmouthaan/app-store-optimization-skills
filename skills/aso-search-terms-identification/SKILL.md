@@ -99,22 +99,15 @@ Avoid or mark as `questionable search intent`:
 
 ### 4. Group And Verify
 
-Present terms in practical groups so the user can react quickly:
+Present proposed search terms in logical groups that make review easier.
 
-- Core category terms
-- Feature and benefit terms
-- Problem and intent terms
-- Audience or use-case terms
-- Long-tail variants
-- Brand terms
-- Competitor-derived ideas
-- Questionable search-intent or risky terms
+Before saving new search terms, ask the user what should be accepted, rejected, corrected, or added. Include brief review guidance: keep terms that users might search for and reasonably expect to find this app in the App Store results; keep more relevant possibilities rather than narrowing the list too early; keep useful singular/plural variants, word-order variants, generic and/or reserved terms like "app", developer names, and category terms when they make sense; reject or correct terms that are misleading or unlikely to be searched.
 
-Ask the user to confirm, reject, or add terms. Use specific suggestions as prompts instead of asking broad questionnaire-style questions.
+Do not save the backlog until the user has had a clear chance to review and adjust the proposed terms.
 
 ### 5. Save Results
 
-Update `.agents/aso-context.md` under `## Search Terms Backlog` using this table:
+After review and adjustment, update `.agents/aso-context.md` under `## Search Terms Backlog` using this table:
 
 ```markdown
 | Search term | Source | Status | Notes |
@@ -133,7 +126,7 @@ Use these status values:
 When updating the table, follow these rules:
 
 - Append new terms rather than replacing existing work.
-- Normalize obvious duplicates, but keep meaningful variants.
+- Normalize obvious duplicates, but keep meaningful variants, including singular/plural forms, word-order variants, generic and/or reserved terms like "app", developer names, and category terms when they make sense.
 - Use `Notes` for compact context that helps later skills interpret the term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.
 - Keep grammar and spelling variants when they reflect realistic user searches.
 - Ask before correcting a user-provided term when the mistake may be intentional.
