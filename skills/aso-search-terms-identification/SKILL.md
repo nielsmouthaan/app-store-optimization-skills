@@ -40,7 +40,8 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 - Include terms that are **somewhat relevant** and plausible as App Store searches, even if imperfect.
 - Prefer more candidates over fewer candidates, but avoid phrases that a real App Store user is unlikely to type.
 - Include close variants, singular and plural forms, word-order changes, synonyms, and long-tail combinations.
-- Include grammar or spelling mistakes when users might realistically search that way.
+- Do not invent spelling or grammar mistakes.
+- Preserve misspelled or ungrammatical terms only when they come from the user or source evidence.
 - Include the app's own brand name and natural brand variants.
 - Use one active search language. Default to English unless the prompt or `.agents/aso-context.md` specifies another language.
 - Do not generate translated or localized terms just because localized app strings exist.
@@ -78,7 +79,7 @@ Create candidates from multiple sources:
 - **Existing ASC keywords:** App Store Connect keyword field terms provided by the user; treat them as source material and seeds, not automatically approved final terms.
 - **External discovery tools:** If the user provides data or relevant tools are available, use App Store autofill, Google Play autofill, Apple Search Ads, Google Keyword Planner, Google Trends, ASO tools, SEO tools, and keyword discovery tools.
 - **Phrase expansion:** singular/plural variants, synonyms, alternate word order, related nouns and verbs, category modifiers, and long-tail combinations.
-- **Brand terms:** the app's own name, product names, company name, abbreviations, and common misspellings or grammar variants when relevant.
+- **Brand terms:** the app's own name, product names, company name, abbreviations, and source-backed misspellings or grammar variants when relevant.
 
 If localized app strings reveal a useful concept, translate the concept into the active search language and note the localized-string source. Do not add the localized phrase itself unless it is in the active search language.
 
@@ -128,8 +129,7 @@ When updating the table, follow these rules:
 - Append new terms rather than replacing existing work.
 - Normalize obvious duplicates, but keep meaningful variants, including singular/plural forms, word-order variants, generic and/or reserved terms like "app", developer names, and category terms when they make sense.
 - Use `Notes` for compact context that helps later skills interpret the term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.
-- Keep grammar and spelling variants when they reflect realistic user searches.
-- Ask before correcting a user-provided term when the mistake may be intentional.
+- Keep source-backed grammar and spelling variants when they reflect realistic user searches.
 - Mark weak-but-possibly-useful terms as `questionable search intent`.
 - Preserve rejected terms when they prevent repeated suggestions.
 - Update `*Last updated:*` in the context file.
