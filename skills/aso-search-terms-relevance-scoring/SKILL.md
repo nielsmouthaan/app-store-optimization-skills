@@ -99,12 +99,19 @@ Before presenting scores, compare terms across the backlog:
 Before saving anything, present a review table:
 
 ```markdown
-| Search term | Proposed relevance | Rationale |
-| --- | --- | --- |
-| example term | 4 | Strong feature fit; search intent matches a core workflow. |
+| Relevance | Search terms |
+| --- | --- |
+| Very high | term one; term two; term three |
+| High | term one; term two |
+| Medium | term one; term two |
+| Low | term one; term two |
+| Very low | term one |
+| None | term one |
 ```
 
-Ask the user to carefully validate, correct, or reject the proposed scores. Make clear that these scores strongly influence later prioritization, keyword research, and metadata strategy, so they should not approve them casually.
+Use compact text labels in the review table so the user can scan the relevance groups quickly. These labels map to the numeric `0`-`5` scores defined in `## Relevance Score`: `Very high` = `5`, `High` = `4`, `Medium` = `3`, `Low` = `2`, `Very low` = `1`, and `None` = `0`. Save the approved numeric score to the `Relevance` column in `.agents/aso-context.md`.
+
+Require the user to carefully review the proposed relevance groups before saving. Explain that relevance scores are a critical input for later steps in the ASO process; inaccurate relevance scoring can cause later workflow steps to prioritize or use the wrong terms. Do not save scores until the user has explicitly approved or corrected them.
 
 When useful, split the review into groups:
 
