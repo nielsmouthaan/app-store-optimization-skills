@@ -40,6 +40,9 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 - Include terms that are **somewhat relevant** and plausible as App Store searches, even if imperfect.
 - Prefer more candidates over fewer candidates, but avoid phrases that a real App Store user is unlikely to type.
 - Include close variants, singular and plural forms, word-order changes, synonyms, and long-tail combinations.
+- Include broad head terms for the app's core category, jobs-to-be-done, and main user outcomes.
+- Include natural action-object and noun variants for the same intent, including compact forms users may type in the App Store.
+- Include generic category, audience, and use-case synonyms even when they are less precise than the app's positioning.
 - Do not invent spelling or grammar mistakes.
 - Preserve misspelled or ungrammatical terms only when they come from the user or source evidence.
 - Include the app's own brand name and natural brand variants.
@@ -78,7 +81,8 @@ Create candidates from multiple sources:
 - **Competitor research:** competitor titles, subtitles, descriptions, screenshot captions, and terms they appear to rank for.
 - **Existing ASC keywords:** App Store Connect keyword field terms provided by the user; treat them as source material and seeds, not automatically approved final terms.
 - **External discovery tools:** If the user provides data or relevant tools are available, use App Store autofill, Google Play autofill, Apple Search Ads, Google Keyword Planner, Google Trends, ASO tools, SEO tools, and keyword discovery tools.
-- **Phrase expansion:** singular/plural variants, synonyms, alternate word order, related nouns and verbs, category modifiers, and long-tail combinations.
+- **Imported keyword lists:** User-provided keyword exports or manual lists; import their keyword language broadly before generating new expansions.
+- **Phrase expansion:** broad head terms, singular/plural variants, synonyms, alternate word order, related nouns and verbs, action-object variants, noun-form variants, compact or compound variants, category modifiers, and long-tail combinations.
 - **Brand terms:** the app's own name, product names, company name, abbreviations, and source-backed misspellings or grammar variants when relevant.
 
 If localized app strings reveal a useful concept, translate the concept into the active search language and note the localized-string source. Do not add the localized phrase itself unless it is in the active search language.

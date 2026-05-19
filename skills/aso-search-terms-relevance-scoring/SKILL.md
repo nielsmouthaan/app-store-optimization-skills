@@ -37,14 +37,16 @@ Use a **0-5 relevance score** to describe how well the app satisfies the App Sto
 | --- | --- |
 | `0` | Irrelevant, misleading, or clearly not an intent the app should target. |
 | `1` | Very weak fit, mostly ambiguous, unlikely as an App Store query, or likely to disappoint most searchers. |
-| `2` | Adjacent or partial fit; the app may help some searchers, but it is not a primary App Store expectation. |
-| `3` | Relevant, but broad, mixed-intent, or not one of the app's strongest promises. |
-| `4` | Strong fit for a meaningful app use case, feature, audience, or problem. |
-| `5` | Exact brand, brand-plus-category, or core intent the app directly serves and should confidently satisfy. |
+| `2` | Adjacent, partial, competitor-derived, or category-neighbor fit; the app may help some searchers, but it is not a primary App Store expectation. |
+| `3` | Relevant but mixed-intent, secondary, or likely to attract many searchers who want a different kind of app. |
+| `4` | Strong fit for a meaningful app use case, synonym, feature, audience, or problem, but less central than the app's core category or job-to-be-done. |
+| `5` | Own-brand, brand-plus-category, core category, or core job-to-be-done intent the app directly serves and should confidently satisfy, even when the term is broad. |
 
 Score terms **relative to the whole backlog**. If two terms have the same level of fit for the app, give them the same score even when they differ in wording, length, or expected search volume.
 
 The app's own brand name and natural brand variants are always highly relevant. Score own-brand terms as `5`; if the brand is also a generic word, note the ambiguity, but do not downgrade the own-brand intent.
+
+Do not penalize broad terms solely because they are broad. If the app is a legitimate strong result for a broad category, core job-to-be-done, or main user outcome, score that term high. Use ambiguity to distinguish `5` from `4` or `3`, not to automatically demote broad terms.
 
 ## Scoring Workflow
 
@@ -87,6 +89,7 @@ Before presenting scores, compare terms across the backlog:
 
 - Group terms that express the same or similar intent.
 - Make sure equivalent relevance receives equivalent scores.
+- Cluster broad core terms, close synonyms, action-object variants, and noun-form variants near each other when they express the same user intent.
 - Check `5` and `0` scores last so extreme scores are applied consistently across comparable terms.
 - When unsure between two adjacent scores, choose the lower score and mark the term for user review.
 - Mark uncertain scores for user review instead of pretending they are precise.
@@ -138,7 +141,8 @@ When updating the table, follow these rules:
 
 - Scoring terms in isolation instead of calibrating across the whole backlog.
 - Using popularity, competition, or ranking difficulty as a proxy for relevance.
-- Giving broad category words high scores when search intent is unclear.
+- Automatically downgrading broad core category terms even when the app is a legitimate strong result for that intent.
+- Giving broad terms high scores when search intent clearly points to a different kind of app.
 - Giving feature-internal or UI-action phrases high scores only because the app supports the feature.
 - Downgrading the app's own brand terms because the brand is broad or generic.
 - Penalizing relevant long-tail terms only because they may have lower volume.
