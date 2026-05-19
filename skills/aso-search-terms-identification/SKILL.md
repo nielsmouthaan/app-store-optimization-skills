@@ -51,7 +51,7 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 - Prefer compact search phrases that sound like App Store queries.
 - Avoid full-sentence descriptions, UI commands, or product-internal wording unless external evidence shows users search that way.
 - Ask for clarification when a user-provided term looks like an accidental grammar or spelling mistake.
-- Warn clearly when a candidate appears to be a competitor brand name because the App Store forbids using competitor brand names in final metadata.
+- Do not add competitor brand names as usable search-term candidates by default.
 - Keep source information so later skills can judge evidence quality.
 
 ## Discovery Workflow
@@ -69,6 +69,8 @@ Use the context file as the canonical source for:
 - Existing saved search terms
 
 Call out obvious gaps only when they block useful suggestions.
+
+Treat existing metadata keywords as source material, not proof of strategic fit. Existing names, subtitles, screenshot captions, and descriptions may reflect previous ASO experiments, so extract terms from them but do not assume every prominent term should be kept.
 
 Do not treat local repository files as complete source coverage when public listing or marketing sources are missing.
 
@@ -140,15 +142,19 @@ When updating the table, follow these rules:
 
 Stop after saving or presenting the backlog. Do not propose relevance scores from this skill; use `aso-search-terms-relevance-scoring` only when the user asks for scoring.
 
-## Competitor Brand Handling
+## Competitor Research Handling
 
 Apple and Google prohibit using competitor names in final app metadata unless the term is generic or legally safe in context.
 
-When a candidate appears to be a competitor brand:
+Use competitor names as research sources, not as usable search-term candidates by default.
 
-- Flag it in `Notes` as `competitor brand warning`.
-- Explain that it can inspire generic alternatives, but may be unsafe for final metadata.
-- Ask for explicit permission before keeping competitor names as usable candidates.
+When researching competitors:
+
+- Inspect competitor titles, subtitles, descriptions, screenshot captions, reviews, categories, and visible positioning when available.
+- Extract generic non-brand search terms from competitor language, category fit, features, benefits, and user intent.
+- Do not propose competitor brand names as normal candidate terms.
+- Include competitor brand names in the backlog only if the user explicitly asks to track them for research.
+- If competitor brand names are saved for research context, mark them as `rejected` and flag `competitor brand warning` in `Notes`.
 - Suggest non-brand alternatives based on the competitor's category, feature, or user intent.
 
 ## Common Mistakes
@@ -162,7 +168,7 @@ When a candidate appears to be a competitor brand:
 - Correcting realistic misspellings or grammar mistakes without checking whether they were intentional.
 - Treating web search volume as App Store demand without caveats.
 - Forgetting long-tail terms with clearer intent.
-- Keeping competitor brand names without warning.
+- Proposing competitor brand names as usable search terms instead of extracting generic non-brand alternatives from competitor research.
 - Jumping into keyword prioritization or metadata writing before the backlog is broad enough.
 
 ## Task-Specific Questions
@@ -175,7 +181,7 @@ Ask only questions that improve the backlog materially:
 - "Do you have existing App Store Connect keyword terms I should treat as source material?"
 - "Does this phrase sound like something a user would type in the App Store, or is it just internal product language?"
 - "Was this spelling or grammar mistake intentional because users may search that way?"
-- "Should I keep competitor brand names only as warnings, or exclude them entirely?"
+- "Should I use these competitors as research sources for generic non-brand alternatives?"
 - "What terms would customers use if they did not know the app or category name?"
 
 ## Related Skills

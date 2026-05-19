@@ -1,6 +1,6 @@
 ---
 name: aso-search-terms-relevance-scoring
-description: Assigns relative 0-5 relevance scores to App Store search terms in the ASO context. Use when reviewing keyword relevance, scoring a search-term backlog, validating ASO search intent fit, or preparing search terms for later prioritization and metadata strategy.
+description: Assigns relative 1-5 relevance scores to App Store search terms in the ASO context. Use when reviewing keyword relevance, scoring a search-term backlog, validating ASO search intent fit, or preparing search terms for later prioritization and metadata strategy.
 ---
 
 # ASO Search Terms Relevance Scoring
@@ -31,13 +31,12 @@ If `## Search Terms Backlog` is missing or empty:
 
 ## Relevance Score
 
-Use a **0-5 relevance score** to describe how well the app satisfies the App Store search intent behind a term.
+Use a **1-5 relevance score** to describe how well the app satisfies the App Store search intent behind a term.
 
 | Score | Meaning |
 | --- | --- |
-| `0` | Irrelevant, misleading, or clearly not an intent the app should target. |
 | `1` | Very weak fit, mostly ambiguous, unlikely as an App Store query, or likely to disappoint most searchers. |
-| `2` | Adjacent, partial, competitor-derived, or category-neighbor fit; the app may help some searchers, but it is not a primary App Store expectation. |
+| `2` | Adjacent, partial, or category-neighbor fit; the app may help some searchers, but it is not a primary App Store expectation. |
 | `3` | Relevant but mixed-intent, secondary, or likely to attract many searchers who want a different kind of app. |
 | `4` | Strong fit for a meaningful app use case, synonym, feature, audience, or problem, but less central than the app's core category or job-to-be-done. |
 | `5` | Own-brand, brand-plus-category, core category, or core job-to-be-done intent the app directly serves and should confidently satisfy, even when the term is broad. |
@@ -47,6 +46,10 @@ Score terms **relative to the whole backlog**. If two terms have the same level 
 The app's own brand name and natural brand variants are always highly relevant. Score own-brand terms as `5`; if the brand is also a generic word, note the ambiguity, but do not downgrade the own-brand intent.
 
 Do not penalize broad terms solely because they are broad. If the app is a legitimate strong result for a broad category, core job-to-be-done, or main user outcome, score that term high. Use ambiguity to distinguish `5` from `4` or `3`, not to automatically demote broad terms.
+
+Do not treat a term as highly relevant only because it appears in the app name, subtitle, screenshots, or description. Metadata may reflect previous ASO choices. Use metadata as descriptive evidence, but judge relevance by the app's actual functionality, user value, category, and likely search intent.
+
+When a term appears in prominent metadata but seems only loosely connected to the app's real job-to-be-done, flag it for user review instead of automatically scoring it highly.
 
 ## Scoring Workflow
 
@@ -90,7 +93,8 @@ Before presenting scores, compare terms across the backlog:
 - Group terms that express the same or similar intent.
 - Make sure equivalent relevance receives equivalent scores.
 - Cluster broad core terms, close synonyms, action-object variants, and noun-form variants near each other when they express the same user intent.
-- Check `5` and `0` scores last so extreme scores are applied consistently across comparable terms.
+- Before presenting scores, run an equivalent-intent pass. Find terms that differ only by platform modifier, app/category suffix, word form, or word order but express the same search intent. These terms should usually receive the same relevance score unless there is a clear intent difference.
+- Check `5` and `1` scores last so extreme scores are applied consistently across comparable terms.
 - When unsure between two adjacent scores, choose the lower score and mark the term for user review.
 - Mark uncertain scores for user review instead of pretending they are precise.
 
@@ -106,10 +110,9 @@ Before saving anything, present a review table:
 | Medium | term one; term two |
 | Low | term one; term two |
 | Very low | term one |
-| None | term one |
 ```
 
-Use compact text labels in the review table so the user can scan the relevance groups quickly. These labels map to the numeric `0`-`5` scores defined in `## Relevance Score`: `Very high` = `5`, `High` = `4`, `Medium` = `3`, `Low` = `2`, `Very low` = `1`, and `None` = `0`. Save the approved numeric score to the `Relevance` column in `.agents/aso-context.md`.
+Use compact text labels in the review table so the user can scan the relevance groups quickly. These labels map to the numeric `1`-`5` scores defined in `## Relevance Score`: `Very high` = `5`, `High` = `4`, `Medium` = `3`, `Low` = `2`, and `Very low` = `1`. Save the approved numeric score to the `Relevance` column in `.agents/aso-context.md`.
 
 Require the user to carefully review the proposed relevance groups before saving. Explain that relevance scores are a critical input for later steps in the ASO process; inaccurate relevance scoring can cause later workflow steps to prioritize or use the wrong terms. Do not save scores until the user has explicitly approved or corrected them.
 
@@ -119,7 +122,6 @@ When useful, split the review into groups:
 - Strong feature or benefit terms
 - Broad or mixed-intent terms
 - Adjacent or weak-fit terms
-- Irrelevant or misleading terms
 - Terms needing user judgment
 
 ### 5. Save Approved Scores
@@ -138,8 +140,8 @@ When updating the table, follow these rules:
 
 - Add a `Relevance` column if it is missing.
 - Preserve existing `Search term`, `Source`, `Status`, and `Notes` values.
-- Preserve rejected terms, but leave relevance blank unless the user wants rejected terms scored.
-- Use only integer scores from `0` to `5`.
+- Preserve rejected terms without assigning them a relevance score.
+- Use only integer scores from `1` to `5`.
 - Keep rationale in `Notes` compact and useful for later prioritization.
 - Do not overwrite user-confirmed relevance scores unless the user approves the change.
 - Update `*Last updated:*` in the context file.
@@ -151,9 +153,11 @@ When updating the table, follow these rules:
 - Automatically downgrading broad core category terms even when the app is a legitimate strong result for that intent.
 - Giving broad terms high scores when search intent clearly points to a different kind of app.
 - Giving feature-internal or UI-action phrases high scores only because the app supports the feature.
+- Giving terms high scores only because they already appear in prominent app metadata.
+- Giving semantically equivalent terms different scores because of word order, suffixes, or minor modifiers.
 - Downgrading the app's own brand terms because the brand is broad or generic.
 - Penalizing relevant long-tail terms only because they may have lower volume.
-- Scoring competitor brand names as usable targets without noting legal or metadata risk.
+- Scoring competitor brand names as normal target terms instead of using competitor research to find generic alternatives.
 - Saving proposed scores before the user reviews them.
 - Treating relevance as final truth instead of a user-validated input for later ASO work.
 
@@ -166,7 +170,7 @@ Ask only questions that materially improve scoring:
 - "Does the app fully support this feature today, or is it only related?"
 - "Are these two terms equally relevant, or should one score higher?"
 - "Should this broad term stay in the backlog with a low relevance score, or be rejected?"
-- "Is this competitor-derived term safe to keep only as research context?"
+- "Is this term a generic non-brand alternative extracted from competitor research, or a competitor brand name?"
 
 ## Related Skills
 
