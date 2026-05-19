@@ -51,6 +51,8 @@ When using an **App Store URL**, extract what is publicly available:
 - Review themes and user language
 - Competitors or similar apps, including links when available
 
+After finding or receiving an App Store URL, explicitly ask the user to provide the current App Store Connect keyword field terms. These are not public, but they are important source material for ASO search-term work. Continue only after the user provides them or explicitly says to skip them.
+
 When using a **marketing or landing page URL**, extract only ASO-useful context:
 
 - Product description
@@ -73,22 +75,15 @@ Local files are useful context, but they are not a substitute for the public App
 
 When using a **user description**, capture the user's wording directly where it may help later search term generation.
 
-### 4. Ask Only For Useful Gaps
+### 4. Verify The Draft
 
-After drafting the context, ask for corrections or missing details only when they materially affect ASO work.
+Before saving, show the drafted app context to the user and ask what is incorrect, missing, or misleading.
 
-Good follow-up questions are narrow:
-
-- "Is this the category you want to optimize for?"
-- "Are any of these similar apps not real competitors?"
-- "Which search language should the initial backlog use?"
-- "Is any review or screenshot language misleading for the app?"
-
-Avoid asking the user to complete a long questionnaire.
+Iterate until the user is satisfied with the captured context.
 
 ### 5. Save The Context
 
-Create or update `.agents/aso-context.md` using this structure:
+After review and adjustment, create or update `.agents/aso-context.md` using this structure:
 
 ```markdown
 # ASO App Context
@@ -100,7 +95,6 @@ Create or update `.agents/aso-context.md` using this structure:
 **Marketing URL:**
 **App Store Connect keywords:**
 **Other sources:**
-**Source gaps:**
 
 ## Metadata
 **Name:**
@@ -146,7 +140,6 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 - Summarize reviews into themes instead of copying long review text.
 - Include competitor and similar app links when available; otherwise use plain app names.
 - Store one active search language for the backlog; default to English when unspecified.
-- Note missing high-value sources, such as App Store URL, marketing URL, or App Store Connect keywords, when the user skips them.
 - Use `candidate`, `confirmed`, or `rejected` for search-term backlog status values.
 - Use `Notes` for compact context that helps later skills interpret a search term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.
 - Preserve rejected search terms when they prevent repeated suggestions.

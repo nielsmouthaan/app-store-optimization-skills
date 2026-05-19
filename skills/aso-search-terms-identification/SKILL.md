@@ -31,7 +31,7 @@ Before generating a first backlog, ask directly for these high-value sources whe
 - Marketing or landing page URL
 - Existing App Store Connect keyword field terms
 
-Wait for the user to provide sources or explicitly skip them. If the user skips any source, continue with available context and note the source gap in `.agents/aso-context.md`.
+Wait for the user to provide sources or explicitly skip them. If the user skips any source, continue with available context.
 
 When an App Store listing URL or marketing URL is available, inspect it before creating or expanding the backlog. If the current environment cannot access a URL, ask the user to paste the relevant listing or page copy and note the access gap.
 
@@ -57,7 +57,7 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 Use the context file as the canonical source for:
 
 - Search language
-- App Store URL, marketing URL, App Store Connect keywords, and source gaps
+- App Store URL, marketing URL, and App Store Connect keywords
 - App name, subtitle, category, and description
 - Features, use cases, and problem language
 - Screenshot text and review themes
