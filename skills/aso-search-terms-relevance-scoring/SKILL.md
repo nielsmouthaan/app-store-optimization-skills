@@ -39,7 +39,7 @@ Use a **1-5 relevance score** to describe how well the app satisfies the App Sto
 | `2` | Adjacent, partial, or category-neighbor fit; the app may help some searchers, but it is not a primary App Store expectation. |
 | `3` | Relevant but mixed-intent, secondary, or likely to attract many searchers who want a different kind of app. |
 | `4` | Strong fit for a meaningful app use case, synonym, feature, audience, or problem, but less central than the app's core category or job-to-be-done. |
-| `5` | Own-brand, brand-plus-category, core category, or core job-to-be-done intent the app directly serves and should confidently satisfy, even when the term is broad. |
+| `5` | Own-brand, brand-plus-category, core category, or primary job-to-be-done intent the app directly serves. A `5` term should describe what the user is primarily trying to find, not merely a feature, output, report, or metadata phrase. |
 
 Score terms **relative to the whole backlog**. If two terms have the same level of fit for the app, give them the same score even when they differ in wording, length, or expected search volume.
 
@@ -49,7 +49,7 @@ Do not penalize broad terms solely because they are broad. If the app is a legit
 
 Do not treat a term as highly relevant only because it appears in the app name, subtitle, screenshots, or description. Metadata may reflect previous ASO choices. Use metadata as descriptive evidence, but judge relevance by the app's actual functionality, user value, category, and likely search intent.
 
-When a term appears in prominent metadata but seems only loosely connected to the app's real job-to-be-done, flag it for user review instead of automatically scoring it highly.
+Prominent metadata terms must pass the same product-fit test as every other term. Before assigning `Very high`, ask whether the term describes the app's primary user intent independent of its presence in the current app name, subtitle, screenshots, or description. If the term is only a supporting output, secondary artifact, report type, adjacent benefit, or historical ASO phrase, score it below `Very high`.
 
 ## Scoring Workflow
 
@@ -94,7 +94,10 @@ Before presenting scores, compare terms across the backlog:
 - Make sure equivalent relevance receives equivalent scores.
 - Cluster broad core terms, close synonyms, action-object variants, and noun-form variants near each other when they express the same user intent.
 - Before presenting scores, run an equivalent-intent pass. Find terms that differ only by platform modifier, app/category suffix, word form, or word order but express the same search intent. These terms should usually receive the same relevance score unless there is a clear intent difference.
+- Run a metadata-bias check. If a term appears in the app name, subtitle, screenshots, or description, explicitly ask whether it would still deserve the same score if it did not appear in metadata. Metadata presence is evidence for candidate discovery, not evidence for `5` relevance. Prominent metadata terms that describe secondary outputs, broad nouns, or ambiguous category-neighbor concepts should usually score below `5`.
+- Apply an ambiguity cap. A broad term with several common App Store intents should not receive `5` unless the app is a clearly excellent result for the dominant intent. If the term could plausibly mean unrelated categories such as fitness, habits, system monitoring, journaling, payroll, or project management, cap it at `4` or `3` unless source evidence shows the app's category meaning is dominant.
 - Check `5` and `1` scores last so extreme scores are applied consistently across comparable terms.
+- For every proposed `5`, write a one-sentence internal justification: “A user searching this term primarily wants ___, and this app directly provides ___.” If that sentence is weak, ambiguous, or describes only a secondary output, downgrade the term.
 - When unsure between two adjacent scores, choose the lower score and mark the term for user review.
 - Mark uncertain scores for user review instead of pretending they are precise.
 
