@@ -1,13 +1,13 @@
 ---
 name: aso-context
-description: Provides, creates, and updates the context stored in `.agents/aso-context.md` that other skills may use for ASO purposes. Use when setting up ASO context, analyzing an App Store URL, analyzing a marketing or landing page URL, or performing ASO for an existing or pre-launch app.
+description: Provides, creates, and updates the shared ASO context stored in `.agents/aso-context.md`. Use when app context is missing, stale, incomplete, or needs to be updated from an App Store URL, marketing page, local product docs, user input, or App Store Connect keyword terms.
 ---
 
 # ASO Context
 
 Create and maintain `.agents/aso-context.md`, which captures context that other skills reference so users do not repeat themselves.
 
-The context should be compact, factual, and useful for later search-term identification, keyword research, metadata generation, and localization.
+The context should be compact, factual, and useful for later search-term identification and relevance scoring.
 
 ## Workflow
 
@@ -37,7 +37,7 @@ Ask for any source that can help build the context:
 - User-provided app description
 - Any additional source that may help search-term discovery, such as competitor lists, customer language, support requests, review exports, ASO tool exports, SEO tool exports, Apple Search Ads terms, or keyword research files
 
-Use whichever sources are available. If multiple sources are available, combine them.
+Ask once for missing high-value sources, then use whichever sources are available. If multiple sources are available, combine them. Record important source gaps instead of blocking progress.
 
 If an App Store URL or marketing URL is provided, inspect it before deriving ASO context from local files alone. If the current environment cannot access the URL, ask the user to paste relevant copy and note the access gap.
 
@@ -51,7 +51,7 @@ When using an **App Store URL**, extract what is publicly available:
 - Review themes and user language
 - Competitors or similar apps, including links when available
 
-After finding or receiving an App Store URL, explicitly ask the user to provide the current App Store Connect keyword field terms. These are not public, but they are important source material for ASO search-term work. Continue only after the user provides them or explicitly says to skip them.
+After finding or receiving an App Store URL, ask the user to provide the current App Store Connect keyword field terms. These are not public, but they are important source material for ASO search-term work. If the user does not provide them, continue with available sources and note the gap.
 
 When using a **marketing or landing page URL**, extract only ASO-useful context:
 
@@ -124,9 +124,9 @@ After review and adjustment, create or update `.agents/aso-context.md` using thi
 - [App name](https://apps.apple.com/...)
 
 ## Search Terms Backlog
-| Search term | Source | Status | Notes |
-| --- | --- | --- | --- |
-| example term | app description | candidate | feature phrase |
+| Search term | Source | Status | Relevance | Notes |
+| --- | --- | --- | --- | --- |
+| example term | app description | candidate |  | feature phrase |
 ```
 
 Omit unavailable sections when they add no value. For example, omit `## Reviews` for a pre-launch app with no public reviews.
@@ -141,6 +141,8 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 - Include competitor and similar app links when available; otherwise use plain app names.
 - Store one active search language for the backlog; default to English when unspecified.
 - Use `candidate`, `confirmed`, or `rejected` for search-term backlog status values.
+- Leave `Relevance` blank until `aso-search-terms-relevance-scoring` assigns a user-approved integer score from `1` to `5`; keep it blank for rejected terms.
 - Use `Notes` for compact context that helps later skills interpret a search term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.
+- Preserve existing backlog columns and values unless the user approves a change. Later skills may add columns, but this skill must not drop them.
 - Preserve rejected search terms when they prevent repeated suggestions.
 - Update `*Last updated:*` whenever the file changes.

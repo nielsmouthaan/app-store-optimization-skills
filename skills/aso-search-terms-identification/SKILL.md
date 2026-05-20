@@ -1,13 +1,13 @@
 ---
 name: aso-search-terms-identification
-description: Identifies broad App Store search-term candidates for ASO. Use when creating a search-term backlog, doing ASO keyword research, finding competitor-derived ideas, collecting user search terms, or preparing early metadata work. For relevance scoring, prioritization, or metadata placement, use later ASO specialist skills.
+description: Identifies broad App Store search-term candidates for ASO. Use when creating or expanding a search-term backlog, doing ASO keyword research, finding competitor-derived ideas, collecting user search terms, or preparing terms for relevance scoring. For scoring, use aso-search-terms-relevance-scoring; prioritization and metadata placement are outside this skill.
 ---
 
 # ASO Search Terms Identification
 
 Act as an ASO search-term researcher. Help the user create a large backlog of search terms that potential users might reasonably type in the App Store and expect to find the app in the results.
 
-Optimize for **breadth and App Store search plausibility**. Do not assign relevance scores, prioritize terms, assign metadata fields, or decide final targeting unless the user explicitly asks.
+Optimize for **breadth and App Store search plausibility**. Do not assign relevance scores, prioritize terms, assign metadata fields, or decide final targeting. If the user asks for scoring, finish or save the backlog and use `aso-search-terms-relevance-scoring`; treat prioritization, metadata placement, and final targeting as outside this skill.
 
 ## Before Starting
 
@@ -18,20 +18,20 @@ If it exists:
 - Summarize the app context that matters for search-term discovery.
 - Identify the active `Search language`; if none is specified, use English.
 - Show any existing terms in `## Search Terms Backlog`.
-- Preserve existing statuses and notes unless the user corrects them.
+- Preserve existing statuses, relevance scores, notes, and any additional backlog columns unless the user corrects them.
 
 If it does not exist or lacks meaningful app context:
 
 - Invoke or recommend `aso-context` before continuing.
 - Ask only for the minimum app description needed to suggest an initial backlog.
 
-Before generating a first backlog, ask directly for these high-value sources when they are missing:
+Before generating a first backlog, ask once for these high-value sources when they are missing:
 
 - App Store listing URL
 - Marketing or landing page URL
 - Existing App Store Connect keyword field terms
 
-Wait for the user to provide sources or explicitly skip them. If the user skips any source, continue with available context.
+If the user provides or skips sources, continue with available context. If a source remains missing, proceed when useful and note the source gap.
 
 When an App Store listing URL or marketing URL is available, inspect it before creating or expanding the backlog. If the current environment cannot access a URL, ask the user to paste the relevant listing or page copy and note the access gap.
 
@@ -114,12 +114,12 @@ Do not save the backlog until the user has had a clear chance to review and adju
 
 ### 5. Save Results
 
-After review and adjustment, update `.agents/aso-context.md` under `## Search Terms Backlog` using this table:
+After review and adjustment, update `.agents/aso-context.md` under `## Search Terms Backlog` using the canonical table:
 
 ```markdown
-| Search term | Source | Status | Notes |
-| --- | --- | --- | --- |
-| example term | app description | candidate | feature phrase |
+| Search term | Source | Status | Relevance | Notes |
+| --- | --- | --- | --- | --- |
+| example term | app description | candidate |  | feature phrase |
 ```
 
 Use these status values:
@@ -133,6 +133,7 @@ Use these status values:
 When updating the table, follow these rules:
 
 - Append new terms rather than replacing existing work.
+- Leave `Relevance` blank for new terms. Preserve existing relevance scores and any additional columns.
 - Normalize obvious duplicates, but keep meaningful variants, including singular/plural forms, word-order variants, generic and/or reserved terms like "app", developer names, and category terms when they make sense.
 - Use `Notes` for compact context that helps later skills interpret the term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.
 - Keep source-backed grammar and spelling variants when they reflect realistic user searches.
@@ -144,17 +145,15 @@ Stop after saving or presenting the backlog. Do not propose relevance scores fro
 
 ## Competitor Research Handling
 
-Apple and Google prohibit using competitor names in final app metadata unless the term is generic or legally safe in context.
-
-Use competitor names as research sources, not as usable search-term candidates by default.
+Competitor names can be useful research inputs, but they are risky as usable App Store metadata terms and should not be treated as normal search-term candidates by default.
 
 When researching competitors:
 
 - Inspect competitor titles, subtitles, descriptions, screenshot captions, reviews, categories, and visible positioning when available.
 - Extract generic non-brand search terms from competitor language, category fit, features, benefits, and user intent.
 - Do not propose competitor brand names as normal candidate terms.
-- Include competitor brand names in the backlog only if the user explicitly asks to track them for research.
-- If competitor brand names are saved for research context, mark them as `rejected` and flag `competitor brand warning` in `Notes`.
+- Keep competitor brand names in competitor notes unless the user asks to track them in the backlog.
+- If competitor brand names are saved in the backlog for research context, mark them as `rejected`, leave `Relevance` blank, and flag `competitor brand warning` in `Notes`.
 - Suggest non-brand alternatives based on the competitor's category, feature, or user intent.
 
 ## Common Mistakes
@@ -188,5 +187,3 @@ Ask only questions that improve the backlog materially:
 
 - Use `aso-context` to create or update shared app context and store the search-term backlog.
 - Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance scores to the backlog.
-- Use future prioritization skills to evaluate popularity, difficulty, and strategic value.
-- Use future metadata skills to turn selected terms into App Store names, subtitles, and keyword fields.

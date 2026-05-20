@@ -123,6 +123,7 @@ description: Research App Store keyword candidates with popularity and difficult
 ## Skill Suite Guidance
 
 - Use `aso-context` as the foundation skill for capturing and storing reusable context and data, so agents do not repeat the same questions and can pass context and data between skills.
+- Treat `aso-context` as an internal foundation skill in user-facing docs. Do not over-position it as the primary skill users should invoke directly; user-facing README examples should normally start with specialist skills such as search-term identification or relevance scoring.
 - Specialists skills should check `.agents/aso-context.md` before starting. If it exists, use it as canonical app context. If it is missing or incomplete, invoke or recommend `aso-context` first.
 - Use an `aso-*` prefix for ASO-specific skills so installed skills remain clearly namespaced.
 - Use workflow skills, such as `aso-metadata-workflow`, as the primary entrypoint for workflows.
@@ -139,6 +140,7 @@ Update `README.md` whenever a skill is added, renamed, removed, or materially ch
 The README should stay user-facing and include only what is true for the current repository state:
 
 - available skills and what each one does
+- the primary user-facing specialist skills, with internal foundation skills described briefly when needed
 - installation instructions
 - basic usage examples
 - workflow overview once workflow skills exist

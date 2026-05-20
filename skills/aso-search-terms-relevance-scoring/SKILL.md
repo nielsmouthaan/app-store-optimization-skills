@@ -1,13 +1,13 @@
 ---
 name: aso-search-terms-relevance-scoring
-description: Assigns relative 1-5 relevance scores to App Store search terms in the ASO context. Use when reviewing keyword relevance, scoring a search-term backlog, validating ASO search intent fit, or preparing search terms for later prioritization and metadata strategy.
+description: Assigns relative 1-5 relevance scores to App Store search terms in the ASO context. Use when reviewing keyword relevance, scoring a search-term backlog, validating ASO search intent fit, or preparing user-reviewed terms for later ASO work.
 ---
 
 # ASO Search Terms Relevance Scoring
 
 Act as an ASO relevance analyst. Help the user score how well each search term in the backlog matches App Store search intent, the app, and the app's ability to satisfy that intent.
 
-Optimize for **consistent, user-validated relevance scoring**. Do not prioritize by volume, competition, metadata placement, or final strategic value unless the user explicitly asks.
+Optimize for **consistent, user-validated relevance scoring**. Do not prioritize by volume, competition, metadata placement, or final strategic value. If the user asks for those next steps, finish or save scoring first and treat the rest as outside this skill.
 
 ## Before Starting
 
@@ -17,7 +17,7 @@ If it exists:
 
 - Summarize the app context that matters for relevance scoring.
 - Show the existing terms in `## Search Terms Backlog`.
-- Preserve existing statuses, sources, relevance scores, and notes unless the user corrects them.
+- Preserve existing statuses, sources, relevance scores, notes, and any additional backlog columns unless the user corrects them.
 
 If it does not exist or lacks meaningful app context:
 
@@ -47,9 +47,7 @@ The app's own brand name and natural brand variants are always highly relevant. 
 
 Do not penalize broad terms solely because they are broad. If the app is a legitimate strong result for a broad category, core job-to-be-done, or main user outcome, score that term high. Use ambiguity to distinguish `5` from `4` or `3`, not to automatically demote broad terms.
 
-Do not treat a term as highly relevant only because it appears in the app name, subtitle, screenshots, or description. Metadata may reflect previous ASO choices. Use metadata as descriptive evidence, but judge relevance by the app's actual functionality, user value, category, and likely search intent.
-
-Prominent metadata terms must pass the same product-fit test as every other term. Before assigning `Very high`, ask whether the term describes the app's primary user intent independent of its presence in the current app name, subtitle, screenshots, or description. If the term is only a supporting output, secondary artifact, report type, adjacent benefit, or historical ASO phrase, score it below `Very high`.
+Do not treat a term as highly relevant only because it appears in the app name, subtitle, screenshots, or description. Metadata is useful source evidence, but relevance depends on the app's actual functionality, user value, category, and likely search intent.
 
 ## Scoring Workflow
 
@@ -92,10 +90,9 @@ Before presenting scores, compare terms across the backlog:
 
 - Group terms that express the same or similar intent.
 - Make sure equivalent relevance receives equivalent scores.
-- Cluster broad core terms, close synonyms, action-object variants, and noun-form variants near each other when they express the same user intent.
-- Before presenting scores, run an equivalent-intent pass. Find terms that differ only by platform modifier, app/category suffix, word form, or word order but express the same search intent. These terms should usually receive the same relevance score unless there is a clear intent difference.
-- Run a metadata-bias check. If a term appears in the app name, subtitle, screenshots, or description, explicitly ask whether it would still deserve the same score if it did not appear in metadata. Metadata presence is evidence for candidate discovery, not evidence for `5` relevance. Prominent metadata terms that describe secondary outputs, broad nouns, or ambiguous category-neighbor concepts should usually score below `5`.
-- Apply an ambiguity cap. A broad term with several common App Store intents should not receive `5` unless the app is a clearly excellent result for the dominant intent. If the term could plausibly mean unrelated categories such as fitness, habits, system monitoring, journaling, payroll, or project management, cap it at `4` or `3` unless source evidence shows the app's category meaning is dominant.
+- Cluster broad core terms, close synonyms, action-object variants, noun-form variants, word-order variants, and app/category suffix variants near each other when they express the same user intent.
+- Run a metadata-bias check. A term that appears in current metadata should still pass the same product-fit test as every other term before receiving `5`.
+- Apply an ambiguity cap. A broad term with several plausible App Store intents should not receive `5` unless the app is a clearly excellent result for the dominant intent.
 - Check `5` and `1` scores last so extreme scores are applied consistently across comparable terms.
 - For every proposed `5`, write a one-sentence internal justification: “A user searching this term primarily wants ___, and this app directly provides ___.” If that sentence is weak, ambiguous, or describes only a secondary output, downgrade the term.
 - When unsure between two adjacent scores, choose the lower score and mark the term for user review.
@@ -131,7 +128,7 @@ When useful, split the review into groups:
 
 Only update `.agents/aso-context.md` after the user has explicitly approved or corrected the scores.
 
-Store relevance in the same `## Search Terms Backlog` table:
+Store relevance in the canonical `## Search Terms Backlog` table:
 
 ```markdown
 | Search term | Source | Status | Relevance | Notes |
@@ -142,7 +139,7 @@ Store relevance in the same `## Search Terms Backlog` table:
 When updating the table, follow these rules:
 
 - Add a `Relevance` column if it is missing.
-- Preserve existing `Search term`, `Source`, `Status`, and `Notes` values.
+- Preserve existing `Search term`, `Source`, `Status`, `Notes`, and any additional column values.
 - Preserve rejected terms without assigning them a relevance score.
 - Use only integer scores from `1` to `5`.
 - Keep rationale in `Notes` compact and useful for later prioritization.
@@ -179,4 +176,3 @@ Ask only questions that materially improve scoring:
 
 - Use `aso-context` to create or update shared app context and store the search-term backlog.
 - Use `aso-search-terms-identification` to create or expand the backlog before scoring relevance.
-- Use future prioritization skills to combine relevance with popularity, difficulty, and strategic value.
