@@ -7,7 +7,7 @@ description: Provides, creates, and updates the shared ASO context stored in `.a
 
 Create and maintain `.agents/aso-context.md`, which captures context that other skills reference so users do not repeat themselves.
 
-The context should be compact, factual, and useful for later search-term identification and relevance scoring.
+The context should be compact, factual, and useful for later search-term identification, relevance scoring, and statistics fetching.
 
 ## Workflow
 
@@ -91,6 +91,7 @@ After review and adjustment, create or update `.agents/aso-context.md` using thi
 
 ## Source
 **Search language:** English, unless otherwise specified.
+**Search region:**
 **App Store URL:**
 **Marketing URL:**
 **App Store Connect keywords:**
@@ -106,27 +107,27 @@ After review and adjustment, create or update `.agents/aso-context.md` using thi
 
 
 ## Screenshots
-- 
+-
 
 ## Use cases
-- 
+-
 
 ## Features
-- 
+-
 
 ## Solution to problem
-- 
+-
 
 ## Reviews
-- 
+-
 
 ## Competitors And Similar Apps
 - [App name](https://apps.apple.com/...)
 
 ## Search Terms Backlog
-| Search term | Source | Status | Relevance | Notes |
-| --- | --- | --- | --- | --- |
-| example term | app description | candidate |  | feature phrase |
+| Search term | Source | Status | Relevance | Popularity | Difficulty | Stats region | Stats source | Stats updated | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| example term | app description | candidate |  |  |  |  |  |  | feature phrase |
 ```
 
 Omit unavailable sections when they add no value. For example, omit `## Reviews` for a pre-launch app with no public reviews.
@@ -140,8 +141,10 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 - Summarize reviews into themes instead of copying long review text.
 - Include competitor and similar app links when available; otherwise use plain app names.
 - Store one active search language for the backlog; default to English when unspecified.
+- Store one active search region when known. Use uppercase ISO 3166-1 alpha-2 codes, such as `US`, `NL`, or `DE`. Leave it blank until the user provides it or `aso-search-terms-statistics` derives it.
 - Use `candidate`, `confirmed`, or `rejected` for search-term backlog status values.
 - Leave `Relevance` blank until `aso-search-terms-relevance-scoring` assigns a user-approved integer score from `1` to `5`; keep it blank for rejected terms.
+- Leave `Popularity`, `Difficulty`, `Stats region`, `Stats source`, and `Stats updated` blank until `aso-search-terms-statistics` obtains external statistics; keep them blank for rejected terms unless the user explicitly requests statistics for rejected terms.
 - Use `Notes` for compact context that helps later skills interpret a search term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.
 - Preserve existing backlog columns and values unless the user approves a change. Later skills may add columns, but this skill must not drop them.
 - Preserve rejected search terms when they prevent repeated suggestions.

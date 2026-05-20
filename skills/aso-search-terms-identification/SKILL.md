@@ -1,13 +1,13 @@
 ---
 name: aso-search-terms-identification
-description: Identifies broad App Store search-term candidates for ASO. Use when creating or expanding a search-term backlog, doing ASO keyword research, finding competitor-derived ideas, collecting user search terms, or preparing terms for relevance scoring. For scoring, use aso-search-terms-relevance-scoring; prioritization and metadata placement are outside this skill.
+description: Identifies broad App Store search-term candidates for ASO. Use when creating or expanding a search-term backlog, doing ASO keyword research, finding competitor-derived ideas, collecting user search terms, or preparing terms for relevance scoring. For relevance scoring, use aso-search-terms-relevance-scoring; for popularity and difficulty, use aso-search-terms-statistics.
 ---
 
 # ASO Search Terms Identification
 
 Act as an ASO search-term researcher. Help the user create a large backlog of search terms that potential users might reasonably type in the App Store and expect to find the app in the results.
 
-Optimize for **breadth and App Store search plausibility**. Do not assign relevance scores, prioritize terms, assign metadata fields, or decide final targeting. If the user asks for scoring, finish or save the backlog and use `aso-search-terms-relevance-scoring`; treat prioritization, metadata placement, and final targeting as outside this skill.
+Optimize for **breadth and App Store search plausibility**. Do not assign relevance scores, popularity, difficulty, prioritize terms, assign metadata fields, or decide final targeting. If the user asks for scoring, finish or save the backlog and use `aso-search-terms-relevance-scoring`; if the user asks for popularity or difficulty, use `aso-search-terms-statistics`; treat prioritization, metadata placement, and final targeting as outside this skill.
 
 ## Before Starting
 
@@ -18,7 +18,7 @@ If it exists:
 - Summarize the app context that matters for search-term discovery.
 - Identify the active `Search language`; if none is specified, use English.
 - Show any existing terms in `## Search Terms Backlog`.
-- Preserve existing statuses, relevance scores, notes, and any additional backlog columns unless the user corrects them.
+- Preserve existing statuses, relevance scores, statistics, notes, and any additional backlog columns unless the user corrects them.
 
 If it does not exist or lacks meaningful app context:
 
@@ -60,7 +60,7 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 
 Use the context file as the canonical source for:
 
-- Search language
+- Search language and search region
 - App Store URL, marketing URL, and App Store Connect keywords
 - App name, subtitle, category, and description
 - Features, use cases, and problem language
@@ -117,9 +117,9 @@ Do not save the backlog until the user has had a clear chance to review and adju
 After review and adjustment, update `.agents/aso-context.md` under `## Search Terms Backlog` using the canonical table:
 
 ```markdown
-| Search term | Source | Status | Relevance | Notes |
-| --- | --- | --- | --- | --- |
-| example term | app description | candidate |  | feature phrase |
+| Search term | Source | Status | Relevance | Popularity | Difficulty | Stats region | Stats source | Stats updated | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| example term | app description | candidate |  |  |  |  |  |  | feature phrase |
 ```
 
 Use these status values:
@@ -133,7 +133,7 @@ Use these status values:
 When updating the table, follow these rules:
 
 - Append new terms rather than replacing existing work.
-- Leave `Relevance` blank for new terms. Preserve existing relevance scores and any additional columns.
+- Leave `Relevance`, `Popularity`, `Difficulty`, `Stats region`, `Stats source`, and `Stats updated` blank for new terms. Preserve existing relevance scores, statistics, and any additional columns.
 - Normalize obvious duplicates, but keep meaningful variants, including singular/plural forms, word-order variants, generic and/or reserved terms like "app", developer names, and category terms when they make sense.
 - Use `Notes` for compact context that helps later skills interpret the term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.
 - Keep source-backed grammar and spelling variants when they reflect realistic user searches.
@@ -141,7 +141,7 @@ When updating the table, follow these rules:
 - Preserve rejected terms when they prevent repeated suggestions.
 - Update `*Last updated:*` in the context file.
 
-Stop after saving or presenting the backlog. Do not propose relevance scores from this skill; use `aso-search-terms-relevance-scoring` only when the user asks for scoring.
+Stop after saving or presenting the backlog. Do not propose relevance, popularity, or difficulty scores from this skill; use `aso-search-terms-relevance-scoring` when the user asks for relevance scoring and `aso-search-terms-statistics` when the user asks for popularity or difficulty.
 
 ## Competitor Research Handling
 
@@ -168,7 +168,7 @@ When researching competitors:
 - Treating web search volume as App Store demand without caveats.
 - Forgetting long-tail terms with clearer intent.
 - Proposing competitor brand names as usable search terms instead of extracting generic non-brand alternatives from competitor research.
-- Jumping into keyword prioritization or metadata writing before the backlog is broad enough.
+- Jumping into keyword prioritization, statistics fetching, or metadata writing before the backlog is broad enough.
 
 ## Task-Specific Questions
 
@@ -187,3 +187,4 @@ Ask only questions that improve the backlog materially:
 
 - Use `aso-context` to create or update shared app context and store the search-term backlog.
 - Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance scores to the backlog.
+- Use `aso-search-terms-statistics` to fetch external popularity and difficulty values after terms exist.

@@ -141,8 +141,8 @@ The README should stay user-facing and include only what is true for the current
 
 - available skills and what each one does
 - the primary user-facing specialist skills, with internal foundation skills described briefly when needed
-- installation instructions
-- basic usage examples
+- installation instructions only when explicitly requested by the user
+- usage instructions only when explicitly requested by the user
 - workflow overview once workflow skills exist
 - acknowledgements and license notes
 
