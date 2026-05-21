@@ -1,6 +1,6 @@
 # App Store Optimization Skills
 
-Agent skill suite for App Store Optimization: identify broad App Store search-term candidates, score keyword relevance, fetch external keyword statistics, and calculate strategic priority scores.
+Agent skill suite for App Store Optimization: identify broad App Store search-term candidates, score keyword relevance, fetch external keyword statistics, calculate strategic priority scores, and derive per-word metadata value scores.
 
 ## Purpose
 
@@ -10,6 +10,7 @@ This repository provides ASO-focused agent skills that help agents:
 - score how well each search term fits the app and App Store search intent
 - fetch external popularity and difficulty metrics for search terms
 - calculate derived strategic scores for confirmed terms to guide metadata focus
+- calculate per-word value scores to prioritize character-efficient metadata coverage
 
 ## Skills
 
@@ -33,12 +34,17 @@ Fetches external popularity and difficulty statistics for non-rejected search te
 
 Calculates a derived `Strategic score` for confirmed search terms with approved relevance and fetched popularity and difficulty values. Use this after statistics fetching and before deciding which terms should receive metadata focus.
 
+### aso-search-terms-word-value-scoring
+
+Calculates derived per-word value scores from confirmed search terms and their `Strategic score` values. Use this after strategic scoring to identify individual words that cover the most strategic search-term value per metadata character.
+
 ## Workflow
 
 1. Use `aso-search-terms-identification` to build or expand the search-term backlog.
 2. Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance scores.
 3. Use `aso-search-terms-statistics` to fetch popularity and difficulty values for the relevant App Store region.
 4. Use `aso-search-terms-strategic-scoring` to calculate strategic priority scores for confirmed terms.
+5. Use `aso-search-terms-word-value-scoring` to calculate per-word metadata value scores from strategic scores.
 
 ## Inspiration
 

@@ -15,7 +15,7 @@ Read `.agents/aso-context.md` first.
 
 If it exists:
 
-- Summarize the app context that matters for prioritization.
+- Summarize the search-term backlog inputs that matter for strategic scoring.
 - Show confirmed terms in `## Search Terms Backlog` with their `Relevance`, `Popularity`, `Difficulty`, and existing `Strategic score`.
 - Preserve existing statuses, sources, relevance scores, statistics, notes, and any additional backlog columns unless the user corrects them.
 
@@ -62,8 +62,6 @@ Do not rescale, normalize, or infer input values. If popularity or difficulty va
 
 Use `.agents/aso-context.md` as the canonical source for:
 
-- Search language and search region
-- App name, subtitle, category, and description
 - Existing saved search terms, statuses, notes, relevance scores, and statistics
 
 Check every backlog row before calculating. Separate rows into:
@@ -124,3 +122,4 @@ After saving, summarize how many terms were scored, how many were skipped, and t
 - Use `aso-search-terms-identification` to create or expand the search-term backlog.
 - Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance.
 - Use `aso-search-terms-statistics` to fetch popularity and difficulty before strategic scoring.
+- Use `aso-search-terms-word-value-scoring` after strategic scoring to calculate per-word metadata value scores.
