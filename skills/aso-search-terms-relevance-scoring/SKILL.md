@@ -1,13 +1,13 @@
 ---
 name: aso-search-terms-relevance-scoring
-description: Assigns relative 1-5 relevance scores to App Store search terms in the ASO context. Use when reviewing keyword relevance, scoring a search-term backlog, validating ASO search intent fit, or preparing user-reviewed terms for later ASO work. For popularity and difficulty, use aso-search-terms-statistics.
+description: Assigns relative 1-5 relevance scores to App Store search terms in the ASO context. Use when reviewing keyword relevance, scoring a search-term backlog, validating ASO search intent fit, or preparing user-reviewed terms for later ASO work. For popularity and difficulty, use aso-search-terms-statistics; for strategic prioritization, use aso-search-terms-strategic-scoring.
 ---
 
 # ASO Search Terms Relevance Scoring
 
 Act as an ASO relevance analyst. Help the user score how well each search term in the backlog matches App Store search intent, the app, and the app's ability to satisfy that intent.
 
-Optimize for **consistent, user-validated relevance scoring**. Do not prioritize by volume, competition, metadata placement, or final strategic value. If the user asks for popularity or difficulty, finish or save scoring first and use `aso-search-terms-statistics`; treat prioritization, metadata placement, and final targeting as outside this skill.
+Optimize for **consistent, user-validated relevance scoring**. Do not prioritize by volume, competition, metadata placement, or final strategic value. If the user asks for popularity or difficulty, finish or save scoring first and use `aso-search-terms-statistics`; if the user asks for prioritization after relevance and statistics exist, use `aso-search-terms-strategic-scoring`; treat metadata placement and final targeting as outside this skill.
 
 ## Before Starting
 
@@ -17,7 +17,7 @@ If it exists:
 
 - Summarize the app context that matters for relevance scoring.
 - Show the existing terms in `## Search Terms Backlog`.
-- Preserve existing statuses, sources, relevance scores, statistics, notes, and any additional backlog columns unless the user corrects them.
+- Preserve existing statuses, sources, relevance scores, statistics, strategic scores, notes, and any additional backlog columns unless the user corrects them.
 
 If it does not exist or lacks meaningful app context:
 
@@ -131,15 +131,16 @@ Only update `.agents/aso-context.md` after the user has explicitly approved or c
 Store relevance in the canonical `## Search Terms Backlog` table:
 
 ```markdown
-| Search term | Source | Status | Relevance | Popularity | Difficulty | Stats region | Stats source | Stats updated | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| example term | app description | candidate | 4 |  |  |  |  |  | strong feature fit |
+| Search term | Source | Status | Relevance | Popularity | Difficulty | Stats region | Stats source | Stats updated | Notes | Strategic score |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| example term | app description | candidate | 4 |  |  |  |  |  | strong feature fit |  |
 ```
 
 When updating the table, follow these rules:
 
 - Add a `Relevance` column if it is missing.
 - Preserve existing `Search term`, `Source`, `Status`, `Popularity`, `Difficulty`, `Stats region`, `Stats source`, `Stats updated`, `Notes`, and any additional column values.
+- Clear `Strategic score` for rows where `Relevance` is added or changed; preserve it for unchanged rows.
 - Preserve rejected terms without assigning them a relevance score.
 - Use only integer scores from `1` to `5`.
 - Keep rationale in `Notes` compact and useful for later prioritization.
@@ -161,6 +162,7 @@ When updating the table, follow these rules:
 - Saving proposed scores before the user reviews them.
 - Treating relevance as final truth instead of a user-validated input for later ASO work.
 - Overwriting popularity, difficulty, region, source, or statistics date while saving relevance scores.
+- Leaving stale strategic scores after changing relevance.
 
 ## Task-Specific Questions
 
@@ -178,3 +180,4 @@ Ask only questions that materially improve scoring:
 - Use `aso-context` to create or update shared app context and store the search-term backlog.
 - Use `aso-search-terms-identification` to create or expand the backlog before scoring relevance.
 - Use `aso-search-terms-statistics` to fetch external popularity and difficulty values after relevance scoring.
+- Use `aso-search-terms-strategic-scoring` to calculate derived priority scores after confirmed terms have relevance and statistics.

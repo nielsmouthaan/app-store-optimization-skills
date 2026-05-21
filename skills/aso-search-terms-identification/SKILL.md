@@ -1,13 +1,13 @@
 ---
 name: aso-search-terms-identification
-description: Identifies broad App Store search-term candidates for ASO. Use when creating or expanding a search-term backlog, doing ASO keyword research, finding competitor-derived ideas, collecting user search terms, or preparing terms for relevance scoring. For relevance scoring, use aso-search-terms-relevance-scoring; for popularity and difficulty, use aso-search-terms-statistics.
+description: Identifies broad App Store search-term candidates for ASO. Use when creating or expanding a search-term backlog, doing ASO keyword research, finding competitor-derived ideas, collecting user search terms, or preparing terms for relevance scoring. For relevance scoring, use aso-search-terms-relevance-scoring; for popularity and difficulty, use aso-search-terms-statistics; for prioritization, use aso-search-terms-strategic-scoring.
 ---
 
 # ASO Search Terms Identification
 
 Act as an ASO search-term researcher. Help the user create a large backlog of search terms that potential users might reasonably type in the App Store and expect to find the app in the results.
 
-Optimize for **breadth and App Store search plausibility**. Do not assign relevance scores, popularity, difficulty, prioritize terms, assign metadata fields, or decide final targeting. If the user asks for scoring, finish or save the backlog and use `aso-search-terms-relevance-scoring`; if the user asks for popularity or difficulty, use `aso-search-terms-statistics`; treat prioritization, metadata placement, and final targeting as outside this skill.
+Optimize for **breadth and App Store search plausibility**. Do not assign relevance scores, popularity, difficulty, strategic scores, prioritize terms, assign metadata fields, or decide final targeting. If the user asks for relevance scoring, finish or save the backlog and use `aso-search-terms-relevance-scoring`; if the user asks for popularity or difficulty, use `aso-search-terms-statistics`; if the user asks for strategic scoring or prioritization, use `aso-search-terms-strategic-scoring`; treat metadata placement and final targeting as outside this skill.
 
 ## Before Starting
 
@@ -117,9 +117,9 @@ Do not save the backlog until the user has had a clear chance to review and adju
 After review and adjustment, update `.agents/aso-context.md` under `## Search Terms Backlog` using the canonical table:
 
 ```markdown
-| Search term | Source | Status | Relevance | Popularity | Difficulty | Stats region | Stats source | Stats updated | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| example term | app description | candidate |  |  |  |  |  |  | feature phrase |
+| Search term | Source | Status | Relevance | Popularity | Difficulty | Stats region | Stats source | Stats updated | Notes | Strategic score |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| example term | app description | candidate |  |  |  |  |  |  | feature phrase |  |
 ```
 
 Use these status values:
@@ -133,7 +133,7 @@ Use these status values:
 When updating the table, follow these rules:
 
 - Append new terms rather than replacing existing work.
-- Leave `Relevance`, `Popularity`, `Difficulty`, `Stats region`, `Stats source`, and `Stats updated` blank for new terms. Preserve existing relevance scores, statistics, and any additional columns.
+- Leave `Relevance`, `Popularity`, `Difficulty`, `Stats region`, `Stats source`, `Stats updated`, and `Strategic score` blank for new terms. Preserve existing relevance scores, statistics, strategic scores, and any additional columns.
 - Normalize obvious duplicates, but keep meaningful variants, including singular/plural forms, word-order variants, generic and/or reserved terms like "app", developer names, and category terms when they make sense.
 - Use `Notes` for compact context that helps later skills interpret the term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.
 - Keep source-backed grammar and spelling variants when they reflect realistic user searches.
@@ -141,7 +141,7 @@ When updating the table, follow these rules:
 - Preserve rejected terms when they prevent repeated suggestions.
 - Update `*Last updated:*` in the context file.
 
-Stop after saving or presenting the backlog. Do not propose relevance, popularity, or difficulty scores from this skill; use `aso-search-terms-relevance-scoring` when the user asks for relevance scoring and `aso-search-terms-statistics` when the user asks for popularity or difficulty.
+Stop after saving or presenting the backlog. Do not propose relevance, popularity, difficulty, or strategic scores from this skill; use `aso-search-terms-relevance-scoring` when the user asks for relevance scoring, `aso-search-terms-statistics` when the user asks for popularity or difficulty, and `aso-search-terms-strategic-scoring` when the user asks for strategic scoring or prioritization.
 
 ## Competitor Research Handling
 
@@ -188,3 +188,4 @@ Ask only questions that improve the backlog materially:
 - Use `aso-context` to create or update shared app context and store the search-term backlog.
 - Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance scores to the backlog.
 - Use `aso-search-terms-statistics` to fetch external popularity and difficulty values after terms exist.
+- Use `aso-search-terms-strategic-scoring` to calculate derived priority scores after confirmed terms have relevance and statistics.

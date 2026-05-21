@@ -7,7 +7,7 @@ description: Provides, creates, and updates the shared ASO context stored in `.a
 
 Create and maintain `.agents/aso-context.md`, which captures context that other skills reference so users do not repeat themselves.
 
-The context should be compact, factual, and useful for later search-term identification, relevance scoring, and statistics fetching.
+The context should be compact, factual, and useful for later search-term identification, relevance scoring, statistics fetching, and strategic scoring.
 
 ## Workflow
 
@@ -125,9 +125,9 @@ After review and adjustment, create or update `.agents/aso-context.md` using thi
 - [App name](https://apps.apple.com/...)
 
 ## Search Terms Backlog
-| Search term | Source | Status | Relevance | Popularity | Difficulty | Stats region | Stats source | Stats updated | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| example term | app description | candidate |  |  |  |  |  |  | feature phrase |
+| Search term | Source | Status | Relevance | Popularity | Difficulty | Stats region | Stats source | Stats updated | Notes | Strategic score |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| example term | app description | candidate |  |  |  |  |  |  | feature phrase |  |
 ```
 
 Omit unavailable sections when they add no value. For example, omit `## Reviews` for a pre-launch app with no public reviews.
@@ -145,6 +145,7 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 - Use `candidate`, `confirmed`, or `rejected` for search-term backlog status values.
 - Leave `Relevance` blank until `aso-search-terms-relevance-scoring` assigns a user-approved integer score from `1` to `5`; keep it blank for rejected terms.
 - Leave `Popularity`, `Difficulty`, `Stats region`, `Stats source`, and `Stats updated` blank until `aso-search-terms-statistics` obtains external statistics; keep them blank for rejected terms unless the user explicitly requests statistics for rejected terms.
+- Leave `Strategic score` blank until `aso-search-terms-strategic-scoring` calculates it for confirmed terms with valid relevance, popularity, and difficulty values.
 - Use `Notes` for compact context that helps later skills interpret a search term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.
 - Preserve existing backlog columns and values unless the user approves a change. Later skills may add columns, but this skill must not drop them.
 - Preserve rejected search terms when they prevent repeated suggestions.

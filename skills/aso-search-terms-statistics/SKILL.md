@@ -1,6 +1,6 @@
 ---
 name: aso-search-terms-statistics
-description: Fetches App Store search-term popularity and difficulty statistics for ASO and records them in the shared ASO context. Use after search-term identification and relevance scoring when assigning keyword volume, difficulty, competition, or preparing terms for prioritization. For relevance scoring, use aso-search-terms-relevance-scoring.
+description: Fetches App Store search-term popularity and difficulty statistics for ASO and records them in the shared ASO context. Use after search-term identification and relevance scoring when assigning keyword volume, difficulty, competition, or preparing terms for prioritization. For relevance scoring, use aso-search-terms-relevance-scoring; for strategic scoring, use aso-search-terms-strategic-scoring.
 ---
 
 # ASO Search Terms Statistics
@@ -18,7 +18,7 @@ If it exists:
 - Summarize the app context that matters for statistics fetching.
 - Identify the active `Search language` and `Search region`.
 - Show the non-rejected terms in `## Search Terms Backlog` that need missing or refreshed statistics.
-- Preserve existing statuses, relevance scores, statistics, notes, and any additional backlog columns unless the user corrects them.
+- Preserve existing statuses, relevance scores, statistics, strategic scores, notes, and any additional backlog columns unless the user corrects them.
 
 If it does not exist or lacks meaningful app context:
 
@@ -91,9 +91,9 @@ If a value is pending or missing:
 Store statistics in the canonical `## Search Terms Backlog` table:
 
 ```markdown
-| Search term | Source | Status | Relevance | Popularity | Difficulty | Stats region | Stats source | Stats updated | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| example term | app description | candidate | 4 | 38 | 21 | NL | ASO Suite | 2026-05-20 | strong feature fit |
+| Search term | Source | Status | Relevance | Popularity | Difficulty | Stats region | Stats source | Stats updated | Notes | Strategic score |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| example term | app description | candidate | 4 | 38 | 21 | NL | ASO Suite | 2026-05-20 | strong feature fit |  |
 ```
 
 When updating the table:
@@ -102,6 +102,7 @@ When updating the table:
 - Update only non-rejected terms unless the user explicitly asks to fetch rejected terms.
 - Preserve rejected terms without assigning popularity or difficulty.
 - Preserve existing `Search term`, `Source`, `Status`, `Relevance`, and unrelated columns.
+- Clear `Strategic score` for rows where `Popularity` or `Difficulty` is added, changed, removed, or left missing after a fetch attempt; preserve it for unchanged rows.
 - Fill `Popularity`, `Difficulty`, `Stats region`, `Stats source`, and `Stats updated` only for terms with obtained or attempted statistics.
 - Use `Stats updated` as `YYYY-MM-DD`.
 - Append compact statistics notes to `Notes` only when needed; do not erase existing notes.
@@ -116,11 +117,13 @@ After saving, summarize how many terms were updated, how many had pending or mis
 - Mixing values from different regions without recording the region per term.
 - Normalizing one tool's score onto another tool's scale without explicit instructions.
 - Fetching rejected terms by default.
-- Dropping existing relevance scores, notes, statuses, or added backlog columns while adding statistics.
-- Continuing to prioritization when no statistics source is available.
+- Dropping existing relevance scores, notes, statuses, strategic scores, or added backlog columns while adding statistics.
+- Leaving stale strategic scores after changing popularity or difficulty.
+- Continuing to strategic scoring when no statistics source is available.
 
 ## Related Skills
 
 - Use `aso-context` to create or update shared app context.
 - Use `aso-search-terms-identification` to create or expand the search-term backlog.
 - Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance before prioritization.
+- Use `aso-search-terms-strategic-scoring` to calculate derived priority scores after popularity and difficulty are saved.
