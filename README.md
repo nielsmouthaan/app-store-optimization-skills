@@ -41,7 +41,7 @@ Calculates derived per-word value scores from confirmed search terms and their `
 
 ### aso-metadata-generation
 
-Generates single-locale App Store metadata drafts for app name, subtitle, and keywords from confirmed search terms, `Strategic score` values, and saved `Word Value Scores`. Use this after word value scoring to create metadata variants, compare coverage, and plan App Store metadata A/B tests.
+Generates single-locale App Store metadata drafts for app name, subtitle, and keywords from confirmed search terms, `Strategic score` values, and saved `Word Value Scores`. Use this after word value scoring to create metadata variants.
 
 ## Workflow
 

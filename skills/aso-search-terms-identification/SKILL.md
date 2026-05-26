@@ -47,7 +47,7 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 - Preserve misspelled or ungrammatical terms only when they come from the user or source evidence.
 - Include the app's own brand name and natural brand variants.
 - Use one active search language. Default to English unless the prompt or `.agents/aso-context.md` specifies another language.
-- Do not generate translated or localized terms just because localized app strings exist.
+- Do not generate translated terms from source material in another language unless the user explicitly switches the active search language.
 - Prefer compact search phrases that sound like App Store queries.
 - Avoid full-sentence descriptions, UI commands, or product-internal wording unless external evidence shows users search that way.
 - Ask for clarification when a user-provided term looks like an accidental grammar or spelling mistake.
@@ -70,7 +70,7 @@ Use the context file as the canonical source for:
 
 Call out obvious gaps only when they block useful suggestions.
 
-Treat existing metadata keywords as source material, not proof of strategic fit. Existing names, subtitles, screenshot captions, and descriptions may reflect previous ASO experiments, so extract terms from them but do not assume every prominent term should be kept.
+Treat existing metadata keywords as source material, not proof of strategic fit. Existing names, subtitles, OCR'd screenshot text, and descriptions may reflect previous ASO experiments, so extract terms from them but do not assume every prominent term should be kept.
 
 Do not treat local repository files as complete source coverage when public listing or marketing sources are missing.
 
@@ -80,14 +80,14 @@ Create candidates from multiple sources:
 
 - **App language:** app name, subtitle, description, feature names, benefits, jobs-to-be-done, and problem statements.
 - **User language:** reviews, support requests, testimonials, community posts, and user-provided wording.
-- **Competitor research:** competitor app names, subtitles, descriptions, screenshot captions, and terms they appear to rank for.
+- **Competitor research:** competitor app names, subtitles, descriptions, OCR'd screenshot text when already available, and terms they appear to rank for.
 - **Existing ASC keywords:** App Store Connect keyword field terms provided by the user; treat them as source material and seeds, not automatically approved final terms.
-- **External discovery tools:** If the user provides data or relevant tools are available, use App Store autofill, Google Play autofill, Apple Search Ads, Google Keyword Planner, Google Trends, ASO tools, SEO tools, and keyword discovery tools.
+- **External discovery tools:** If the user provides data or relevant tools are available, use App Store autofill, Google Play autofill, Apple Search Ads terms, Google Keyword Planner, Google Trends, ASO tools, SEO tools, and keyword discovery tools.
 - **Imported keyword lists:** User-provided keyword exports or manual lists; import their keyword language broadly before generating new expansions.
 - **Phrase expansion:** broad head terms, singular/plural variants, synonyms, alternate word order, related nouns and verbs, action-object variants, noun-form variants, compact or compound variants, category modifiers, and long-tail combinations.
 - **Brand terms:** the app's own name, product names, company name, abbreviations, and source-backed misspellings or grammar variants when relevant.
 
-If localized app strings reveal a useful concept, translate the concept into the active search language and note the localized-string source. Do not add the localized phrase itself unless it is in the active search language.
+If source material uses a language other than the active search language, use it only as background for understanding the app. Do not translate non-active-language strings into search-term candidates unless the user explicitly switches the active search language.
 
 Do not wait for every source to be available after the user has had a chance to provide them. Use the sources at hand, call tools only when available in the current environment, and mark the source honestly.
 
@@ -104,9 +104,9 @@ Avoid or mark as `questionable search intent`:
 - Phrases that describe a workflow but do not sound like search terms
 - Adjacent category terms that would likely return apps with a different core promise
 
-### 4. Group And Verify
+### 4. Review And Verify
 
-Present proposed search terms in logical groups that make review easier.
+Present proposed search terms in a compact flat list or table that makes review easy without changing the saved backlog schema.
 
 Before saving new search terms, ask the user what should be accepted, rejected, corrected, or added. Include brief review guidance: keep terms that users might search for and reasonably expect to find this app in the App Store results; keep more relevant possibilities rather than narrowing the list too early; keep useful singular/plural variants, word-order variants, generic and/or reserved terms like "app", developer names, and category terms when they make sense; reject or correct terms that are misleading or unlikely to be searched.
 
@@ -149,7 +149,7 @@ Competitor names can be useful research inputs, but they are risky as usable App
 
 When researching competitors:
 
-- Inspect competitor app names, subtitles, descriptions, screenshot captions, reviews, categories, and visible positioning when available.
+- Inspect competitor app names, subtitles, descriptions, OCR'd screenshot text when already available, reviews, categories, and visible positioning when available.
 - Extract generic non-brand search terms from competitor language, category fit, features, benefits, and user intent.
 - Do not propose competitor brand names as normal candidate terms.
 - Keep competitor brand names in competitor notes unless the user asks to track them in the backlog.
@@ -163,7 +163,7 @@ When researching competitors:
 - Adding phrases only because they appear in source files, even when they are not plausible App Store searches.
 - Treating local files as enough without asking for App Store listing, marketing page, and ASC keyword sources.
 - Proposing relevance scores during search-term identification.
-- Generating translated terms from localized strings when the active search language is English.
+- Generating translated terms from non-active-language source material.
 - Correcting realistic misspellings or grammar mistakes without checking whether they were intentional.
 - Treating web search volume as App Store demand without caveats.
 - Forgetting long-tail terms with clearer intent.

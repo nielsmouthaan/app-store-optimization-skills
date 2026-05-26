@@ -142,6 +142,7 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 - Prefer factual extraction over interpretation.
 - Do not invent missing metadata, competitors, review themes, or screenshot text.
 - Preserve keyword-rich phrases from source material when they are natural and accurate.
+- Use screenshots as source material for app context using OCR text extraction.
 - Summarize reviews into themes instead of copying long review text.
 - Include competitor and similar app links when available; otherwise use plain app names.
 - Store one active search language for the backlog; default to English when unspecified.
