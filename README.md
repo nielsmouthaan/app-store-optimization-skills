@@ -1,6 +1,6 @@
 # App Store Optimization Skills
 
-Agent skill suite for App Store Optimization: identify broad App Store search-term candidates, score keyword relevance, fetch external keyword statistics, calculate strategic priority scores, and derive per-word metadata value scores.
+Agent skill suite for App Store Optimization: identify broad App Store search-term candidates, score keyword relevance, fetch external keyword statistics, calculate strategic priority scores, derive per-word metadata value scores, and generate App Store metadata drafts.
 
 ## Purpose
 
@@ -11,6 +11,7 @@ This repository provides ASO-focused agent skills that help agents:
 - fetch external popularity and difficulty metrics for search terms
 - calculate derived strategic scores for confirmed terms to guide metadata focus
 - calculate per-word value scores to prioritize character-efficient metadata coverage
+- generate App Store metadata variants from confirmed terms and word value scores
 
 ## Skills
 
@@ -38,6 +39,10 @@ Calculates a derived `Strategic score` for confirmed search terms with approved 
 
 Calculates derived per-word value scores from confirmed search terms and their `Strategic score` values. Use this after strategic scoring to identify individual words that cover the most strategic search-term value per metadata character.
 
+### aso-metadata-generation
+
+Generates single-locale App Store metadata drafts for app name, subtitle, and keywords from confirmed search terms, `Strategic score` values, and saved `Word Value Scores`. Use this after word value scoring to create metadata variants, compare coverage, and plan App Store metadata A/B tests.
+
 ## Workflow
 
 1. Use `aso-search-terms-identification` to build or expand the search-term backlog.
@@ -45,6 +50,7 @@ Calculates derived per-word value scores from confirmed search terms and their `
 3. Use `aso-search-terms-statistics` to fetch popularity and difficulty values for the relevant App Store region.
 4. Use `aso-search-terms-strategic-scoring` to calculate strategic priority scores for confirmed terms.
 5. Use `aso-search-terms-word-value-scoring` to calculate per-word metadata value scores from strategic scores.
+6. Use `aso-metadata-generation` to generate App Store metadata drafts and compare coverage tradeoffs.
 
 ## Inspiration
 

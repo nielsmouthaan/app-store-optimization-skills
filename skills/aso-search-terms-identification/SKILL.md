@@ -80,7 +80,7 @@ Create candidates from multiple sources:
 
 - **App language:** app name, subtitle, description, feature names, benefits, jobs-to-be-done, and problem statements.
 - **User language:** reviews, support requests, testimonials, community posts, and user-provided wording.
-- **Competitor research:** competitor titles, subtitles, descriptions, screenshot captions, and terms they appear to rank for.
+- **Competitor research:** competitor app names, subtitles, descriptions, screenshot captions, and terms they appear to rank for.
 - **Existing ASC keywords:** App Store Connect keyword field terms provided by the user; treat them as source material and seeds, not automatically approved final terms.
 - **External discovery tools:** If the user provides data or relevant tools are available, use App Store autofill, Google Play autofill, Apple Search Ads, Google Keyword Planner, Google Trends, ASO tools, SEO tools, and keyword discovery tools.
 - **Imported keyword lists:** User-provided keyword exports or manual lists; import their keyword language broadly before generating new expansions.
@@ -149,7 +149,7 @@ Competitor names can be useful research inputs, but they are risky as usable App
 
 When researching competitors:
 
-- Inspect competitor titles, subtitles, descriptions, screenshot captions, reviews, categories, and visible positioning when available.
+- Inspect competitor app names, subtitles, descriptions, screenshot captions, reviews, categories, and visible positioning when available.
 - Extract generic non-brand search terms from competitor language, category fit, features, benefits, and user intent.
 - Do not propose competitor brand names as normal candidate terms.
 - Keep competitor brand names in competitor notes unless the user asks to track them in the backlog.
