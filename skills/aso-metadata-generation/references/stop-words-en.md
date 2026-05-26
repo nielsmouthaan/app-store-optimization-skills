@@ -2,8 +2,6 @@
 
 Use this list when evaluating English App Store metadata. These words are usually poor use of the 100-character keywords budget because they are common, low-intent, or treated as free/stop words by ASO convention.
 
-Source: Medium, "ASO Basics - US, App Store" by Tim ASO_Guru, published May 13, 2025: https://medium.com/@aso.jenli/aso-basics-us-app-store-guide-2025-8e9560f87870
-
 ## Words
 
 ```text
@@ -81,6 +79,8 @@ i've
 if
 in
 into
+ipad
+iphone
 is
 isn't
 it

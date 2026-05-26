@@ -2,8 +2,6 @@
 
 Use this list when evaluating category/free words in App Store metadata. Category terms are often low-priority candidate keywords because the app's category can already provide contextual relevance, but they may still be useful in visible metadata when they clarify the app.
 
-Source: Apple Developer, "Choosing a category", App Store categories page: https://developer.apple.com/app-store/categories/
-
 ## App Store Categories
 
 ```text
