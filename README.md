@@ -1,11 +1,12 @@
 # App Store Optimization Skills
 
-Agent skill suite for App Store Optimization: identify broad App Store search-term candidates, score keyword relevance, fetch external keyword statistics, calculate strategic priority scores, derive per-word metadata value scores, and generate App Store metadata drafts.
+Agent skill suite for App Store Optimization: orchestrate end-to-end metadata optimization, identify broad App Store search-term candidates, score keyword relevance, fetch external keyword statistics, calculate strategic priority scores, derive per-word metadata value scores, and generate App Store metadata drafts.
 
 ## Purpose
 
 This repository provides ASO-focused agent skills that help agents:
 
+- run a guided end-to-end App Store metadata optimization workflow with review stops
 - identify a broad backlog of plausible App Store search terms
 - score how well each search term fits the app and App Store search intent
 - fetch external popularity and difficulty metrics for search terms
@@ -15,9 +16,13 @@ This repository provides ASO-focused agent skills that help agents:
 
 ## Skills
 
+### aso-metadata-workflow
+
+Recommended user-facing entrypoint for a full App Store metadata optimization workflow. It guides the agent through app context, search-term identification, relevance scoring, statistics fetching, strategic scoring, word value scoring, and metadata generation with explicit review stops between phases.
+
 ### aso-context
 
-Internal foundation skill used by the specialist skills. Users typically start with `aso-search-terms-identification` instead of invoking this directly.
+Internal foundation skill used by the workflow and specialist skills. Users typically start with `aso-metadata-workflow` for a full optimization run or `aso-search-terms-identification` for a narrower keyword research task.
 
 ### aso-search-terms-identification
 
@@ -45,12 +50,15 @@ Generates single-locale App Store metadata drafts for app name, subtitle, and ke
 
 ## Workflow
 
-1. Use `aso-search-terms-identification` to build or expand the search-term backlog.
-2. Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance scores.
-3. Use `aso-search-terms-statistics` to fetch popularity and difficulty values for the relevant App Store region.
-4. Use `aso-search-terms-strategic-scoring` to calculate strategic priority scores for confirmed terms.
-5. Use `aso-search-terms-word-value-scoring` to calculate per-word metadata value scores from strategic scores.
-6. Use `aso-metadata-generation` to generate App Store metadata drafts and compare coverage tradeoffs.
+Use `aso-metadata-workflow` for a guided end-to-end optimization run. It coordinates the specialist skills in this order:
+
+1. Use `aso-context` to create or verify the shared ASO context.
+2. Use `aso-search-terms-identification` to build or expand the search-term backlog.
+3. Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance scores.
+4. Use `aso-search-terms-statistics` to fetch popularity and difficulty values for the relevant App Store region.
+5. Use `aso-search-terms-strategic-scoring` to calculate strategic priority scores for confirmed terms.
+6. Use `aso-search-terms-word-value-scoring` to calculate per-word metadata value scores from strategic scores.
+7. Use `aso-metadata-generation` to generate App Store metadata drafts and compare coverage tradeoffs.
 
 ## Inspiration
 
