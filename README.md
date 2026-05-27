@@ -9,7 +9,7 @@ This repository provides ASO-focused agent skills that help agents:
 - run a guided end-to-end App Store metadata optimization workflow with review stops
 - identify a broad backlog of plausible App Store search terms
 - score how well each search term fits the app and App Store search intent
-- fetch external popularity and difficulty metrics for search terms
+- fetch validated external popularity and difficulty metrics for confirmed search terms
 - calculate derived strategic scores for confirmed terms to guide metadata focus
 - calculate per-word value scores to prioritize character-efficient metadata coverage
 - generate App Store metadata variants from confirmed terms and word value scores
@@ -34,7 +34,7 @@ Assigns user-reviewed `1`-`5` relevance scores to search terms, based on App Sto
 
 ### aso-search-terms-statistics
 
-Fetches external popularity and difficulty statistics for non-rejected search terms and records them in the ASO context. Use this after relevance scoring and before strategic scoring or metadata placement. These values must come from tools such as ASO Suite or Astro; the agent should not infer them.
+Fetches external popularity and difficulty statistics for confirmed search terms and records them in the ASO context. Use this after relevance scoring and before strategic scoring or metadata placement. These values must come from tools such as ASO Suite or Astro; the agent should not infer them. Stats older than one month should be refreshed when possible.
 
 ### aso-search-terms-strategic-scoring
 

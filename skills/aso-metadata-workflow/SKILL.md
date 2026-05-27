@@ -59,21 +59,23 @@ Use `aso-search-terms-identification` to create or expand the search-term backlo
 
 Before proceeding, confirm that the backlog is broad enough for later scoring and includes plausible App Store search phrases, source notes, and useful variants.
 
-Stop after presenting proposed terms. Let the user accept, reject, correct, or add terms before saving or moving to relevance scoring.
+Stop after presenting proposed terms. Let the user accept, reject, correct, or add terms before saving or moving to relevance scoring. Save accepted terms as `confirmed`, rejected terms as `rejected`, and unreviewed suggestions or imports as `candidate`. Preserve rejected terms so future runs do not suggest them again.
 
 ## Phase 2: Validate Relevance
 
-Use `aso-search-terms-relevance-scoring` to assign user-reviewed `1`-`5` relevance scores to non-rejected terms.
+Use `aso-search-terms-relevance-scoring` to assign user-reviewed `1`-`5` relevance scores to confirmed terms.
 
 Relevance is a user-judgment input for all later prioritization. Stop before saving scores and require explicit user approval or corrections to the relevance groups.
 
-After approved scores are saved, continue only with terms that remain non-rejected.
+After approved scores are saved, continue only with confirmed terms.
 
 ## Phase 3: Fetch Statistics
 
-Use `aso-search-terms-statistics` to fetch popularity and difficulty for non-rejected terms.
+Use `aso-search-terms-statistics` to fetch popularity and difficulty for confirmed terms.
 
 Use the active App Store region from context, or let the statistics skill derive or ask for it according to its region-selection rules.
+
+Before continuing, let the statistics skill show confirmed terms with missing statistics or statistics more than one month old. If the user declines to refresh outdated statistics, continue only with a stale-statistics warning.
 
 Stop if:
 
@@ -116,9 +118,9 @@ Use these gates to decide whether the workflow can continue:
 | Gate | Required user or tool confirmation | Next phase |
 | --- | --- | --- |
 | Context approved | User confirms app context and source gaps are acceptable | Search-term identification |
-| Backlog approved | User accepts, rejects, corrects, or adds proposed terms | Relevance scoring |
+| Backlog approved | User accepts, rejects, corrects, or adds proposed terms; accepted terms are saved as `confirmed` | Relevance scoring |
 | Relevance approved | User explicitly approves or corrects relevance groups | Statistics fetching |
-| Statistics available | External source provides popularity and difficulty for the target region | Strategic scoring |
+| Statistics available | External source provides validated popularity and difficulty for the target region, or the user accepts stale statistics with a warning | Strategic scoring |
 | Strategic scores saved | Eligible confirmed terms have derived strategic scores | Word value scoring |
 | Word values saved | Word value scores are saved in context | Metadata generation |
 | Metadata choice approved | User approves a draft, current metadata update, or publish action | Save or publish according to `aso-metadata-generation` |

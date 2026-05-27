@@ -29,6 +29,13 @@ If `## Search Terms Backlog` is missing or empty:
 - Invoke or recommend `aso-search-terms-identification` before continuing.
 - Do not invent a backlog only to score it.
 
+If the backlog contains only `candidate` rows and no `confirmed` rows:
+
+- Run a compact backlog confirmation pass first.
+- Ask the user which candidate terms should be accepted, rejected, corrected, or left unreviewed.
+- Save accepted terms as `confirmed` before relevance scoring.
+- Do not silently promote `candidate` rows while assigning relevance.
+
 ## Relevance Score
 
 Use a **1-5 relevance score** to describe how well the app satisfies the App Store search intent behind a term.
@@ -65,7 +72,7 @@ Call out obvious gaps only when they block reliable scoring.
 
 ### 2. Interpret Search Intent
 
-For each non-rejected term, infer what a searcher probably wants.
+For each confirmed term, infer what a searcher probably wants.
 
 Consider:
 
@@ -133,7 +140,7 @@ Store relevance in the canonical `## Search Terms Backlog` table:
 ```markdown
 | Search term | Source | Status | Relevance | Popularity | Difficulty | Stats region | Stats source | Stats updated | Notes | Strategic score |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| example term | app description | candidate | 4 |  |  |  |  |  | strong feature fit |  |
+| example term | app description | confirmed | 4 |  |  |  |  |  | strong feature fit |  |
 ```
 
 When updating the table, follow these rules:
@@ -141,6 +148,7 @@ When updating the table, follow these rules:
 - Add a `Relevance` column if it is missing.
 - Preserve existing `Search term`, `Source`, `Status`, `Popularity`, `Difficulty`, `Stats region`, `Stats source`, `Stats updated`, `Notes`, and any additional column values.
 - Clear `Strategic score` for rows where `Relevance` is added or changed; preserve it for unchanged rows.
+- Score `confirmed` terms by default; leave `candidate` terms unscored until the user accepts them into the backlog.
 - Preserve rejected terms without assigning them a relevance score.
 - Use only integer scores from `1` to `5`.
 - Keep rationale in `Notes` compact and useful for later prioritization.
@@ -158,6 +166,7 @@ When updating the table, follow these rules:
 - Giving semantically equivalent terms different scores because of word order, suffixes, or minor modifiers.
 - Downgrading the app's own brand terms because the brand is broad or generic.
 - Penalizing relevant long-tail terms only because they may have lower volume.
+- Scoring `candidate` terms before the user accepts them into the usable ASO backlog.
 - Scoring competitor brand names as normal target terms instead of using competitor research to find generic alternatives.
 - Saving proposed scores before the user reviews them.
 - Treating relevance as final truth instead of a user-validated input for later ASO work.

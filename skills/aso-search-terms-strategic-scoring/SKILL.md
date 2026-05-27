@@ -5,7 +5,7 @@ description: Calculates derived strategic scores for confirmed App Store search 
 
 # ASO Search Terms Strategic Scoring
 
-Act as an ASO prioritization analyst. Calculate a deterministic strategic score for confirmed search terms so later metadata work can focus on terms with the best mix of demand, rankability, and app fit.
+Act as an ASO prioritization analyst. Calculate a deterministic strategic score for confirmed search terms so later metadata work can focus on terms with the best mix of demand, ranking feasibility, and app fit.
 
 The strategic score is derived data. Do not invent missing inputs, change subjective relevance scores, fetch statistics, assign metadata fields, or decide final metadata placement.
 
@@ -35,26 +35,33 @@ If confirmed terms are missing relevance, popularity, or difficulty values:
 - Use `aso-search-terms-statistics` for missing popularity or difficulty.
 - Do not estimate missing inputs or score incomplete rows.
 
+If confirmed terms have `Stats updated` values more than one month older than the current date:
+
+- Use `aso-search-terms-statistics` to offer a statistics refresh before scoring when that has not already happened.
+- If the user declines the refresh or explicitly asks to continue, calculate scores with existing values and include a stale-statistics warning in the summary.
+
 ## Strategic Score
 
 Calculate scores only for rows where:
 
 - `Status` is exactly `confirmed`.
 - `Relevance` is an integer from `1` to `5`.
-- `Popularity` is numeric from `0` to `100`.
-- `Difficulty` is numeric from `0` to `100`.
+- `Popularity` is validated numeric from `1` to `100`.
+- `Difficulty` is validated numeric from `1` to `100`.
 
 Use this formula exactly:
 
 ```text
-Strategic score = 100 * (Popularity / 100)^0.8 * ((100 - Difficulty) / 100) * (Relevance / 5)^1.5
+Strategic score = 100 * (Popularity / 100)^0.8 * ((101 - Difficulty) / 100) * (Relevance / 5)^1.5
 ```
 
 Store `Strategic score` as a `0`-`100` value rounded to one decimal, with no percent sign.
 
 Leave `Strategic score` blank for candidate, rejected, incomplete, or invalid rows. If an existing strategic score is present for a row that is no longer eligible, clear it.
 
-Do not rescale, normalize, or infer input values. If popularity or difficulty values are not on a `0`-`100` scale, abort and ask for compatible statistics instead of calculating.
+Do not rescale, normalize, or infer input values in this skill. If popularity or difficulty values are missing, unclear, or outside the validated `1`-`100` range, use `aso-search-terms-statistics` to obtain valid values before calculating.
+
+The formula intentionally dampens popularity so broad high-volume terms do not dominate by volume alone, converts difficulty into ranking feasibility with easier terms scoring higher, and weights relevance strongly because a term is strategically useful only when the app satisfies the search intent.
 
 ## Scoring Workflow
 
@@ -110,9 +117,11 @@ After saving, summarize how many terms were scored, how many were skipped, and t
 
 - Scoring candidate or rejected terms.
 - Guessing relevance, popularity, or difficulty values to make the formula work.
+- Calculating strategic scores from popularity or difficulty values that `aso-search-terms-statistics` did not validate.
 - Using popularity alone as the priority order.
 - Treating the strategic score as subjective user input instead of derived data.
 - Leaving stale strategic scores after relevance, popularity, difficulty, or status changes.
+- Ignoring stale-statistics warnings when `Stats updated` is more than one month old.
 - Changing search-term status, relevance, statistics, notes, or metadata placement while saving scores.
 - Continuing to metadata writing when no confirmed terms have complete scoring inputs.
 

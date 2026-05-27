@@ -119,20 +119,21 @@ After review and adjustment, update `.agents/aso-context.md` under `## Search Te
 ```markdown
 | Search term | Source | Status | Relevance | Popularity | Difficulty | Stats region | Stats source | Stats updated | Notes | Strategic score |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| example term | app description | candidate |  |  |  |  |  |  | feature phrase |  |
+| example term | app description | confirmed |  |  |  |  |  |  | feature phrase |  |
 ```
 
 Use these status values:
 
 | Status | Meaning |
 | --- | --- |
-| `candidate` | Suggested or imported, not yet confirmed by the user. |
-| `confirmed` | User approved the term as relevant enough to keep. |
-| `rejected` | User said the term is misleading, irrelevant, or not worth keeping. |
+| `candidate` | Suggested or imported, not yet reviewed by the user. |
+| `confirmed` | User accepted the term into the usable ASO backlog. This does not mean it has high relevance. |
+| `rejected` | User said the term is misleading, irrelevant, or something they do not want to use. |
 
 When updating the table, follow these rules:
 
 - Append new terms rather than replacing existing work.
+- Save user-accepted terms as `confirmed`, user-rejected terms as `rejected`, and leave unreviewed suggestions or imports as `candidate`.
 - Leave `Relevance`, `Popularity`, `Difficulty`, `Stats region`, `Stats source`, `Stats updated`, and `Strategic score` blank for new terms. Preserve existing relevance scores, statistics, strategic scores, and any additional columns.
 - Normalize obvious duplicates, but keep meaningful variants, including singular/plural forms, word-order variants, generic and/or reserved terms like "app", developer names, and category terms when they make sense.
 - Use `Notes` for compact context that helps later skills interpret the term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.

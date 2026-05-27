@@ -147,9 +147,9 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 - Include competitor and similar app links when available; otherwise use plain app names.
 - Store one active search language for the backlog; default to English when unspecified.
 - Store one active search region when known. Use uppercase ISO 3166-1 alpha-2 codes, such as `US`, `NL`, or `DE`. Leave it blank until the user provides it or `aso-search-terms-statistics` derives it.
-- Use `candidate`, `confirmed`, or `rejected` for search-term backlog status values.
+- Use `candidate`, `confirmed`, or `rejected` for search-term backlog status values. Use `candidate` for unreviewed suggested or imported terms, `confirmed` for user-accepted terms in the usable ASO backlog, and `rejected` for terms the user does not want to use.
 - Leave `Relevance` blank until `aso-search-terms-relevance-scoring` assigns a user-approved integer score from `1` to `5`; keep it blank for rejected terms.
-- Leave `Popularity`, `Difficulty`, `Stats region`, `Stats source`, and `Stats updated` blank until `aso-search-terms-statistics` obtains external statistics; keep them blank for rejected terms unless the user explicitly requests statistics for rejected terms.
+- Leave `Popularity`, `Difficulty`, `Stats region`, `Stats source`, and `Stats updated` blank until `aso-search-terms-statistics` obtains external statistics; keep them blank for rejected terms unless the user explicitly requests statistics for rejected terms. Store `Popularity` and `Difficulty` as validated `1`-`100` values. Use `Notes` for important compact statistics context.
 - Leave `Strategic score` blank until `aso-search-terms-strategic-scoring` calculates it for confirmed terms with valid relevance, popularity, and difficulty values.
 - Leave `## Word Value Scores` empty until `aso-search-terms-word-value-scoring` calculates derived word scores from confirmed terms with valid strategic scores.
 - Use `Notes` for compact context that helps later skills interpret a search term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.
