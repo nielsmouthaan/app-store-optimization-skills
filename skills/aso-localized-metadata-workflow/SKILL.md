@@ -1,6 +1,6 @@
 ---
 name: aso-localized-metadata-workflow
-description: Orchestrates localized App Store metadata optimization for Apple-supported countries, regions, and metadata languages. Use when optimizing App Store metadata for another language, locale, country, storefront, region, Apple ISO code, translated keywords, localized search terms, or per-market app name, subtitle, and keywords.
+description: Runs the localized App Store optimization workflow for non-source languages, countries, regions, storefronts, or Apple ISO codes. Use when a prompt names another language, locale, country, region, translated keywords, localized search terms, or per-market app name, subtitle, and keywords. For primary/source metadata, use aso-metadata-workflow.
 ---
 
 # ASO Localized Metadata Workflow

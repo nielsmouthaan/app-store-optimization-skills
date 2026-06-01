@@ -1,6 +1,6 @@
 ---
 name: aso-search-terms-statistics
-description: Fetches App Store search-term popularity and difficulty statistics from App Store optimization tools or user-provided exports. Use after relevance scoring when preparing terms for prioritization, when refreshing stale keyword metrics, or when the user asks for exploratory statistics on candidate or rejected terms.
+description: Fetches App Store search-term popularity and difficulty statistics from App Store optimization tools or user-provided exports. Use after relevance scoring, when refreshing stale keyword metrics, or when the user asks for exploratory statistics on candidate or rejected terms.
 ---
 
 # ASO Search Terms Statistics

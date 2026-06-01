@@ -1,6 +1,6 @@
 ---
 name: aso-search-terms-scoring
-description: Calculates derived strategic scores and per-word value scores for confirmed App Store search terms. Use after relevance scoring and popularity/difficulty statistics when prioritizing keywords for App Store optimization metadata planning, keyword focus, character-limited coverage, or metadata generation.
+description: Calculates strategic scores and per-word value scores for confirmed App Store search terms. Use after relevance scoring and popularity/difficulty statistics when prioritizing keywords for App Store optimization metadata planning, keyword focus, character-limited coverage, or metadata generation.
 ---
 
 # ASO Search Terms Scoring

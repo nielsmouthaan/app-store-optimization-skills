@@ -1,6 +1,6 @@
 ---
 name: aso-search-terms-identification
-description: Identifies broad App Store search-term candidates for App Store optimization. Use when creating or expanding a keyword backlog, researching App Store search terms, localizing keyword ideas, mining competitor language, collecting user search phrases, or preparing terms for relevance scoring.
+description: Finds broad App Store search-term candidates for App Store optimization. Use when creating or expanding a keyword backlog, researching App Store search terms, localizing keyword ideas, mining competitor language, collecting user search phrases, or preparing terms for relevance scoring.
 ---
 
 # ASO Search Terms Identification

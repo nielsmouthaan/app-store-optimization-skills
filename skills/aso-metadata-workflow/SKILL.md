@@ -1,6 +1,6 @@
 ---
 name: aso-metadata-workflow
-description: Orchestrates the end-to-end source-locale App Store optimization metadata workflow. Use when optimizing primary App Store metadata for organic search discoverability, running a full App Store optimization workflow, or coordinating app context, keyword research, relevance scoring, statistics, strategic scoring, and metadata drafts. For localized markets, use aso-localized-metadata-workflow.
+description: Runs the end-to-end App Store optimization workflow for the app's primary or source metadata language. Use for full primary listing optimization, organic search metadata work, or coordinating context, keyword research, relevance scoring, statistics, strategic scoring, and metadata drafts. For other languages, countries, or regions, use aso-localized-metadata-workflow.
 ---
 
 # ASO Metadata Workflow

@@ -1,6 +1,6 @@
 ---
 name: aso-metadata-generation
-description: Generates App Store metadata drafts and coverage analysis from scored App Store search terms. Use after aso-search-terms-scoring when creating or comparing app name, subtitle, keyword field drafts, keyword placement recommendations, or source-locale and localized metadata variants.
+description: Generates App Store metadata drafts and coverage analysis from scored search terms. Use after search-term scoring to create or compare app name, subtitle, keyword field drafts, keyword placement recommendations, or source-locale and localized metadata variants.
 ---
 
 # ASO Metadata Generation

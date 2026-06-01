@@ -1,6 +1,6 @@
 ---
 name: aso-context
-description: Creates and updates shared App Store optimization app context for later keyword research, relevance scoring, statistics, scoring, metadata generation, and localization. Use when app context is missing, stale, incomplete, or should be refreshed from an App Store URL, marketing page, product docs, user input, or App Store Connect keyword terms.
+description: Builds and refreshes shared app context for App Store metadata optimization workflows. Use when app context is missing, stale, incomplete, or needs facts from an App Store listing, marketing page, product docs, user input, competitors, or App Store Connect keyword terms.
 ---
 
 # ASO Context

@@ -1,6 +1,6 @@
 ---
 name: aso-search-terms-relevance-scoring
-description: Assigns relative 1-5 relevance scores to App Store search terms. Use when reviewing keyword relevance, scoring a search-term backlog, validating App Store optimization search intent fit, checking localized term meaning, or preparing terms for popularity, difficulty, and strategic scoring.
+description: Assigns relative 1-5 relevance scores to App Store search terms. Use when reviewing keyword relevance, scoring a search-term backlog, validating search intent fit, checking localized term meaning, or preparing terms for popularity, difficulty, and strategic scoring.
 ---
 
 # ASO Search Terms Relevance Scoring
