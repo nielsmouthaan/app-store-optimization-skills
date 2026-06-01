@@ -1,19 +1,21 @@
 ---
 name: aso-context
-description: Provides, creates, and updates the shared ASO context stored in `.agents/aso-context.md`. Use when app context is missing, stale, incomplete, or needs to be updated from an App Store URL, marketing page, local product docs, user input, or App Store Connect keyword terms.
+description: Creates and updates shared App Store optimization app context for later keyword research, relevance scoring, statistics, scoring, metadata generation, and localization. Use when app context is missing, stale, incomplete, or should be refreshed from an App Store URL, marketing page, product docs, user input, or App Store Connect keyword terms.
 ---
 
 # ASO Context
 
-Create and maintain `.agents/aso-context.md`, which captures context that other skills reference so users do not repeat themselves.
+Create and maintain `.agents/aso/context.md`, which captures global app context and the source-locale ASO workspace that other skills reference so users do not repeat themselves.
 
-The context should be compact, factual, and useful for later search-term identification, relevance scoring, statistics fetching, search term scoring, and metadata generation.
+The context should be compact, factual, and useful for later search-term identification, relevance scoring, statistics fetching, search term scoring, metadata generation, and localized ASO work.
+
+Localized ASO work belongs in `.agents/aso/locales/<ISO code>/<language-slug>.md`, not in the global context file.
 
 ## Workflow
 
 ### 1. Check Existing Context
 
-First, check whether `.agents/aso-context.md` exists.
+First, check whether `.agents/aso/context.md` exists.
 
 If it exists:
 
@@ -22,7 +24,13 @@ If it exists:
 - Update only the parts affected by the current request or newly available sources.
 - Preserve user-confirmed facts unless new evidence clearly contradicts them.
 
-If it does not exist:
+If it does not exist but legacy `.agents/aso-context.md` exists:
+
+- Read the legacy file as the current context.
+- On the next save, write the updated context to `.agents/aso/context.md`.
+- Do not delete the legacy file unless the user explicitly asks.
+
+If neither context file exists:
 
 - Create it from the best available sources.
 
@@ -83,7 +91,7 @@ Iterate until the user is satisfied with the captured context.
 
 ### 5. Save The Context
 
-After review and adjustment, create or update `.agents/aso-context.md` using this structure:
+After review and adjustment, create or update `.agents/aso/context.md` using this structure:
 
 ```markdown
 # ASO App Context
@@ -96,6 +104,7 @@ After review and adjustment, create or update `.agents/aso-context.md` using thi
 **Marketing URL:**
 **App Store Connect keywords:**
 **Other sources:**
+**Localization preferences:**
 
 ## Metadata
 **Name:**
@@ -132,6 +141,11 @@ After review and adjustment, create or update `.agents/aso-context.md` using thi
 ## Word Value Scores
 | Word | Appearances | Total strategic score | Length | Value |
 | --- | --- | --- | --- | --- |
+
+## Locales
+| ISO code | Country or region | Language | Workspace | Status | Notes |
+| --- | --- | --- | --- | --- | --- |
+| DEU | Germany | German | .agents/aso/locales/DEU/german.md | planned | target German metadata |
 ```
 
 Omit unavailable sections when they add no value. For example, omit `## Reviews` for a pre-launch app with no public reviews.
@@ -145,8 +159,10 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 - Use screenshots as source material for app context using OCR text extraction.
 - Summarize reviews into themes instead of copying long review text.
 - Include competitor and similar app links when available; otherwise use plain app names.
-- Store one active search language for the backlog; default to English when unspecified.
-- Store one active search region when known. Use uppercase ISO 3166-1 alpha-2 codes, such as `US`, `NL`, or `DE`. Leave it blank until the user provides it or `aso-search-terms-statistics` derives it.
+- Store one active source search language for the global backlog; default to English when unspecified.
+- Store one active source search region when known. Use uppercase ISO 3166-1 alpha-2 codes, such as `US`, `NL`, or `DE`. Leave it blank until the user provides it or `aso-search-terms-statistics` derives it.
+- Store localized workspaces in `## Locales` when they exist. Keep only the Apple ISO code, country or region, language, workspace path, status, and compact notes there; do not duplicate localized search terms in the global context.
+- Use `.agents/aso/locales/<ISO code>/<language-slug>.md` for localized terms, relevance, statistics, scoring, and metadata drafts.
 - Use `candidate`, `confirmed`, or `rejected` for search-term backlog status values. Use `candidate` for unreviewed suggested or imported terms, `confirmed` for user-accepted terms in the usable ASO backlog, and `rejected` for terms the user does not want to use.
 - Leave `Relevance` blank until `aso-search-terms-relevance-scoring` assigns a user-approved integer score from `1` to `5`; keep it blank for rejected terms.
 - Leave `Popularity`, `Difficulty`, `Stats region`, `Stats source`, and `Stats updated` blank until `aso-search-terms-statistics` obtains external statistics; keep them blank for rejected terms unless the user explicitly requests statistics for rejected terms. Store `Popularity` and `Difficulty` as validated `1`-`100` values. Use `Notes` for important compact statistics context.

@@ -1,6 +1,6 @@
 ---
 name: aso-search-terms-identification
-description: Identifies broad App Store search-term candidates for ASO. Use when creating or expanding a search-term backlog, doing ASO keyword research, finding competitor-derived ideas, collecting user search terms, or preparing terms for relevance scoring. For relevance scoring, use aso-search-terms-relevance-scoring; for popularity and difficulty, use aso-search-terms-statistics; for derived prioritization scores, use aso-search-terms-scoring.
+description: Identifies broad App Store search-term candidates for App Store optimization. Use when creating or expanding a keyword backlog, researching App Store search terms, localizing keyword ideas, mining competitor language, collecting user search phrases, or preparing terms for relevance scoring.
 ---
 
 # ASO Search Terms Identification
@@ -11,12 +11,15 @@ Optimize for **breadth and App Store search plausibility**. Do not assign releva
 
 ## Before Starting
 
-Read `.agents/aso-context.md` first.
+Read `.agents/aso/context.md` first.
+
+If the user is working on a localized workspace, also read the relevant `.agents/aso/locales/<ISO code>/<language-slug>.md` file and use its `ISO code`, `Country or region`, and `Language` as the active target.
 
 If it exists:
 
 - Summarize the app context that matters for search-term discovery.
 - Identify the active `Search language`; if none is specified, use English.
+- For localized work, identify the target `ISO code`, country or region, language, and any existing localized terms.
 - Show any existing terms in `## Search Terms Backlog`.
 - Preserve existing statuses, relevance scores, statistics, notes, and any additional backlog columns unless the user corrects them.
 
@@ -46,8 +49,11 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 - Do not invent spelling or grammar mistakes.
 - Preserve misspelled or ungrammatical terms only when they come from the user or source evidence.
 - Include the app's own brand name and natural brand variants.
-- Use one active search language. Default to English unless the prompt or `.agents/aso-context.md` specifies another language.
-- Do not generate translated terms from source material in another language unless the user explicitly switches the active search language.
+- Use one active source language for global context work. Default to English unless the prompt or `.agents/aso/context.md` specifies another language.
+- For localized work, use the workspace language and Apple ISO code. Do not mix search terms from multiple countries, regions, or metadata languages in one workspace.
+- Do not generate translated terms from source material in another language unless the user explicitly switches the active search language or is running the localized workflow.
+- In localized workflow, use source terms as intent seeds, not as strings to translate literally.
+- For localized terms, store a concise `Meaning` so users who do not know the target language can audit the term.
 - Prefer compact search phrases that sound like App Store queries.
 - Avoid full-sentence descriptions, UI commands, or product-internal wording unless external evidence shows users search that way.
 - Ask for clarification when a user-provided term looks like an accidental grammar or spelling mistake.
@@ -89,6 +95,8 @@ Create candidates from multiple sources:
 
 If source material uses a language other than the active search language, use it only as background for understanding the app. Do not translate non-active-language strings into search-term candidates unless the user explicitly switches the active search language.
 
+For localized work, reverse that rule: source-language search terms are background for intent, while target-language evidence should drive the final localized search terms. Generate terms from local App Store behavior, localized competitor language, target-language reviews or support language, autocomplete/tool evidence, and natural target-language phrasing.
+
 Do not wait for every source to be available after the user has had a chance to provide them. Use the sources at hand, call tools only when available in the current environment, and mark the source honestly.
 
 ### 3. Filter For App Store Search Plausibility
@@ -114,12 +122,22 @@ Do not save the backlog until the user has had a clear chance to review and adju
 
 ### 5. Save Results
 
-After review and adjustment, update `.agents/aso-context.md` under `## Search Terms Backlog` using the canonical table:
+After review and adjustment, update `.agents/aso/context.md` under `## Search Terms Backlog` for global/source-locale work, or update `.agents/aso/locales/<ISO code>/<language-slug>.md` for localized work.
+
+Use this canonical table for global/source-locale work:
 
 ```markdown
 | Search term | Source | Status | Relevance | Popularity | Difficulty | Stats region | Stats source | Stats updated | Notes | Strategic score |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | example term | app description | confirmed |  |  |  |  |  |  | feature phrase |  |
+```
+
+Use this canonical table for localized work:
+
+```markdown
+| Search term | Meaning | Status | Relevance | Popularity | Difficulty | Stats source | Stats updated | Notes | Strategic score |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| quittung scanner | receipt scanner | confirmed |  |  |  |  |  | inspired by source intent: receipt scanner |  |
 ```
 
 Use these status values:
@@ -135,10 +153,12 @@ When updating the table, follow these rules:
 - Append new terms rather than replacing existing work.
 - Save user-accepted terms as `confirmed`, user-rejected terms as `rejected`, and leave unreviewed suggestions or imports as `candidate`.
 - Leave `Relevance`, `Popularity`, `Difficulty`, `Stats region`, `Stats source`, `Stats updated`, and `Strategic score` blank for new terms. Preserve existing relevance scores, statistics, strategic scores, and any additional columns.
+- For localized terms, fill `Meaning` with a compact back-translation or explanation in a language the user understands.
 - Normalize obvious duplicates, but keep meaningful variants, including singular/plural forms, word-order variants, generic and/or reserved terms like "app", developer names, and category terms when they make sense.
 - Use `Notes` for compact context that helps later skills interpret the term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.
 - Keep source-backed grammar and spelling variants when they reflect realistic user searches.
 - Mark weak-but-possibly-useful terms as `questionable search intent`.
+- In localized work, put original-intent references and uncertainty in `Notes`; do not add a separate `Source` column to localized workspaces.
 - Preserve rejected terms when they prevent repeated suggestions.
 - Update `*Last updated:*` in the context file.
 

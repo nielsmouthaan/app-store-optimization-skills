@@ -1,6 +1,6 @@
 ---
 name: aso-search-terms-scoring
-description: Calculates derived strategic scores and per-word value scores for confirmed App Store search terms in `.agents/aso-context.md`. Use after aso-search-terms-relevance-scoring and aso-search-terms-statistics when prioritizing verified terms for ASO metadata planning, keyword focus, character-limited keyword coverage, or metadata generation.
+description: Calculates derived strategic scores and per-word value scores for confirmed App Store search terms. Use after relevance scoring and popularity/difficulty statistics when prioritizing keywords for App Store optimization metadata planning, keyword focus, character-limited coverage, or metadata generation.
 ---
 
 # ASO Search Terms Scoring
@@ -11,7 +11,9 @@ Search term scoring is derived data. Do not invent missing inputs, change subjec
 
 ## Before Starting
 
-Read `.agents/aso-context.md` first.
+Read `.agents/aso/context.md` first.
+
+If the user is working on a localized workspace, also read the relevant `.agents/aso/locales/<ISO code>/<language-slug>.md` file and calculate scores only inside that localized workspace.
 
 If it exists:
 
@@ -108,6 +110,7 @@ Normalize words before calculating:
 - Lowercase words for matching and display.
 - Trim leading and trailing punctuation.
 - Split search terms on whitespace and punctuation that separates words, such as commas, slashes, pipes, parentheses, and hyphens.
+- For languages without reliable whitespace word boundaries, use a language-aware tokenizer when available. If none is available, use conservative whole-term or obvious-segment tokens, record the tokenizer choice in the summary, and do not pretend the word value scores are directly comparable to whitespace-segmented locales.
 - Do not stem, singularize, pluralize, translate, or merge related forms. Treat `edit`, `editing`, and `editor` as separate words.
 - Do not transliterate or remove accents. Count the written characters in the normalized word.
 - Count a word only once per search term, even if the same word appears more than once in that term.
@@ -130,7 +133,7 @@ When presenting word values, sort words by `Value` from highest to lowest. Break
 
 ## Saving Results
 
-Update `.agents/aso-context.md` after calculating the derived scores.
+Update `.agents/aso/context.md` after calculating source-locale derived scores. For localized work, update the active `.agents/aso/locales/<ISO code>/<language-slug>.md` file instead.
 
 For `## Search Terms Backlog`:
 
@@ -138,7 +141,7 @@ For `## Search Terms Backlog`:
 - Update only the `Strategic score` column and `*Last updated:*`.
 - Recalculate and overwrite existing strategic scores for eligible rows.
 - Clear `Strategic score` for candidate, rejected, incomplete, invalid, or out-of-range rows.
-- Preserve `Search term`, `Source`, `Status`, `Relevance`, `Popularity`, `Difficulty`, `Stats region`, `Stats source`, `Stats updated`, `Notes`, and any additional column values.
+- Preserve `Search term`, `Source` when present, `Meaning` when present, `Status`, `Relevance`, `Popularity`, `Difficulty`, `Stats region`, `Stats source`, `Stats updated`, `Notes`, and any additional column values.
 
 For `## Word Value Scores`:
 
@@ -150,7 +153,7 @@ For `## Word Value Scores`:
 
 Use `YYYY-MM-DD` for `*Last updated:*`.
 
-After saving, summarize how many terms received strategic scores, how many terms were skipped, how many unique words were scored, whether stale statistics were used, and the highest-scoring terms and words.
+After saving, summarize how many terms received strategic scores, how many terms were skipped, how many unique words were scored, whether stale statistics were used, the workspace updated, and the highest-scoring terms and words.
 
 ## Common Mistakes
 
@@ -164,6 +167,7 @@ After saving, summarize how many terms received strategic scores, how many terms
 - Calculating word values before valid strategic scores exist.
 - Dividing a search term's strategic score across its words.
 - Merging related words through stemming, singularization, pluralization, translation, or synonym logic.
+- Applying English tokenization, singular/plural, stemming, or transliteration assumptions to localized workspaces.
 - Counting repeated words inside one search term more than once.
 - Editing backlog inputs while saving derived word-value results.
 - Treating word value as final metadata placement instead of a character-efficiency signal.

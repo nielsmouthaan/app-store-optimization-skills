@@ -1,17 +1,20 @@
 ---
 name: aso-metadata-workflow
-description: Orchestrates the end-to-end ASO metadata optimization workflow by guiding agents through app context, search-term identification, relevance scoring, statistics fetching, search-term scoring, and metadata generation with explicit user review stops between phases. Use when optimizing App Store metadata for organic search discoverability, running a full ASO workflow, or coordinating multiple ASO specialist skills.
+description: Orchestrates the end-to-end source-locale App Store optimization metadata workflow. Use when optimizing primary App Store metadata for organic search discoverability, running a full App Store optimization workflow, or coordinating app context, keyword research, relevance scoring, statistics, strategic scoring, and metadata drafts. For localized markets, use aso-localized-metadata-workflow.
 ---
 
 # ASO Metadata Workflow
 
-Use this skill as the primary entrypoint for end-to-end App Store metadata optimization for organic search discoverability.
+Use this skill as the primary entrypoint for end-to-end App Store metadata optimization for organic search discoverability in the primary/source locale.
+
+For requests involving another language, locale, country, storefront, or region, use `aso-localized-metadata-workflow` instead.
 
 This workflow coordinates the specialist ASO skills. It owns sequencing, prerequisites, review gates, and handoffs. It does not replace specialist skill instructions.
 
 ## Non-Negotiable Rules
 
-- Use `.agents/aso-context.md` as the single workflow artifact and handoff file.
+- Use `.agents/aso/context.md` as the single workflow artifact and handoff file.
+- Keep localized work in `.agents/aso/locales/<ISO code>/<language-slug>.md` through `aso-localized-metadata-workflow`; do not run multi-locale work inside this source workflow.
 - Read the relevant specialist skill before executing each phase, then follow that skill's workflow.
 - Do not duplicate formulas, scoring rubrics, metadata field rules, or table schemas from specialist skills.
 - Stop for user review before saving user-judgment inputs: app context, search-term backlog, relevance scores, and final metadata choices.
@@ -33,13 +36,13 @@ Run phases in this order:
 After every phase, summarize:
 
 - the phase completed
-- what changed in `.agents/aso-context.md`
+- what changed in `.agents/aso/context.md`
 - blockers or source gaps
 - the next required review or phase
 
 ## Phase 0: Establish Context
 
-Use `aso-context` when `.agents/aso-context.md` is missing, stale, incomplete, or contradicted by new source material.
+Use `aso-context` when `.agents/aso/context.md` is missing, stale, incomplete, or contradicted by new source material.
 
 The context must identify, when available:
 
@@ -98,7 +101,7 @@ If no confirmed terms are eligible, stop and report which upstream input is miss
 
 Use `aso-metadata-generation` after strategic scores and word value scores exist.
 
-Generate metadata variants and coverage analysis for the active single locale. Stop after presenting variants, warnings, coverage tradeoffs, and the recommended option.
+Generate metadata variants and coverage analysis for the active source locale. Stop after presenting variants, warnings, coverage tradeoffs, and the recommended option.
 
 Save a draft, update current context metadata, or publish to App Store Connect only when the user explicitly approves the relevant save or publish action.
 
@@ -137,3 +140,4 @@ If metadata was only saved as a draft, state that App Store Connect was not upda
 - Use `aso-search-terms-statistics` to fetch popularity and difficulty.
 - Use `aso-search-terms-scoring` to calculate derived strategic scores and per-word value scores.
 - Use `aso-metadata-generation` to generate and save metadata drafts.
+- Use `aso-localized-metadata-workflow` for localized or region-specific metadata optimization.

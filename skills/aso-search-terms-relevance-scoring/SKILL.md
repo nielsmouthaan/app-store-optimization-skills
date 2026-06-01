@@ -1,6 +1,6 @@
 ---
 name: aso-search-terms-relevance-scoring
-description: Assigns relative 1-5 relevance scores to App Store search terms in the ASO context. Use when reviewing keyword relevance, scoring a search-term backlog, validating ASO search intent fit, or preparing user-reviewed terms for later ASO work. For popularity and difficulty, use aso-search-terms-statistics; for derived prioritization scores, use aso-search-terms-scoring.
+description: Assigns relative 1-5 relevance scores to App Store search terms. Use when reviewing keyword relevance, scoring a search-term backlog, validating App Store optimization search intent fit, checking localized term meaning, or preparing terms for popularity, difficulty, and strategic scoring.
 ---
 
 # ASO Search Terms Relevance Scoring
@@ -11,7 +11,9 @@ Optimize for **consistent, user-validated relevance scoring**. Do not prioritize
 
 ## Before Starting
 
-Read `.agents/aso-context.md` first.
+Read `.agents/aso/context.md` first.
+
+If the user is working on a localized workspace, also read the relevant `.agents/aso/locales/<ISO code>/<language-slug>.md` file and use its `ISO code`, `Country or region`, `Language`, localized `Search term`, `Meaning`, and `Notes` columns.
 
 If it exists:
 
@@ -36,6 +38,13 @@ If the backlog contains only `candidate` rows and no `confirmed` rows:
 - Save accepted terms as `confirmed` before relevance scoring.
 - Do not silently promote `candidate` rows while assigning relevance.
 
+For localized work:
+
+- Use `Meaning` as the user-auditable back-translation or explanation of each localized term.
+- Compare the localized meaning and target-region search intent against the source app context and any source terms referenced in `Notes`.
+- Do not assume a literal translation has the same relevance as the original term.
+- Ask for user or native-speaker review only when ambiguity could materially change the score, metadata placement, or whether the term should stay confirmed.
+
 ## Relevance Score
 
 Use a **1-5 relevance score** to describe how well the app satisfies the App Store search intent behind a term.
@@ -56,17 +65,26 @@ Do not penalize broad terms solely because they are broad. If the app is a legit
 
 Do not treat a term as highly relevant only because it appears in the app name, subtitle, screenshots, or description. Metadata is useful source evidence, but relevance depends on the app's actual functionality, user value, category, and likely search intent.
 
+For localized terms, relevance depends on the localized App Store search intent, not only the source-language term that inspired it. Project a source relevance score only when the localized term clearly expresses the same user intent.
+
 ## Scoring Workflow
 
 ### 1. Review Existing Context
 
-Use `.agents/aso-context.md` as the canonical source for:
+Use `.agents/aso/context.md` as the canonical source for:
 
 - App name, subtitle, category, and description
 - Features, use cases, and problem language
 - Screenshot text and review themes
 - Competitors and similar apps
 - Existing saved search terms, statuses, notes, and relevance scores
+
+For localized work, also use the locale workspace as the canonical source for:
+
+- Target `ISO code`, country or region, and language
+- Localized search terms and their `Meaning`
+- Localized term notes, including original-intent references or uncertainty
+- Existing localized relevance and statistics
 
 Call out obvious gaps only when they block reliable scoring.
 
@@ -103,7 +121,8 @@ Before presenting scores, compare terms across the backlog:
 - Check `5` and `1` scores last so extreme scores are applied consistently across comparable terms.
 - For every proposed `5`, write a one-sentence internal justification: “A user searching this term primarily wants ___, and this app directly provides ___.” If that sentence is weak, ambiguous, or describes only a secondary output, downgrade the term.
 - When unsure between two adjacent scores, choose the lower score and mark the term for user review.
-- Mark uncertain scores for user review instead of pretending they are precise.
+- Mark uncertain source-locale scores for user review instead of pretending they are precise.
+- For localized work, put uncertainty in `Notes` and ask for review only when the uncertainty is likely to affect downstream metadata choices.
 
 ### 4. Present For Validation
 
@@ -119,9 +138,11 @@ Before saving anything, present a review table:
 | Very low | term one |
 ```
 
-Use compact text labels in the review table so the user can scan the relevance groups quickly. These labels map to the numeric `1`-`5` scores defined in `## Relevance Score`: `Very high` = `5`, `High` = `4`, `Medium` = `3`, `Low` = `2`, and `Very low` = `1`. Save the approved numeric score to the `Relevance` column in `.agents/aso-context.md`.
+Use compact text labels in the review table so the user can scan the relevance groups quickly. These labels map to the numeric `1`-`5` scores defined in `## Relevance Score`: `Very high` = `5`, `High` = `4`, `Medium` = `3`, `Low` = `2`, and `Very low` = `1`. Save the approved numeric score to the `Relevance` column in `.agents/aso/context.md`.
 
-Require the user to carefully review the proposed relevance groups before saving. Explain that relevance scores are a critical input for later steps in the ASO process; inaccurate relevance scoring can cause later workflow steps to prioritize or use the wrong terms. Do not save scores until the user has explicitly approved or corrected them.
+For source-locale work, require the user to carefully review the proposed relevance groups before saving. Explain that relevance scores are a critical input for later steps in the ASO process; inaccurate relevance scoring can cause later workflow steps to prioritize or use the wrong terms. Do not save source-locale scores until the user has explicitly approved or corrected them.
+
+For localized work, use agent-led review by default. Present the proposed scores with `Meaning` values, then save them when the mapping is clear and confidence is adequate. Ask the user or request native-speaker review before saving only for localized terms whose meaning, idiom, or App Store intent is materially ambiguous.
 
 When useful, split the review into groups:
 
@@ -133,7 +154,7 @@ When useful, split the review into groups:
 
 ### 5. Save Approved Scores
 
-Only update `.agents/aso-context.md` after the user has explicitly approved or corrected the scores.
+Only update `.agents/aso/context.md` after the user has explicitly approved or corrected source-locale scores. For localized work, update the relevant `.agents/aso/locales/<ISO code>/<language-slug>.md` file after applying the localized review rules above.
 
 Store relevance in the canonical `## Search Terms Backlog` table:
 
@@ -143,15 +164,24 @@ Store relevance in the canonical `## Search Terms Backlog` table:
 | example term | app description | confirmed | 4 |  |  |  |  |  | strong feature fit |  |
 ```
 
+For localized work, store relevance in the localized table:
+
+```markdown
+| Search term | Meaning | Status | Relevance | Popularity | Difficulty | Stats source | Stats updated | Notes | Strategic score |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| quittung scanner | receipt scanner | confirmed | 5 |  |  |  |  | same intent as source core term |  |
+```
+
 When updating the table, follow these rules:
 
 - Add a `Relevance` column if it is missing.
-- Preserve existing `Search term`, `Source`, `Status`, `Popularity`, `Difficulty`, `Stats region`, `Stats source`, `Stats updated`, `Notes`, and any additional column values.
+- Preserve existing `Search term`, `Source` when present, `Meaning` when present, `Status`, `Popularity`, `Difficulty`, `Stats region`, `Stats source`, `Stats updated`, `Notes`, and any additional column values.
 - Clear `Strategic score` for rows where `Relevance` is added or changed; preserve it for unchanged rows.
 - Score `confirmed` terms by default; leave `candidate` terms unscored until the user accepts them into the backlog.
 - Preserve rejected terms without assigning them a relevance score.
 - Use only integer scores from `1` to `5`.
 - Keep rationale in `Notes` compact and useful for later prioritization.
+- For localized terms, use `Notes` for source-intent references, local nuance, uncertainty, or manual-review reminders.
 - Do not overwrite user-confirmed relevance scores unless the user approves the change.
 - Update `*Last updated:*` in the context file.
 
