@@ -1,6 +1,6 @@
 ---
 name: aso-metadata-workflow
-description: Orchestrates the end-to-end ASO metadata optimization workflow by guiding agents through app context, search-term identification, relevance scoring, statistics fetching, strategic scoring, word value scoring, and metadata generation with explicit user review stops between phases. Use when optimizing App Store metadata for organic search discoverability, running a full ASO workflow, or coordinating multiple ASO specialist skills.
+description: Orchestrates the end-to-end ASO metadata optimization workflow by guiding agents through app context, search-term identification, relevance scoring, statistics fetching, search-term scoring, and metadata generation with explicit user review stops between phases. Use when optimizing App Store metadata for organic search discoverability, running a full ASO workflow, or coordinating multiple ASO specialist skills.
 ---
 
 # ASO Metadata Workflow
@@ -27,9 +27,8 @@ Run phases in this order:
 2. Identify search terms with `aso-search-terms-identification`.
 3. Validate relevance with `aso-search-terms-relevance-scoring`.
 4. Fetch statistics with `aso-search-terms-statistics`.
-5. Calculate strategic scores with `aso-search-terms-strategic-scoring`.
-6. Calculate word value scores with `aso-search-terms-word-value-scoring`.
-7. Generate metadata drafts with `aso-metadata-generation`.
+5. Calculate search term scores with `aso-search-terms-scoring`.
+6. Generate metadata drafts with `aso-metadata-generation`.
 
 After every phase, summarize:
 
@@ -87,23 +86,15 @@ Stop if:
 
 Do not estimate or infer missing popularity or difficulty values. Report the blocker and the missing upstream requirement.
 
-## Phase 4: Calculate Strategic Scores
+## Phase 4: Calculate Search Term Scores
 
-Use `aso-search-terms-strategic-scoring` after confirmed terms have valid relevance, popularity, and difficulty values.
+Use `aso-search-terms-scoring` after confirmed terms have valid relevance, popularity, and difficulty values.
 
-This phase is deterministic. It may save derived strategic scores once prerequisites are satisfied, but it must not change relevance, statistics, statuses, notes, or metadata placement.
+This phase is deterministic. It may save derived strategic scores and word value scores once prerequisites are satisfied, but it must not change relevance, statistics, statuses, notes, or metadata placement.
 
 If no confirmed terms are eligible, stop and report which upstream input is missing.
 
-## Phase 5: Calculate Word Value Scores
-
-Use `aso-search-terms-word-value-scoring` after strategic scores exist.
-
-This phase is deterministic. It may save derived word value scores once prerequisites are satisfied, but it must not edit the search-term backlog inputs.
-
-If no words are eligible, stop and report which upstream input is missing.
-
-## Phase 6: Generate Metadata Drafts
+## Phase 5: Generate Metadata Drafts
 
 Use `aso-metadata-generation` after strategic scores and word value scores exist.
 
@@ -120,9 +111,8 @@ Use these gates to decide whether the workflow can continue:
 | Context approved | User confirms app context and source gaps are acceptable | Search-term identification |
 | Backlog approved | User accepts, rejects, corrects, or adds proposed terms; accepted terms are saved as `confirmed` | Relevance scoring |
 | Relevance approved | User explicitly approves or corrects relevance groups | Statistics fetching |
-| Statistics available | External source provides validated popularity and difficulty for the target region, or the user accepts stale statistics with a warning | Strategic scoring |
-| Strategic scores saved | Eligible confirmed terms have derived strategic scores | Word value scoring |
-| Word values saved | Word value scores are saved in context | Metadata generation |
+| Statistics available | External source provides validated popularity and difficulty for the target region, or the user accepts stale statistics with a warning | Search term scoring |
+| Search term scores saved | Eligible confirmed terms have derived strategic scores and word value scores are saved in context | Metadata generation |
 | Metadata choice approved | User approves a draft, current metadata update, or publish action | Save or publish according to `aso-metadata-generation` |
 
 ## Completion Report
@@ -145,6 +135,5 @@ If metadata was only saved as a draft, state that App Store Connect was not upda
 - Use `aso-search-terms-identification` to create or expand the search-term backlog.
 - Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance scores.
 - Use `aso-search-terms-statistics` to fetch popularity and difficulty.
-- Use `aso-search-terms-strategic-scoring` to calculate derived strategic scores.
-- Use `aso-search-terms-word-value-scoring` to calculate per-word value scores.
+- Use `aso-search-terms-scoring` to calculate derived strategic scores and per-word value scores.
 - Use `aso-metadata-generation` to generate and save metadata drafts.

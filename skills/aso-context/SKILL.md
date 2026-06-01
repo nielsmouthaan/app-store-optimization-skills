@@ -7,7 +7,7 @@ description: Provides, creates, and updates the shared ASO context stored in `.a
 
 Create and maintain `.agents/aso-context.md`, which captures context that other skills reference so users do not repeat themselves.
 
-The context should be compact, factual, and useful for later search-term identification, relevance scoring, statistics fetching, strategic scoring, and word value scoring.
+The context should be compact, factual, and useful for later search-term identification, relevance scoring, statistics fetching, search term scoring, and metadata generation.
 
 ## Workflow
 
@@ -150,8 +150,8 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 - Use `candidate`, `confirmed`, or `rejected` for search-term backlog status values. Use `candidate` for unreviewed suggested or imported terms, `confirmed` for user-accepted terms in the usable ASO backlog, and `rejected` for terms the user does not want to use.
 - Leave `Relevance` blank until `aso-search-terms-relevance-scoring` assigns a user-approved integer score from `1` to `5`; keep it blank for rejected terms.
 - Leave `Popularity`, `Difficulty`, `Stats region`, `Stats source`, and `Stats updated` blank until `aso-search-terms-statistics` obtains external statistics; keep them blank for rejected terms unless the user explicitly requests statistics for rejected terms. Store `Popularity` and `Difficulty` as validated `1`-`100` values. Use `Notes` for important compact statistics context.
-- Leave `Strategic score` blank until `aso-search-terms-strategic-scoring` calculates it for confirmed terms with valid relevance, popularity, and difficulty values.
-- Leave `## Word Value Scores` empty until `aso-search-terms-word-value-scoring` calculates derived word scores from confirmed terms with valid strategic scores.
+- Leave `Strategic score` blank until `aso-search-terms-scoring` calculates it for confirmed terms with valid relevance, popularity, and difficulty values.
+- Leave `## Word Value Scores` empty until `aso-search-terms-scoring` calculates derived word scores from confirmed terms with valid strategic scores.
 - Use `Notes` for compact context that helps later skills interpret a search term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.
 - Preserve existing backlog columns and values unless the user approves a change. Later skills may add columns, but this skill must not drop them.
 - Preserve rejected search terms when they prevent repeated suggestions.

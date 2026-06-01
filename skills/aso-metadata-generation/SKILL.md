@@ -1,6 +1,6 @@
 ---
 name: aso-metadata-generation
-description: Generates single-locale App Store metadata drafts from `.agents/aso-context.md` using confirmed search terms, Strategic score values, and Word Value Scores. Use after aso-search-terms-word-value-scoring when creating app name, subtitle, keywords, metadata coverage analysis, keyword placement recommendations, or metadata draft comparisons.
+description: Generates single-locale App Store metadata drafts from `.agents/aso-context.md` using confirmed search terms, Strategic score values, and Word Value Scores. Use after aso-search-terms-scoring when creating app name, subtitle, keywords, metadata coverage analysis, keyword placement recommendations, or metadata draft comparisons.
 ---
 
 # ASO Metadata Generation
@@ -32,12 +32,12 @@ If `## Search Terms Backlog` is missing or empty:
 
 If confirmed search terms are missing numeric `Strategic score` values:
 
-- Use `aso-search-terms-strategic-scoring` first.
+- Use `aso-search-terms-scoring` first.
 - Do not estimate strategic scores or prioritize terms from relevance, popularity, or difficulty directly.
 
 If `## Word Value Scores` is missing or empty:
 
-- Use `aso-search-terms-word-value-scoring` first.
+- Use `aso-search-terms-scoring` first.
 - Do not calculate metadata from search-term rows alone unless the user explicitly asks for a manual draft without word value scoring.
 
 ## Reference Lists
@@ -86,7 +86,7 @@ Use `.agents/aso-context.md` as the canonical source for:
 - Word value rows with numeric `Value`.
 - Rejected rows, notes, and competitor warnings that indicate exclusions.
 
-Normalize words for coverage checks with the same practical approach as `aso-search-terms-word-value-scoring`:
+Normalize words for coverage checks with the same practical approach as `aso-search-terms-scoring`:
 
 - Lowercase words for matching.
 - Trim leading and trailing punctuation.
@@ -319,5 +319,4 @@ After saving or publishing, summarize which variant was saved, whether App Store
 - Use `aso-search-terms-identification` to create or expand the search-term backlog.
 - Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance.
 - Use `aso-search-terms-statistics` to fetch popularity and difficulty.
-- Use `aso-search-terms-strategic-scoring` to calculate strategic scores.
-- Use `aso-search-terms-word-value-scoring` to calculate word value scores before metadata generation.
+- Use `aso-search-terms-scoring` to calculate strategic scores and word value scores before metadata generation.

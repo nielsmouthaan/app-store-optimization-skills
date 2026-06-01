@@ -1,6 +1,6 @@
 ---
 name: aso-search-terms-statistics
-description: Fetches App Store search-term popularity and difficulty statistics for ASO and records them in the shared ASO context. Use after search-term identification and relevance scoring when assigning keyword volume, difficulty, competition, or preparing terms for prioritization. For relevance scoring, use aso-search-terms-relevance-scoring; for strategic scoring, use aso-search-terms-strategic-scoring.
+description: Fetches App Store search-term popularity and difficulty statistics for confirmed App Store search terms and records them in the shared ASO context. Use after relevance scoring by default when preparing terms for prioritization, or when the user explicitly asks for exploratory statistics on candidate or rejected terms. For relevance scoring, use aso-search-terms-relevance-scoring; for derived prioritization scores, use aso-search-terms-scoring.
 ---
 
 # ASO Search Terms Statistics
@@ -145,11 +145,11 @@ After saving, summarize how many terms were updated, how many had pending or mis
 - Dropping existing relevance scores, notes, statuses, strategic scores, or added backlog columns while adding statistics.
 - Leaving stale strategic scores after changing popularity or difficulty.
 - Continuing without warning when statistics are more than one month old.
-- Continuing to strategic scoring when no statistics source is available.
+- Continuing to derived scoring when no statistics source is available.
 
 ## Related Skills
 
 - Use `aso-context` to create or update shared app context.
 - Use `aso-search-terms-identification` to create or expand the search-term backlog.
 - Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance before prioritization.
-- Use `aso-search-terms-strategic-scoring` to calculate derived priority scores after popularity and difficulty are saved.
+- Use `aso-search-terms-scoring` to calculate derived priority scores after popularity and difficulty are saved.

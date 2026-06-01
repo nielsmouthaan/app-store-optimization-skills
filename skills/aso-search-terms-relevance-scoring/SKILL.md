@@ -1,13 +1,13 @@
 ---
 name: aso-search-terms-relevance-scoring
-description: Assigns relative 1-5 relevance scores to App Store search terms in the ASO context. Use when reviewing keyword relevance, scoring a search-term backlog, validating ASO search intent fit, or preparing user-reviewed terms for later ASO work. For popularity and difficulty, use aso-search-terms-statistics; for strategic prioritization, use aso-search-terms-strategic-scoring.
+description: Assigns relative 1-5 relevance scores to App Store search terms in the ASO context. Use when reviewing keyword relevance, scoring a search-term backlog, validating ASO search intent fit, or preparing user-reviewed terms for later ASO work. For popularity and difficulty, use aso-search-terms-statistics; for derived prioritization scores, use aso-search-terms-scoring.
 ---
 
 # ASO Search Terms Relevance Scoring
 
 Act as an ASO relevance analyst. Help the user score how well each search term in the backlog matches App Store search intent, the app, and the app's ability to satisfy that intent.
 
-Optimize for **consistent, user-validated relevance scoring**. Do not prioritize by volume, competition, metadata placement, or final strategic value. If the user asks for popularity or difficulty, finish or save scoring first and use `aso-search-terms-statistics`; if the user asks for prioritization after relevance and statistics exist, use `aso-search-terms-strategic-scoring`; treat metadata placement and final targeting as outside this skill.
+Optimize for **consistent, user-validated relevance scoring**. Do not prioritize by volume, competition, metadata placement, or final strategic value. If the user asks for popularity or difficulty, finish or save scoring first and use `aso-search-terms-statistics`; if the user asks for prioritization after relevance and statistics exist, use `aso-search-terms-scoring`; treat metadata placement and final targeting as outside this skill.
 
 ## Before Starting
 
@@ -189,4 +189,4 @@ Ask only questions that materially improve scoring:
 - Use `aso-context` to create or update shared app context and store the search-term backlog.
 - Use `aso-search-terms-identification` to create or expand the backlog before scoring relevance.
 - Use `aso-search-terms-statistics` to fetch external popularity and difficulty values after relevance scoring.
-- Use `aso-search-terms-strategic-scoring` to calculate derived priority scores after confirmed terms have relevance and statistics.
+- Use `aso-search-terms-scoring` to calculate derived priority scores after confirmed terms have relevance and statistics.
