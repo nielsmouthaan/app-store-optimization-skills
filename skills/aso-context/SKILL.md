@@ -170,6 +170,7 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 - Leave `Popularity`, `Difficulty`, `Stats region`, `Stats source`, and `Stats updated` blank until `aso-search-terms-statistics` obtains external statistics; keep them blank for rejected terms unless the user explicitly requests statistics for rejected terms. Store `Popularity` and `Difficulty` as validated `1`-`100` values. Use `Notes` for important compact statistics context.
 - Leave `Strategic score` blank until `aso-search-terms-scoring` calculates it for confirmed terms with valid relevance, popularity, and difficulty values.
 - Leave `## Word Value Scores` empty until `aso-search-terms-scoring` calculates derived word scores from confirmed terms with valid strategic scores.
+- Preserve existing `## Metadata Drafts` sections unless explicitly updating them through `aso-metadata-generation`.
 - Use `Notes` for compact context that helps later skills interpret a search term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.
 - Preserve existing backlog columns and values unless the user approves a change. Later skills may add columns, but this skill must not drop them.
 - Preserve rejected search terms when they prevent repeated suggestions.

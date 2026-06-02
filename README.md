@@ -11,9 +11,9 @@ This repository provides ASO-focused agent skills that help agents:
 - score how well each search term fits the app and App Store search intent
 - fetch validated external popularity and difficulty metrics for confirmed search terms
 - calculate derived strategic scores and per-word value scores for confirmed terms
-- generate App Store metadata variants from confirmed terms and word value scores
 - prioritize which App Store product page metadata localizations to target first
-- optimize localized metadata in region-correct per-locale workspaces
+- generate auditable App Store metadata variants with grouped fields, counts, coverage, and notes
+- optimize localized metadata in region-correct per-locale workspaces with localized values and adjacent user-readable meanings
 
 ## Skills
 
@@ -23,7 +23,7 @@ Recommended user-facing entrypoint for a full source-locale App Store metadata o
 
 ### aso-localized-metadata-workflow
 
-Recommended user-facing entrypoint for optimizing metadata in another language, locale, country, storefront, region, or Apple ISO code. It suggests and validates Apple-supported country/language pairs, creates workspaces under `.agents/aso/locales/<ISO code>/`, uses source terms as intent seeds instead of literal translations, derives ASO tool regions only when needed, and generates localized metadata drafts.
+Recommended user-facing entrypoint for optimizing metadata in another language, locale, country, storefront, region, or Apple ISO code. It suggests and validates Apple-supported country/language pairs, creates workspaces under `.agents/aso/locales/<ISO code>/`, uses source terms as intent seeds instead of literal translations, derives ASO tool regions only when needed, and generates localized metadata drafts with `Meaning` next to `Localized value`.
 
 ### aso-localization-prioritization
 
@@ -51,7 +51,7 @@ Calculates derived `Strategic score` values for confirmed search terms and deriv
 
 ### aso-metadata-generation
 
-Generates source-locale or localized App Store metadata drafts for app name, subtitle, and keywords from confirmed search terms, `Strategic score` values, and saved `Word Value Scores`. Use this after search-term scoring to create metadata variants. Keyword fields are counted against Apple's 100-byte limit.
+Generates source-locale or localized App Store metadata drafts for app name, subtitle, and keywords from confirmed search terms, `Strategic score` values, and saved `Word Value Scores`. Use this after search-term scoring to create metadata variants. Drafts use grouped variant blocks with value, count, coverage, and notes; localized drafts rename `Value` to `Localized value` and add `Meaning` next to it. Keyword fields are counted against Apple's 100-byte limit.
 
 ## Artifacts
 

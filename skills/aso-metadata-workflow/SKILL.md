@@ -101,7 +101,7 @@ If no confirmed terms are eligible, stop and report which upstream input is miss
 
 Use `aso-metadata-generation` after strategic scores and word value scores exist.
 
-Generate metadata variants and coverage analysis for the active source locale. Stop after presenting variants, warnings, coverage tradeoffs, and the recommended option.
+Generate metadata variants and coverage analysis for the active source locale. Stop after presenting grouped variants, warnings, coverage tradeoffs, and the recommended option.
 
 Save a draft, update current context metadata, or publish to App Store Connect only when the user explicitly approves the relevant save or publish action.
 

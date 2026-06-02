@@ -19,7 +19,7 @@ If it exists:
 
 - Summarize the app context that matters for metadata generation.
 - Identify the active `Search language` and `Search region`.
-- For localized work, identify the target `ISO code`, country or region, language, localized terms, and `Meaning` values.
+- For localized work, identify the source search language, target `ISO code`, country or region, language, localized terms, and `Meaning` values.
 - Show current `## Metadata`, confirmed rows in `## Search Terms Backlog` with `Strategic score`, and saved `## Word Value Scores`.
 - Preserve existing source context, backlog rows, statuses, scores, statistics, notes, metadata, and any additional columns unless the user explicitly corrects them.
 
@@ -97,6 +97,34 @@ For localized work, use the locale workspace as the canonical source for:
 - Localized word value rows with numeric `Value`
 - Localized rejected rows and notes that indicate exclusions or uncertainty
 
+## Metadata Table Format
+
+Use the same grouped variant structure for source-locale and localized metadata. The block structure is identical; localized metadata only renames `Value` to `Localized value` and inserts `Meaning` next to it.
+
+For source-locale metadata, use:
+
+```markdown
+| Field | Value | Count | Notes |
+| --- | --- | ---: | --- |
+```
+
+For localized metadata, use:
+
+```markdown
+| Field | Localized value | Meaning | Count | Notes |
+| --- | --- | --- | ---: | --- |
+```
+
+Do not otherwise change the metadata table between source-locale and localized drafts.
+
+For localized metadata:
+
+- Put a user-readable back-translation or explanation in `Meaning`, not a required literal translation.
+- Produce field-level `Meaning` values for app name and subtitle, because generated visible phrases can combine words into a new nuance.
+- For keywords, write `Meaning` per keyword entry when useful; otherwise use a concise comma-separated explanation.
+- Use localized search-term `Meaning` values as input, but recompute metadata meanings from the generated field itself instead of copying term meanings blindly.
+- If the meaning or nuance is uncertain, still add a best-effort `Meaning` and include a compact warning in `Notes`, such as `meaning uncertain` or `ambiguous phrase`.
+
 Normalize words for coverage checks with the same practical approach as `aso-search-terms-scoring`:
 
 - Lowercase words for matching.
@@ -171,6 +199,7 @@ For each variant:
 4. Remove lower-weight duplicates when a word appears in a higher-weight field.
 5. Recheck stop words, category terms, competitor/protected terms, and singular/plural decisions.
 6. Verify that visible metadata is natural enough for users to see in search results.
+7. Write compact field notes; for localized metadata, also produce field-level `Meaning` values.
 
 ### 4. Calculate Coverage
 
@@ -189,18 +218,50 @@ For each variant, report:
 - Unused high-value words with reasons.
 - Duplicate, stop-word, category, competitor, protected-term, and singular/plural warnings.
 - Readability and conversion notes.
+- Localized `Meaning` values and uncertainty notes when the draft is localized.
 
-Use this presentation format:
+Use grouped variant blocks for both source-locale and localized metadata. Use the same structure for each variant in `### Variant Summary`, with the metadata table header from `## Metadata Table Format`.
+
+Source-locale variants use `Value`:
 
 ```markdown
-| Variant | App name | Length | Subtitle | Length | Keywords | Bytes | Covered strategic score | Terms covered | Notes |
-| --- | --- | ---: | --- | ---: | --- | ---: | ---: | ---: | --- |
+### Variant Summary
+
+#### Conversion-balanced
+
+**Intent:** Preserve visible readability while covering the strongest terms.
+
+##### Metadata
+| Field | Value | Count | Notes |
+| --- | --- | ---: | --- |
+| App name | Example Brand: Scanner | 22/30 chars | readable core intent |
+| Subtitle | Receipts & Expense PDF | 22/30 chars | secondary coverage |
+| Keywords | tax,report,business,tracker | 27/100 bytes | no duplicate words |
+
+##### Coverage
+**Covered strategic score:** 84.2
+**Terms covered:** 6
+**Exact visible phrases:** Example Brand: Scanner
+**Notes:** strongest balanced option
 ```
 
-Then show:
+Localized variants use the same block, but the metadata table becomes:
 
 ```markdown
-### Coverage
+##### Metadata
+| Field | Localized value | Meaning | Count | Notes |
+| --- | --- | --- | ---: | --- |
+| App name | 清单提醒 | list reminders / reminders for to-do lists | 4/30 chars | field-level meaning |
+| Subtitle | 专注日程管理 | focused schedule management | 6/30 chars | meaning uncertain |
+| Keywords | 待办,提醒,效率 | to-do, reminders, efficiency | 20/100 bytes | keyword-entry meanings |
+```
+
+Repeat the grouped block for every generated variant.
+
+Also include detailed coverage and unused-word tables:
+
+```markdown
+### Search Term Coverage
 | Search term | Strategic score | Coverage type | Matched words | Missing words |
 | --- | ---: | --- | --- | --- |
 
@@ -223,6 +284,16 @@ Coverage type values:
 
 Recommend one variant. Use `Conversion-balanced` as the default recommendation unless the user has clearly prioritized visibility or broad coverage.
 
+Display `### Recommended Draft` as one grouped variant block for the selected variant, using the same `##### Metadata` table and `##### Coverage` key/value summary as `### Variant Summary`.
+
+Present generated metadata in this order:
+
+1. `### Recommended Draft`
+2. `### Variant Summary`
+3. `### Search Term Coverage`
+4. `### Unused High-Value Words`, when useful
+5. `### Warnings And Notes`
+
 Explain why the recommendation fits the current app, using:
 
 - Highest-value words covered.
@@ -243,7 +314,7 @@ Advise the user not to change too many metadata variables at once when they want
 
 Save generated metadata only after the user explicitly approves a draft, asks to save a specific variant, or provides an edited version of a generated variant. Save into the active workspace: `.agents/aso/context.md` for source-locale work or `.agents/aso/locales/<ISO code>/<language-slug>.md` for localized work.
 
-Use two save modes:
+Use three save modes:
 
 | Mode | When to use | What to update |
 | --- | --- | --- |
@@ -255,34 +326,74 @@ Do not publish anything to App Store Connect by default. If the user explicitly 
 
 For draft saves, add or replace only a `## Metadata Drafts` section. Do not overwrite `## Metadata`, because `aso-context` creates or updates that section to store source/current app metadata such as name, subtitle, developer, and category.
 
-For localized draft saves, add or replace `## Metadata Drafts` only in the locale workspace. Do not overwrite source metadata in `.agents/aso/context.md`.
+When the active workspace is localized, add or replace `## Metadata Drafts` only in the locale workspace. Do not overwrite source metadata in `.agents/aso/context.md`.
 
-Use this structure:
+Use this structure. The example uses source-locale metadata columns.
 
 ```markdown
 ## Metadata Drafts
 *Generated: YYYY-MM-DD*
 
 ### Recommended Draft
-**Variant:** Conversion-balanced
 
+#### Conversion-balanced
+
+**Intent:** Preserve visible readability while covering the strongest terms.
+
+##### Metadata
 | Field | Value | Count | Notes |
 | --- | --- | ---: | --- |
-| App name | Example Brand: Scanner | 22/30 chars | brand plus core term |
-| Subtitle | Receipts & Expense PDF | 22/30 chars | readable secondary coverage |
+| App name | Example Brand: Scanner | 22/30 chars | readable core intent |
+| Subtitle | Receipts & Expense PDF | 22/30 chars | secondary coverage |
 | Keywords | tax,report,business,tracker | 27/100 bytes | no duplicate words |
 
-### Variant Summary
-| Variant | Covered strategic score | Terms covered | Exact visible phrases | Notes |
-| --- | ---: | ---: | --- | --- |
+##### Coverage
+**Covered strategic score:** 84.2
+**Terms covered:** 6
+**Exact visible phrases:** Example Brand: Scanner
+**Notes:** strongest balanced option
 
-### Coverage
+### Variant Summary
+
+#### Conversion-balanced
+
+**Intent:** Preserve visible readability while covering the strongest terms.
+
+##### Metadata
+| Field | Value | Count | Notes |
+| --- | --- | ---: | --- |
+
+##### Coverage
+**Covered strategic score:**
+**Terms covered:**
+**Exact visible phrases:**
+**Notes:**
+
+### Search Term Coverage
 | Search term | Strategic score | Coverage type | Matched words | Missing words |
 | --- | ---: | --- | --- | --- |
+
+### Unused High-Value Words
+| Word | Value | Reason unused |
+| --- | ---: | --- |
 
 ### Warnings And Notes
 - 
 ```
+
+For localized draft saves, use the same structure but replace every `##### Metadata` table header with:
+
+```markdown
+| Field | Localized value | Meaning | Count | Notes |
+| --- | --- | --- | ---: | --- |
+```
+
+For draft saves, use the grouped variant format from `### 4. Calculate Coverage` inside `### Recommended Draft` and `### Variant Summary`:
+
+- Use the metadata table header from `## Metadata Table Format`: source-locale drafts use `Value`; localized drafts use `Localized value` plus `Meaning`.
+- Save `### Recommended Draft` as the selected variant's grouped block, including intent, `##### Metadata` table, and `##### Coverage` key/value summary.
+- Save `### Variant Summary` as grouped blocks for all generated variants, including each variant's intent, `##### Metadata` table, and `##### Coverage` key/value summary.
+- Save `### Search Term Coverage`, `### Unused High-Value Words` when useful, and `### Warnings And Notes`.
 
 When saving a draft:
 
@@ -291,6 +402,7 @@ When saving a draft:
 - Update only `## Metadata Drafts` and `*Last updated:*`.
 - Use `YYYY-MM-DD` for dates.
 - Preserve all backlog rows, scores, word value data, and live metadata.
+- Preserve generated localized `Meaning` values in `## Metadata Drafts` when the active workspace is localized.
 
 When updating current context metadata after explicit approval:
 
@@ -300,7 +412,7 @@ When updating current context metadata after explicit approval:
 - For localized work, update the locale workspace `## Metadata` `**Name:**` and `**Subtitle:**` values instead.
 - Preserve `**Developer:**`, `**Category:**`, description, screenshots, use cases, features, reviews, competitors, backlog rows, scores, and word value data.
 - For source-locale work, update `## Source` `**App Store Connect keywords:**` with the approved keywords value, adding that line if missing.
-- For localized work, update the locale workspace's App Store Connect keywords value, adding a compact source/current metadata section if missing.
+- For localized work, update the locale workspace's App Store Connect keywords value, adding a minimal current metadata section if missing.
 - Do not change the keyword terms into search-term backlog rows unless the user explicitly asks to import them.
 - Summarize that the active workspace now treats the approved values as current metadata, but App Store Connect has not been updated.
 

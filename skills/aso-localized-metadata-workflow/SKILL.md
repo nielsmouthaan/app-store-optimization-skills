@@ -134,6 +134,8 @@ Use the existing strategic-score formula per localized workspace.
 
 Generate app name, subtitle, and keywords for the target locale. Visible fields must read naturally for the target language. Keywords must fit the 100-byte App Store keyword limit.
 
+Use `aso-metadata-generation` for localized drafts. It uses the same grouped variant structure as source-locale drafts, but the metadata table renames `Value` to `Localized value` and adds `Meaning` next to it.
+
 For non-English locales, do not apply English plural, stemming, stop-word, or category-term assumptions unless target-language evidence supports the decision.
 
 ## Completion Report
@@ -145,8 +147,11 @@ End the workflow with:
 - number of localized candidate, confirmed, rejected, and scored terms
 - statistics source and update date
 - highest strategic localized terms and highest-value localized words
-- recommended localized metadata draft and field counts
-- warnings about uncertain meanings, region ambiguity, stale statistics, or byte-limit pressure
+- metadata variant recommended or saved, including localized `Meaning` values or warnings when relevant
+- field counts and coverage summary
+- unresolved meaning, region, stale-statistics, byte-limit, or follow-up warnings
+
+If metadata was only saved as a draft, state that App Store Connect was not updated.
 
 ## Related Skills
 
