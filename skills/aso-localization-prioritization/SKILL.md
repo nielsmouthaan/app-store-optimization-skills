@@ -83,10 +83,12 @@ Use this guidance:
 Summarize the app context that affects localization priority:
 
 - app category, use case, and source metadata
-- active source search language and region
+- active source search language, region, and platform
 - App Store URL and App Store Connect sources when available
 - existing `## Locales` rows
 - user-provided localization preferences or exclusions
+
+Use the active `Platform` from `.agents/aso/context.md` for the full prioritization run. If the platform is missing and the available data clearly belongs to one platform, note that assumption and update context when saving. If the platform is ambiguous, ask the user before comparing territory data. Do not mix analytics or ASO data from different platforms in one prioritization result.
 
 ### 2. Collect Or Inspect Territory Data
 

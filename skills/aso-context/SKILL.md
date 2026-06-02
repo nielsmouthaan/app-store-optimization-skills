@@ -100,6 +100,7 @@ After review and adjustment, create or update `.agents/aso/context.md` using thi
 ## Source
 **Search language:** English, unless otherwise specified.
 **Search region:**
+**Platform:**
 **App Store URL:**
 **Marketing URL:**
 **App Store Connect keywords:**
@@ -161,6 +162,7 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 - Include competitor and similar app links when available; otherwise use plain app names.
 - Store one active source search language for the global backlog; default to English when unspecified.
 - Store one active source search region when known. Use uppercase ISO 3166-1 alpha-2 codes, such as `US`, `NL`, or `DE`. Leave it blank until the user provides it or `aso-search-terms-statistics` derives it.
+- Store one active platform when known, such as `iphone`, `ipad`, `mac`, `appletv`, `watch`, or `vision`. Use the same platform consistently when fetching statistics, importing analytics, and comparing ASO data.
 - Store localized workspaces in `## Locales` when they exist. Keep only the Apple ISO code, country or region, language, workspace path, and compact notes there; do not duplicate localized search terms in the global context.
 - Use `.agents/aso/locales/<ISO code>/<language-slug>.md` for localized terms, relevance, statistics, scoring, and metadata drafts.
 - Use `candidate`, `confirmed`, or `rejected` for search-term backlog status values. Use `candidate` for unreviewed suggested or imported terms, `confirmed` for user-accepted terms in the usable ASO backlog, and `rejected` for terms the user does not want to use.
