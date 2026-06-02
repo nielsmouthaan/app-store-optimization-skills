@@ -1,6 +1,6 @@
 ---
 name: aso-localized-metadata-workflow
-description: Runs the localized App Store optimization workflow for non-source languages, countries, regions, storefronts, or Apple ISO codes. Use when a prompt names another language, locale, country, region, translated keywords, localized search terms, or per-market app name, subtitle, and keywords. For primary/source metadata, use aso-metadata-workflow.
+description: Runs the localized App Store optimization workflow for a chosen non-source language, country, region, storefront, or Apple ISO code. Use when a prompt names a target language, locale, country, region, translated keywords, localized search terms, or per-market app name, subtitle, and keywords. For deciding which localization to prioritize first, use aso-localization-prioritization. For primary/source metadata, use aso-metadata-workflow.
 ---
 
 # ASO Localized Metadata Workflow
@@ -8,6 +8,8 @@ description: Runs the localized App Store optimization workflow for non-source l
 Use this skill as the primary entrypoint for App Store metadata optimization in an Apple-supported country or region and metadata language.
 
 This workflow coordinates the specialist ASO skills with localization-specific guardrails. It uses source search terms as intent seeds, but localized terms must reflect how users in the target locale actually search.
+
+If the user asks which country, region, language, or locale would have the highest organic search impact and has not chosen a target locale, use `aso-localization-prioritization` first. Return to this workflow after the user chooses a recommended locale.
 
 ## Non-Negotiable Rules
 
@@ -68,9 +70,9 @@ Use only `ISO code`, `Country or region`, and `Language` as workspace header fie
 Also add or update the `## Locales` table in `.agents/aso/context.md`:
 
 ```markdown
-| ISO code | Country or region | Language | Workspace | Status | Notes |
-| --- | --- | --- | --- | --- | --- |
-| DEU | Germany | German | .agents/aso/locales/DEU/german.md | in progress | German metadata |
+| ISO code | Country or region | Language | Workspace | Notes |
+| --- | --- | --- | --- | --- |
+| DEU | Germany | German | .agents/aso/locales/DEU/german.md | German metadata |
 ```
 
 ## Workflow Overview
@@ -149,6 +151,7 @@ End the workflow with:
 ## Related Skills
 
 - Use `aso-context` to create or update global app context.
+- Use `aso-localization-prioritization` to choose which metadata localization to target before this workflow.
 - Use `aso-search-terms-identification` for localized search-term discovery.
 - Use `aso-search-terms-relevance-scoring` for localized relevance.
 - Use `aso-search-terms-statistics` for target-region popularity and difficulty.
