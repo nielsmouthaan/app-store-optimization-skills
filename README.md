@@ -12,6 +12,7 @@ This repository provides ASO-focused agent skills that help agents:
 - fetch validated external popularity and difficulty metrics for confirmed search terms
 - calculate derived strategic scores and per-word value scores for confirmed terms
 - generate App Store metadata variants from confirmed terms and word value scores
+- prioritize which App Store product page metadata localizations to target first
 - optimize localized metadata in region-correct per-locale workspaces
 
 ## Skills
@@ -24,9 +25,13 @@ Recommended user-facing entrypoint for a full source-locale App Store metadata o
 
 Recommended user-facing entrypoint for optimizing metadata in another language, locale, country, storefront, region, or Apple ISO code. It suggests and validates Apple-supported country/language pairs, creates workspaces under `.agents/aso/locales/<ISO code>/`, uses source terms as intent seeds instead of literal translations, derives ASO tool regions only when needed, and generates localized metadata drafts.
 
+### aso-localization-prioritization
+
+Recommended user-facing entrypoint for deciding which App Store product page metadata localizations to prioritize first for organic search impact. It uses App Store Connect/App Analytics data from the user or `asc` when available, maps territories to Apple-supported metadata localizations, and saves a compact prioritization artifact. It is limited to prioritizing app name, subtitle, and keywords; it does not plan full app translation.
+
 ### aso-context
 
-Internal foundation skill used by the workflow and specialist skills. It stores global/source context in `.agents/aso/context.md`. Users typically start with `aso-metadata-workflow` for a full source-locale optimization run, `aso-localized-metadata-workflow` for localized metadata, or `aso-search-terms-identification` for a narrower keyword research task.
+Internal foundation skill used by the workflow and specialist skills. It stores global/source context in `.agents/aso/context.md`. Users typically start with `aso-metadata-workflow` for a full source-locale optimization run, `aso-localization-prioritization` to decide which metadata localization to target first, `aso-localized-metadata-workflow` for a chosen localized metadata target, or `aso-search-terms-identification` for a narrower keyword research task.
 
 ### aso-search-terms-identification
 
@@ -51,6 +56,7 @@ Generates source-locale or localized App Store metadata drafts for app name, sub
 ## Artifacts
 
 - Global/source context: `.agents/aso/context.md`
+- Localization prioritization: `.agents/aso/localization-prioritization.md`
 - Localized workspaces: `.agents/aso/locales/<ISO code>/<language-slug>.md`
 - Shared App Store localizations reference: `references/app-store-localizations.md`
 
@@ -65,7 +71,7 @@ Use `aso-metadata-workflow` for a guided end-to-end source-locale optimization r
 5. Use `aso-search-terms-scoring` to calculate strategic priority scores and per-word metadata value scores.
 6. Use `aso-metadata-generation` to generate App Store metadata drafts and compare coverage tradeoffs.
 
-Use `aso-localized-metadata-workflow` when optimizing another locale or region. It follows the same specialist sequence, but first suggests and validates the Apple ISO code and metadata language, then writes terms, relevance, statistics, scoring, and drafts to the matching localized workspace.
+Use `aso-localization-prioritization` when deciding which App Store product page metadata localization to target first. Use `aso-localized-metadata-workflow` when optimizing a chosen locale or region. It follows the same specialist sequence, but first validates the Apple ISO code and metadata language, then writes terms, relevance, statistics, scoring, and drafts to the matching localized workspace.
 
 ## Inspiration
 
