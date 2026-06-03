@@ -122,7 +122,11 @@ description: Research App Store keyword candidates with popularity and difficult
 
 ## Skill Suite Guidance
 
-- Use source context fields consistently: `Primary locale` is `<Apple ISO code> (<Apple language label>)` and `Platforms` contains only App Store Connect metadata platforms (`iOS`, `macOS`, `tvOS`, `visionOS`). Derive locales and languages from `references/app-store-localizations.md` and platform/tool aliases from `references/platforms.md`.
+- Use source context fields consistently: `Primary locale` is the exact Apple metadata locale label, such as `Dutch` or `Spanish (Mexico)`. Do not include an ISO code in `Primary locale`.
+- Treat Apple `ISO code` values from the localization reference as country or region identifiers for storefront-specific statistics, rankings, App Analytics, App Store URLs, or explicit user preferences; never use them as locale identifiers or locale folders.
+- Derive the default country or region from `references/app-store-localizations.md` when a tool needs one. Store `Country or region preference` only when the user or clear source evidence explicitly overrides the default, similar to `Search surface preference`.
+- Store localized ASO work under `.agents/aso/locales/<Apple locale label>/context.md`, for example `.agents/aso/locales/Spanish (Mexico)/context.md`.
+- `Platforms` contains only App Store Connect metadata platforms (`iOS`, `macOS`, `tvOS`, `visionOS`). Derive platform/tool aliases from `references/platforms.md`.
 - Treat iPhone, iPad, Mac, Apple TV, and Vision as search surfaces for statistics, rankings, or tool parameters, not as `Platforms` values. Do not store a search surface by default; store `Search surface preference` only when the user explicitly requests one.
 - Treat app name and subtitle as shared metadata, and keywords as platform-specific. Draft or store keywords in `Keywords (iOS)`, `Keywords (macOS)`, etc.; do not silently reuse keyword stats, rankings, or drafts across platforms.
 - Use `aso-context` as the foundation skill for capturing and storing reusable context and data, so agents do not repeat the same questions and can pass context and data between skills.

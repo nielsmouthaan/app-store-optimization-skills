@@ -1,20 +1,20 @@
 ---
 name: aso-metadata-workflow
-description: Runs the end-to-end App Store optimization workflow for the app's primary or source metadata language. Use for full primary listing optimization, organic search metadata work, or coordinating context, keyword research, relevance scoring, statistics, strategic scoring, and metadata drafts. For other languages, countries, or regions, use aso-localized-metadata-workflow.
+description: Runs the end-to-end App Store optimization workflow for the app's primary or source metadata language. Use for full primary listing optimization, organic search metadata work, or coordinating context, keyword research, relevance scoring, statistics, strategic scoring, and metadata drafts. For other languages, countries or regions, use aso-localized-metadata-workflow.
 ---
 
 # ASO Metadata Workflow
 
 Use this skill as the primary entrypoint for end-to-end App Store metadata optimization for organic search discoverability in the primary/source locale.
 
-For requests involving another language, locale, country, storefront, or region, use `aso-localized-metadata-workflow` instead.
+For requests involving another language, locale, country or region, or storefront, use `aso-localized-metadata-workflow` instead.
 
 This workflow coordinates the specialist ASO skills. It owns sequencing, prerequisites, review gates, and handoffs. It does not replace specialist skill instructions.
 
 ## Non-Negotiable Rules
 
 - Use `.agents/aso/context.md` as the single workflow artifact and handoff file.
-- Keep localized work in `.agents/aso/locales/<ISO code>/<language-slug>.md` through `aso-localized-metadata-workflow`; do not run multi-locale work inside this source workflow.
+- Keep localized work in `.agents/aso/locales/<Locale>/context.md` through `aso-localized-metadata-workflow`; do not run multi-locale work inside this source workflow.
 - Read the relevant specialist skill before executing each phase, then follow that skill's workflow.
 - Do not duplicate formulas, scoring rubrics, metadata field rules, or table schemas from specialist skills.
 - Stop for user review before saving user-judgment inputs: app context, search-term backlog, relevance scores, and final metadata choices.
@@ -46,7 +46,7 @@ Use `aso-context` when `.agents/aso/context.md` is missing, stale, incomplete, o
 
 The context must identify, when available:
 
-- primary locale
+- primary locale and optional country or region preference
 - App Store Connect platforms
 - App Store URL
 - marketing URL
@@ -116,7 +116,7 @@ Use these gates to decide whether the workflow can continue:
 | Context approved | User confirms app context and source gaps are acceptable | Search-term identification |
 | Backlog approved | User accepts, rejects, corrects, or adds proposed terms; accepted terms are saved as `confirmed` | Relevance scoring |
 | Relevance approved | User explicitly approves or corrects relevance groups | Statistics fetching |
-| Statistics available | External source provides validated popularity and difficulty for the target region, or the user accepts stale statistics with a warning | Search term scoring |
+| Statistics available | External source provides validated popularity and difficulty for the target country or region, or the user accepts stale statistics with a warning | Search term scoring |
 | Search term scores saved | Eligible confirmed terms have derived strategic scores and word value scores are saved in context | Metadata generation |
 | Metadata choice approved | User approves a draft, current metadata update, or publish action | Save or publish according to `aso-metadata-generation` |
 
@@ -142,4 +142,4 @@ If metadata was only saved as a draft, state that App Store Connect was not upda
 - Use `aso-search-terms-statistics` to fetch popularity and difficulty.
 - Use `aso-search-terms-scoring` to calculate derived strategic scores and per-word value scores.
 - Use `aso-metadata-generation` to generate and save metadata drafts.
-- Use `aso-localized-metadata-workflow` for localized or region-specific metadata optimization.
+- Use `aso-localized-metadata-workflow` for localized metadata optimization tied to a specific country or region.

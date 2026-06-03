@@ -13,13 +13,13 @@ Metadata generation is a derived planning step. Do not invent missing search ter
 
 Read `.agents/aso/context.md` first.
 
-If the user is working on a localized workspace, also read the relevant `.agents/aso/locales/<ISO code>/<language-slug>.md` file and generate metadata only from that localized workspace's terms, scores, and word values.
+If the user is working on a localized workspace, also read the relevant `.agents/aso/locales/<Locale>/context.md` file and generate metadata only from that localized workspace's terms, scores, and word values.
 
 If it exists:
 
 - Summarize the app context that matters for metadata generation.
-- Identify the source `Primary locale`, `Platforms`, and any `Search surface preference`.
-- For localized work, identify the source `Primary locale`, target `ISO code`, country or region, language, localized terms, and `Meaning` values.
+- Identify the source `Primary locale`, optional `Country or region preference`, `Platforms`, and any `Search surface preference`.
+- For localized work, identify the source `Primary locale`, target `Locale`, optional `Country or region preference`, localized terms, and `Meaning` values.
 - Show current `## Metadata`, confirmed rows in `## Search Terms Backlog` with `Strategic score`, and saved `## Word Value Scores`.
 - Preserve existing source context, backlog rows, statuses, scores, statistics, notes, metadata, and any additional columns unless the user explicitly corrects them.
 
@@ -91,7 +91,7 @@ Use `.agents/aso/context.md` as the canonical source for:
 
 For localized work, use the locale workspace as the canonical source for:
 
-- Target `ISO code`, country or region, and language
+- Target locale and optional country or region preference
 - Localized confirmed search terms with numeric `Strategic score`
 - Localized `Meaning` values for user-auditable coverage and visible-copy notes
 - Localized word value rows with numeric `Value`
@@ -235,7 +235,7 @@ Receipts & Expense PDF
 tax,report,business,tracker
 
 **Count:** 27/100 bytes
-**Evidence:** NLD (Dutch); iPhone used because the tool required iPhone/iPad and no iPad preference was set
+**Evidence:** Dutch; stats country or region NLD; iPhone used because the tool required iPhone/iPad and no iPad preference was set
 **Notes:** no duplicate words
 
 ##### Keywords (macOS)
@@ -333,7 +333,7 @@ Advise the user not to change too many metadata variables at once when they want
 
 ## Saving Results
 
-Save generated metadata only after the user explicitly approves a draft, asks to save a specific variant, or provides an edited version of a generated variant. Save into the active workspace: `.agents/aso/context.md` for source-locale work or `.agents/aso/locales/<ISO code>/<language-slug>.md` for localized work.
+Save generated metadata only after the user explicitly approves a draft, asks to save a specific variant, or provides an edited version of a generated variant. Save into the active workspace: `.agents/aso/context.md` for source-locale work or `.agents/aso/locales/<Locale>/context.md` for localized work.
 
 Use three save modes:
 
@@ -377,7 +377,7 @@ Receipts & Expense PDF
 tax,report,business,tracker
 
 **Count:** 27/100 bytes
-**Evidence:** NLD (Dutch); iPhone used because the tool required iPhone/iPad and no iPad preference was set
+**Evidence:** Dutch; stats country or region NLD; iPhone used because the tool required iPhone/iPad and no iPad preference was set
 **Notes:** no duplicate words
 
 ##### Keywords (macOS)

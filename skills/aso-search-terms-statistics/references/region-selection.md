@@ -1,12 +1,12 @@
-# Region Selection Reference
+# Country Or Region Selection Reference
 
-Use the shared root reference for current App Store localization and tool-region derivation rules:
+Use the shared root reference for current App Store localization and tool country or region derivation rules:
 
 ```text
 ../../../references/app-store-localizations.md
 ```
 
-This file remains as a compatibility pointer for older instructions that referenced `skills/aso-search-terms-statistics/references/region-selection.md`.
+This file points agents to the canonical repository-level localization reference.
 
 Apple's App Store localization reference remains the authority for supported app metadata localizations and country or region availability:
 

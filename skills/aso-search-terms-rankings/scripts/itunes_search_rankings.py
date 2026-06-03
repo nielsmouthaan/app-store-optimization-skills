@@ -42,9 +42,9 @@ def parse_args() -> argparse.Namespace:
         help="App Store app ID or App Store URL containing /id<APP_ID>.",
     )
     parser.add_argument(
-        "--region",
+        "--country",
         required=True,
-        help="Two-letter App Store country or region code, such as US, NL, or DE.",
+        help="Two-letter iTunes Search API country code, such as US, NL, or DE.",
     )
     parser.add_argument(
         "--platform",
@@ -106,10 +106,10 @@ def parse_app_id(value: str) -> str:
     raise ValueError("Could not extract an app ID from --app. Use a numeric app ID or App Store URL.")
 
 
-def normalize_region(region: str) -> str:
-    normalized = region.strip().upper()
+def normalize_country(country: str) -> str:
+    normalized = country.strip().upper()
     if not re.fullmatch(r"[A-Z]{2}", normalized):
-        raise ValueError("--region must be a two-letter country or region code, such as US, NL, or DE.")
+        raise ValueError("--country must be a two-letter iTunes Search API country code, such as US, NL, or DE.")
     return normalized
 
 
@@ -141,10 +141,10 @@ def validate_delay(delay: float) -> float:
     return delay
 
 
-def build_url(term: str, region: str, platform: str, limit: int) -> str:
+def build_url(term: str, country: str, platform: str, limit: int) -> str:
     params = {
         "term": term,
-        "country": region,
+        "country": country,
         "media": "software",
         "entity": ENTITY_BY_PLATFORM[platform],
         "limit": str(limit),
@@ -188,13 +188,13 @@ def find_rank(data: dict[str, Any], app_id: str) -> tuple[int | None, dict[str, 
 def result_for_term(
     term: str,
     app_id: str,
-    region: str,
+    country: str,
     platform: str,
     limit: int,
     timeout: float,
     dry_run: bool,
 ) -> dict[str, Any]:
-    url = build_url(term, region, platform, limit)
+    url = build_url(term, country, platform, limit)
 
     if dry_run:
         return {
@@ -228,7 +228,7 @@ def main() -> int:
 
     try:
         app_id = parse_app_id(args.app)
-        region = normalize_region(args.region)
+        country = normalize_country(args.country)
         terms = normalize_terms(args.term)
         limit = validate_limit(args.limit)
         delay = validate_delay(args.delay)
@@ -247,7 +247,7 @@ def main() -> int:
                 result_for_term(
                     term=term,
                     app_id=app_id,
-                    region=region,
+                    country=country,
                     platform=args.platform,
                     limit=limit,
                     timeout=args.timeout,
@@ -266,7 +266,7 @@ def main() -> int:
         "warning": WARNING,
         "app": args.app,
         "appId": app_id,
-        "region": region,
+        "country": country,
         "platform": args.platform,
         "limit": limit,
         "checkedDate": dt.date.today().isoformat(),

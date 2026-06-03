@@ -1,78 +1,77 @@
 ---
 name: aso-localized-metadata-workflow
-description: Runs the localized App Store optimization workflow for a chosen non-source language, country, region, storefront, or Apple ISO code. Use when a prompt names a target language, locale, country, region, translated keywords, localized search terms, or per-market app name, subtitle, and keywords. For deciding which localization to prioritize first, use aso-localization-prioritization. For primary/source metadata, use aso-metadata-workflow.
+description: Runs the localized App Store optimization workflow for a chosen non-source language, locale, country or region, storefront, or Apple country or region ISO code. Use when a prompt names a target language, locale, country or region, translated keywords, localized search terms, or per-market app name, subtitle, and keywords. For deciding which localization to prioritize first, use aso-localization-prioritization. For primary/source metadata, use aso-metadata-workflow.
 ---
 
 # ASO Localized Metadata Workflow
 
-Use this skill as the primary entrypoint for App Store metadata optimization in an Apple-supported country or region and metadata language.
+Use this skill as the primary entrypoint for App Store metadata optimization in an Apple-supported metadata locale, with a derived country or region when storefront-specific statistics or rankings are needed.
 
 This workflow coordinates the specialist ASO skills with localization-specific guardrails. It uses source search terms as intent seeds, but localized terms must reflect how users in the target locale actually search.
 
-If the user asks which country, region, language, or locale would have the highest organic search impact and has not chosen a target locale, use `aso-localization-prioritization` first. Return to this workflow after the user chooses a recommended locale.
+If the user asks which country or region, language, or locale would have the highest organic search impact and has not chosen a target locale, use `aso-localization-prioritization` first. Return to this workflow after the user chooses a recommended locale.
 
 ## Non-Negotiable Rules
 
 - Use `.agents/aso/context.md` for global app context and source-locale search terms.
-- Use `.agents/aso/locales/<ISO code>/<language-slug>.md` for target-market language work.
+- Use `.agents/aso/locales/<Locale>/context.md` for localized metadata work.
 - Do not duplicate the full source search-term backlog into localized workspaces.
 - Use source terms as intent inspiration, not as strings to translate literally.
 - Store a concise `Meaning` for each localized term so users who do not know the language can audit it.
 - Fetch popularity and difficulty only for exact localized terms in the target App Store country or region.
-- Derive any ASO tool region parameter from the workspace `ISO code` at tool-call time; do not store a separate stats region in the localized workspace.
+- Derive the country or region from the explicit request, saved `Country or region preference`, or locale default in `../../references/app-store-localizations.md`. Store a preference only when the default is overridden.
+- Derive any tool country or region parameter at tool-call time; do not store the derived tool parameter as workspace state.
 - Count App Store keyword fields by UTF-8 bytes, not characters.
 - Do not publish or update App Store Connect metadata unless the user explicitly asks for that action.
 
-## Country And Language Setup
+## Locale And Country Or Region Setup
 
-Before creating a localized workspace, determine the Apple `ISO code`, `Country or region`, and metadata `Language`.
+Before creating a localized workspace, determine the Apple metadata `Locale`. Determine a country or region only when the user names one, source evidence requires one, or a storefront-specific step needs statistics or rankings.
 
-Use `../../references/app-store-localizations.md` when suggesting or validating countries, regions, and supported metadata languages.
+Use `../../references/app-store-localizations.md` when suggesting or validating metadata locales, country or region preferences, and supported App Store localizations.
 
 Suggestion order:
 
-1. Explicit user-provided Apple ISO code, country/region, or metadata language.
+1. Explicit user-provided metadata locale, language, country or region, or Apple country or region ISO code.
 2. Existing `.agents/aso/context.md` locale preferences or `## Locales` entries.
 3. App Store Connect or local metadata files when available.
 4. App Store URL country or region when available.
-5. Target country/region or language mapped through the shared App Store localizations reference.
+5. Target country or region or language mapped through the shared App Store localizations reference.
 
-If the user names only a country or region, use Apple's default language for that ISO code and mention additional supported languages when useful.
+If the user names only a country or region, use Apple's default metadata locale for that country or region and mention additional supported locales when useful.
 
-If the user names only a language or language group, suggest separate workspaces for each relevant Apple ISO code instead of collapsing regions together. For example, German-speaking ASO should use separate workspaces for Germany, Austria, Switzerland, and Luxembourg when those markets are in scope.
+If the user names only a language or language group, choose the matching Apple metadata locale and derive its default country or region from `../../references/app-store-localizations.md`. If the user explicitly targets a different country or region for that locale, store `Country or region preference`.
 
-Validate that the ISO code and language pair is supported by Apple before fetching statistics or generating metadata. If validation cannot be performed from available references and the pair is not obvious, ask the user to confirm the intended App Store country or region.
+Validate that the locale is supported by Apple before generating metadata. Before fetching statistics or rankings, resolve the country or region in this order: explicit user request for the run, saved `Country or region preference`, default country or region for the active locale from `../../references/app-store-localizations.md`, then ask the user if no safe default exists.
 
 ## Workspace Schema
 
-Create or update one localized workspace per Apple ISO code and language:
+Create or update one localized workspace per Apple metadata locale:
 
 ```markdown
-# ASO Locale Context: DEU (German)
+# ASO Locale Context: German
 *Last updated: YYYY-MM-DD*
 
-**ISO code:** DEU
-**Country or region:** Germany
-**Language:** German
+**Locale:** German
 
 ## Search Terms Backlog
-| Search term | Meaning | Status | Relevance | Popularity | Difficulty | Stats source | Stats updated | Notes | Strategic score |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| quittung scanner | receipt scanner | candidate |  |  |  |  |  | inspired by source intent: receipt scanner |  |
+| Search term | Meaning | Status | Relevance | Popularity | Difficulty | Stats country or region | Stats source | Stats updated | Notes | Strategic score |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| quittung scanner | receipt scanner | candidate |  |  |  |  |  |  | inspired by source intent: receipt scanner |  |
 
 ## Word Value Scores
 | Word | Appearances | Total strategic score | Length | Value |
 | --- | --- | --- | --- | --- |
 ```
 
-Use only `ISO code`, `Country or region`, and `Language` as workspace header fields. Put uncertainty, original-intent references, local evidence, unresolved ASO tool-region derivation issues, and manual-review notes in `Notes`.
+Use `Locale` as the workspace identity. Add `Country or region preference` only when the user or clear source evidence explicitly overrides the default country or region for that locale. Put uncertainty, original-intent references, local evidence, unresolved country or region derivation issues, and manual-review notes in `Notes`.
 
 Also add or update the `## Locales` table in `.agents/aso/context.md`:
 
 ```markdown
-| ISO code | Country or region | Language | Workspace | Notes |
-| --- | --- | --- | --- | --- |
-| DEU | Germany | German | .agents/aso/locales/DEU/german.md | German metadata |
+| Locale | Workspace | Country or region preference | Notes |
+| --- | --- | --- | --- |
+| German | .agents/aso/locales/German/context.md |  | German metadata |
 ```
 
 ## Workflow Overview
@@ -80,15 +79,15 @@ Also add or update the `## Locales` table in `.agents/aso/context.md`:
 Run phases in this order:
 
 1. Establish or update global app context with `aso-context`.
-2. Choose and validate target `ISO code`, country or region, and language.
+2. Choose and validate target metadata locale and optional country or region preference.
 3. Create or update the localized workspace.
 4. Identify localized search terms with `aso-search-terms-identification`.
 5. Assign localized relevance with `aso-search-terms-relevance-scoring`.
-6. Fetch target-region statistics with `aso-search-terms-statistics`.
+6. Fetch target country or region statistics with `aso-search-terms-statistics`.
 7. Calculate localized scores with `aso-search-terms-scoring`.
 8. Generate localized metadata drafts with `aso-metadata-generation`.
 
-After every phase, summarize the target ISO code, country or region, language, localized workspace path, what changed, and the next required phase.
+After every phase, summarize the target locale, localized workspace path, resolved or preferred country or region when relevant, what changed, and the next required phase.
 
 ## Phase Guidance
 
@@ -108,7 +107,7 @@ Use local search behavior as the primary target-locale evidence:
 - target-language category terms, feature language, and jobs-to-be-done language
 - source search terms as intent seeds
 
-Do not translate the source backlog mechanically. A localized term is useful only when a real App Store user in the target region might search it while expecting this app.
+Do not translate the source backlog mechanically. A localized term is useful only when a real App Store user in the target locale and resolved country or region might search it while expecting this app.
 
 For every localized term, store `Meaning` as a concise back-translation or explanation in a language the user understands.
 
@@ -122,11 +121,11 @@ Agent-led review is the default. Ask the user only when ambiguity could material
 
 ### 4. Fetch Localized Statistics
 
-Use the localized workspace `ISO code`, not the source-region context, when fetching statistics. If the ASO tool requires a two-letter region parameter, derive it from the ISO code using `../../references/app-store-localizations.md` or a standard ISO 3166 lookup.
+Use the active locale's resolved country or region, not the source context's country or region, when fetching statistics. Resolve it from the explicit request, saved `Country or region preference`, or locale default in `../../references/app-store-localizations.md`. If the ASO tool requires a two-letter country or region parameter, derive it from the resolved country or region ISO code using `../../references/app-store-localizations.md` or a standard ISO 3166 lookup.
 
-Fetch exact localized search terms. Do not translate terms during statistics fetching. Do not reuse popularity or difficulty values from another locale, language, or region.
+Fetch exact localized search terms. Do not translate terms during statistics fetching. Do not reuse popularity or difficulty values from another locale or country or region.
 
-If imported statistics were fetched for a different country or region than the workspace ISO code, treat them as incompatible unless the user explicitly wants exploratory comparison data outside the localized workflow.
+If imported statistics were fetched for a different country or region than the resolved country or region, treat them as incompatible unless the user explicitly wants exploratory comparison data outside the localized workflow.
 
 ### 5. Score And Generate Metadata
 
@@ -144,14 +143,14 @@ After localized metadata goes live, recommend checking keyword rankings periodic
 
 End the workflow with:
 
-- ISO code, country or region, and language
+- locale and resolved or preferred country or region when relevant
 - localized workspace path
 - number of localized candidate, confirmed, rejected, and scored terms
 - statistics source and update date
 - highest strategic localized terms and highest-value localized words
 - metadata variant recommended or saved, including localized `Meaning` values or warnings when relevant
 - field counts and coverage summary
-- unresolved meaning, region, stale-statistics, byte-limit, or follow-up warnings
+- unresolved meaning, country or region, stale-statistics, byte-limit, or follow-up warnings
 
 If metadata was only saved as a draft, state that App Store Connect was not updated.
 
@@ -161,6 +160,6 @@ If metadata was only saved as a draft, state that App Store Connect was not upda
 - Use `aso-localization-prioritization` to choose which metadata localization to target before this workflow.
 - Use `aso-search-terms-identification` for localized search-term discovery.
 - Use `aso-search-terms-relevance-scoring` for localized relevance.
-- Use `aso-search-terms-statistics` for target-region popularity and difficulty.
+- Use `aso-search-terms-statistics` for target country or region popularity and difficulty.
 - Use `aso-search-terms-scoring` for localized strategic and word value scores.
 - Use `aso-metadata-generation` for localized metadata drafts.

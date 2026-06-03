@@ -13,13 +13,13 @@ Optimize for **breadth and App Store search plausibility**. Do not assign releva
 
 Read `.agents/aso/context.md` first.
 
-If the user is working on a localized workspace, also read the relevant `.agents/aso/locales/<ISO code>/<language-slug>.md` file and use its `ISO code`, `Country or region`, and `Language` as the active target.
+If the user is working on a localized workspace, also read the relevant `.agents/aso/locales/<Locale>/context.md` file and use its `Locale` and optional `Country or region preference` as the active target.
 
 If it exists:
 
 - Summarize the app context that matters for search-term discovery.
 - Identify the source `Primary locale`; if none is specified, ask only when locale materially affects term language or statistics.
-- For localized work, identify the target `ISO code`, country or region, language, and any existing localized terms.
+- For localized work, identify the target locale, optional country or region preference, and any existing localized terms.
 - Show any existing terms in `## Search Terms Backlog`.
 - Preserve existing statuses, relevance scores, statistics, notes, and any additional backlog columns unless the user corrects them.
 
@@ -50,7 +50,7 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 - Preserve misspelled or ungrammatical terms only when they come from the user or source evidence.
 - Include the app's own brand name and natural brand variants.
 - Use the language from the source `Primary locale` for global context work.
-- For localized work, use the workspace language and Apple ISO code. Do not mix search terms from multiple countries, regions, or metadata languages in one workspace.
+- For localized work, use the workspace locale. Do not mix search terms from multiple metadata locales in one workspace.
 - Do not generate translated terms from source material in another language unless the user explicitly changes the source primary locale or is running the localized workflow.
 - In localized workflow, use source terms as intent seeds, not as strings to translate literally.
 - For localized terms, store a concise `Meaning` so users who do not know the target language can audit the term.
@@ -66,7 +66,7 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 
 Use the context file as the canonical source for:
 
-- Primary locale and platforms
+- Primary locale, optional country or region preference, and platforms
 - App Store URL, marketing URL, and current platform keyword sections
 - App name, subtitle, category, and description
 - Features, use cases, and problem language
@@ -122,12 +122,12 @@ Do not save the backlog until the user has had a clear chance to review and adju
 
 ### 5. Save Results
 
-After review and adjustment, update `.agents/aso/context.md` under `## Search Terms Backlog` for global/source-locale work, or update `.agents/aso/locales/<ISO code>/<language-slug>.md` for localized work.
+After review and adjustment, update `.agents/aso/context.md` under `## Search Terms Backlog` for global/source-locale work, or update `.agents/aso/locales/<Locale>/context.md` for localized work.
 
 Use this canonical table for global/source-locale work:
 
 ```markdown
-| Search term | Source | Status | Relevance | Popularity | Difficulty | Stats region | Stats source | Stats updated | Notes | Strategic score |
+| Search term | Source | Status | Relevance | Popularity | Difficulty | Stats country or region | Stats source | Stats updated | Notes | Strategic score |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | example term | app description | confirmed |  |  |  |  |  |  | feature phrase |  |
 ```
@@ -135,9 +135,9 @@ Use this canonical table for global/source-locale work:
 Use this canonical table for localized work:
 
 ```markdown
-| Search term | Meaning | Status | Relevance | Popularity | Difficulty | Stats source | Stats updated | Notes | Strategic score |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| quittung scanner | receipt scanner | confirmed |  |  |  |  |  | inspired by source intent: receipt scanner |  |
+| Search term | Meaning | Status | Relevance | Popularity | Difficulty | Stats country or region | Stats source | Stats updated | Notes | Strategic score |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| quittung scanner | receipt scanner | confirmed |  |  |  |  |  |  | inspired by source intent: receipt scanner |  |
 ```
 
 Use these status values:
@@ -152,7 +152,7 @@ When updating the table, follow these rules:
 
 - Append new terms rather than replacing existing work.
 - Save user-accepted terms as `confirmed`, user-rejected terms as `rejected`, and leave unreviewed suggestions or imports as `candidate`.
-- Leave `Relevance`, `Popularity`, `Difficulty`, `Stats region`, `Stats source`, `Stats updated`, and `Strategic score` blank for new terms. Preserve existing relevance scores, statistics, strategic scores, and any additional columns.
+- Leave `Relevance`, `Popularity`, `Difficulty`, `Stats country or region`, `Stats source`, `Stats updated`, and `Strategic score` blank for new terms. Preserve existing relevance scores, statistics, strategic scores, and any additional columns.
 - For localized terms, fill `Meaning` with a compact back-translation or explanation in a language the user understands.
 - Normalize obvious duplicates, but keep meaningful variants, including singular/plural forms, word-order variants, generic and/or reserved terms like "app", developer names, and category terms when they make sense.
 - Use `Notes` for compact context that helps later skills interpret the term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.

@@ -13,7 +13,7 @@ Search term scoring is derived data. Do not invent missing inputs, change subjec
 
 Read `.agents/aso/context.md` first.
 
-If the user is working on a localized workspace, also read the relevant `.agents/aso/locales/<ISO code>/<language-slug>.md` file and calculate scores only inside that localized workspace.
+If the user is working on a localized workspace, also read the relevant `.agents/aso/locales/<Locale>/context.md` file and calculate scores only inside that localized workspace.
 
 If it exists:
 
@@ -133,7 +133,7 @@ When presenting word values, sort words by `Value` from highest to lowest. Break
 
 ## Saving Results
 
-Update `.agents/aso/context.md` after calculating source-locale derived scores. For localized work, update the active `.agents/aso/locales/<ISO code>/<language-slug>.md` file instead.
+Update `.agents/aso/context.md` after calculating source-locale derived scores. For localized work, update the active `.agents/aso/locales/<Locale>/context.md` file instead.
 
 For `## Search Terms Backlog`:
 
@@ -141,7 +141,7 @@ For `## Search Terms Backlog`:
 - Update only the `Strategic score` column and `*Last updated:*`.
 - Recalculate and overwrite existing strategic scores for eligible rows.
 - Clear `Strategic score` for candidate, rejected, incomplete, invalid, or out-of-range rows.
-- Preserve `Search term`, `Source` when present, `Meaning` when present, `Status`, `Relevance`, `Popularity`, `Difficulty`, `Stats region`, `Stats source`, `Stats updated`, `Notes`, and any additional column values.
+- Preserve `Search term`, `Source` when present, `Meaning` when present, `Status`, `Relevance`, `Popularity`, `Difficulty`, `Stats country or region`, `Stats source`, `Stats updated`, `Notes`, and any additional column values.
 
 For `## Word Value Scores`:
 
