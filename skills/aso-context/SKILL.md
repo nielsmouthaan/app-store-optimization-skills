@@ -40,7 +40,7 @@ Ask for any source that can help build the context:
 
 - App Store URL
 - Marketing or landing page URL
-- App Store Connect keyword field terms
+- App Store Connect keyword field terms, grouped by platform when the app has more than one platform
 - Local product docs, metadata files, README, or website copy
 - User-provided app description
 - Any additional source that may help search-term discovery, such as competitor lists, customer language, support requests, review exports, ASO tool exports, SEO tool exports, Apple Search Ads terms, or keyword research files
@@ -59,7 +59,7 @@ When using an **App Store URL**, extract what is publicly available:
 - Review themes and user language
 - Competitors or similar apps, including links when available
 
-After finding or receiving an App Store URL, ask the user to provide the current App Store Connect keyword field terms. These are not public, but they are important source material for ASO search-term work. If the user does not provide them, continue with available sources and note the gap.
+After finding or receiving an App Store URL, ask the user to provide the current App Store Connect keyword field terms for each relevant platform. These are not public, but they are important source material for ASO search-term work. If the user does not provide them, continue with available sources and note the gap.
 
 When using a **marketing or landing page URL**, extract only ASO-useful context:
 
@@ -69,7 +69,7 @@ When using a **marketing or landing page URL**, extract only ASO-useful context:
 - Solution to problem
 - Keywords and app category
 
-When using **App Store Connect keyword field terms**, capture them as source material for search-term discovery. Do not treat them as automatically approved or final search terms.
+When using **App Store Connect keyword field terms**, capture them as source material for search-term discovery under platform-specific `Keywords (<platform>)` sections. Do not treat them as automatically approved or final search terms.
 
 When using **local files**, prefer sources that describe the app for users:
 
@@ -98,12 +98,10 @@ After review and adjustment, create or update `.agents/aso/context.md` using thi
 *Last updated: YYYY-MM-DD*
 
 ## Source
-**Search language:** English, unless otherwise specified.
-**Search region:**
-**Platform:**
+**Primary locale:** NLD (Dutch)
+**Platforms:** iOS, macOS
 **App Store URL:**
 **Marketing URL:**
-**App Store Connect keywords:**
 **Other sources:**
 **Localization preferences:**
 
@@ -112,6 +110,11 @@ After review and adjustment, create or update `.agents/aso/context.md` using thi
 **Subtitle:**
 **Developer:**
 **Category:**
+
+## Current Keywords
+### Keywords (iOS)
+
+### Keywords (macOS)
 
 ## Description
 
@@ -160,9 +163,10 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 - Use screenshots as source material for app context using OCR text extraction.
 - Summarize reviews into themes instead of copying long review text.
 - Include competitor and similar app links when available; otherwise use plain app names.
-- Store one active source search language for the global backlog; default to English when unspecified.
-- Store one active source search region when known. Use uppercase ISO 3166-1 alpha-2 codes, such as `US`, `NL`, or `DE`. Leave it blank until the user provides it or `aso-search-terms-statistics` derives it.
-- Store one active platform when known, such as `iphone`, `ipad`, `mac`, `appletv`, `watch`, or `vision`. Use the same platform consistently when fetching statistics, importing analytics, and comparing ASO data.
+- Store one primary locale for the global backlog using Apple's App Store localization `ISO code` and language label, such as `NLD (Dutch)` or `USA (English (US))`. Use `../../references/app-store-localizations.md` to validate or derive it.
+- Store supported App Store Connect platforms in `**Platforms:**` using values from `../../references/platforms.md`, such as `iOS`, `macOS`, `tvOS`, or `visionOS`.
+- Omit `**Search surface preference:**` unless the user explicitly asks to use a non-default search surface for statistics or rankings, such as iPad instead of iPhone for iOS.
+- Store current keyword fields in `## Current Keywords` with one `### Keywords (<platform>)` section per relevant platform.
 - Store localized workspaces in `## Locales` when they exist. Keep only the Apple ISO code, country or region, language, workspace path, and compact notes there; do not duplicate localized search terms in the global context.
 - Use `.agents/aso/locales/<ISO code>/<language-slug>.md` for localized terms, relevance, statistics, scoring, and metadata drafts.
 - Use `candidate`, `confirmed`, or `rejected` for search-term backlog status values. Use `candidate` for unreviewed suggested or imported terms, `confirmed` for user-accepted terms in the usable ASO backlog, and `rejected` for terms the user does not want to use.

@@ -96,7 +96,7 @@ After every phase, summarize the target ISO code, country or region, language, l
 
 Read `.agents/aso/context.md` first. If only legacy `.agents/aso-context.md` exists, use `aso-context` to migrate the next saved context to `.agents/aso/context.md`.
 
-The global context should contain source app facts, source metadata, source search terms, source relevance, and original App Store Connect keyword field terms when available.
+The global context should contain source app facts, primary locale, platforms, source metadata, source search terms, source relevance, and original App Store Connect keyword field terms by platform when available.
 
 ### 2. Identify Localized Search Terms
 
@@ -132,9 +132,9 @@ If imported statistics were fetched for a different country or region than the w
 
 Use the existing strategic-score formula per localized workspace.
 
-Generate app name, subtitle, and keywords for the target locale. Visible fields must read naturally for the target language. Keywords must fit the 100-byte App Store keyword limit.
+Generate app name, subtitle, and platform keyword sections for the target locale. Visible fields must read naturally for the target language. Each generated keyword section must fit the 100-byte App Store keyword limit.
 
-Use `aso-metadata-generation` for localized drafts. It uses the same grouped variant structure as source-locale drafts, but the metadata table renames `Value` to `Localized value` and adds `Meaning` next to it.
+Use `aso-metadata-generation` for localized drafts. It uses the same grouped variant structure as source-locale drafts, and localized field sections add `Meaning` lines for generated app name, subtitle, and keyword values.
 
 For non-English locales, do not apply English plural, stemming, stop-word, or category-term assumptions unless target-language evidence supports the decision.
 

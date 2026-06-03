@@ -18,7 +18,7 @@ If the user is working on a localized workspace, also read the relevant `.agents
 If it exists:
 
 - Summarize the app context that matters for statistics fetching.
-- Identify the active `Search language` and `Search region`.
+- Identify the source `Primary locale`, `Platforms`, and any `Search surface preference`.
 - For localized work, identify the target `ISO code`, country or region, language, and localized terms that need statistics.
 - Show the confirmed terms in `## Search Terms Backlog` that need missing or refreshed statistics.
 - Preserve existing statuses, relevance scores, statistics, strategic scores, notes, and any additional backlog columns unless the user corrects them.
@@ -37,13 +37,12 @@ Prefer running this skill after `aso-search-terms-relevance-scoring`, but do not
 
 ## Region Selection
 
-Use the App Store country or region most associated with the context's active search language or localized workspace.
+Use the App Store country or region from the source primary locale or localized workspace.
 
 1. For localized work, use the workspace `ISO code`. If it is missing, derive or ask for it before fetching.
-2. For source-locale work, use `.agents/aso/context.md` `Search region` when present.
-3. If `Search region` is blank, derive it from `Search language` using `../../references/app-store-localizations.md`.
-4. Store the chosen source-locale region back in `.agents/aso/context.md` as uppercase ISO 3166-1 alpha-2, such as `US`, `NL`, or `DE`.
-5. If the language is genuinely ambiguous and no context clue resolves it, ask the user for the country or region before fetching. Do not default to a convenient country or region when the wrong storefront would make the data misleading.
+2. For source-locale work, use `.agents/aso/context.md` `Primary locale`, such as `NLD (Dutch)`.
+3. Derive any required two-letter tool region from the Apple ISO code using `../../references/app-store-localizations.md` or a standard ISO 3166 lookup.
+4. If the primary locale is missing or does not clearly identify an App Store country or region, ask the user for the intended Apple-supported locale before fetching.
 
 Validate localized `ISO code` and `Language` pairs against Apple's supported App Store localizations when localized work is active. If the target country or region is unresolved or incompatible with the target language, stop before fetching statistics.
 
@@ -99,19 +98,22 @@ Use these rules:
 When using ASO Suite:
 
 - Use JSON output.
-- Use the selected region.
+- Use the selected tool region.
+- For source-locale work, derive the selected ASO Suite `--region` parameter from `Primary locale`.
 - For localized work, derive the selected ASO Suite `--region` parameter from the workspace `ISO code`.
 - Use the app URL or app ID from context when available.
-- Use `iphone` as the platform unless the context or user specifies `ipad`, `mac`, `appletv`, `watch`, or `vision`.
+- Map the requested platform or search surface to the tool's supported platform parameter at call time using `../../references/platforms.md`.
+- For iOS statistics or rankings, use iPhone when the tool requires an iPhone/iPad distinction and no `Search surface preference` is set.
+- If the user explicitly requests iPad, save `**Search surface preference:** iPad` in `.agents/aso/context.md` and use iPad for later statistics and ranking calls until the user changes it.
 - Fetch at most 50 keywords per request.
 
 Command shape:
 
 ```bash
-asosuite keywords --json --region <REGION> --platform <PLATFORM> [--app <APP_ID_OR_URL>] <keyword...>
+asosuite keywords --json --region <REGION> --platform <TOOL_PLATFORM> [--app <APP_ID_OR_URL>] <keyword...>
 ```
 
-Use the returned keyword metrics according to `## Metric Validation`. Preserve source context in `Stats source`, `Stats region` for source-locale rows that already use that column, `Stats updated`, and compact notes when a value could not be used. For localized rows, do not add `Stats region`; record only unresolved tool-region derivation or mismatch notes in `Notes`.
+Use the returned keyword metrics according to `## Metric Validation`. Preserve source context in `Stats source`, `Stats region` for source-locale rows that already use that column, `Stats updated`, and compact notes when a value could not be used. For localized rows, do not add `Stats region`; record only unresolved tool-region derivation, search-surface preference, or mismatch notes in `Notes`.
 
 If a value is pending or missing:
 
@@ -154,13 +156,14 @@ When updating the table:
 - Append compact statistics notes to `Notes` only when needed; do not erase existing notes.
 - Update `*Last updated:*` in the active context or locale workspace file.
 
-After saving, summarize how many terms were updated, how many had pending or missing values, whether any values were unusable because they were outside the accepted scale, whether any stale statistics were kept, the country or region used, any derived ASO tool region parameter, and the source used.
+After saving, summarize how many terms were updated, how many had pending or missing values, whether any values were unusable because they were outside the accepted scale, whether any stale statistics were kept, the primary locale or localized workspace used, any derived ASO tool region parameter, any explicit search-surface preference, and the source used.
 
 ## Common Mistakes
 
 - Guessing popularity or difficulty from relevance, search results, App Store metadata, or web SEO volume.
 - Using the US store for every language.
 - Mixing values from different regions without recording the region per term.
+- Treating an iPad search-surface preference as a metadata platform choice.
 - Using values that are not documented `0`-`100` scores.
 - Fetching rejected terms by default.
 - Dropping existing relevance scores, notes, statuses, strategic scores, or added backlog columns while adding statistics.

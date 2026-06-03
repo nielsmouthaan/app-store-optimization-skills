@@ -1,6 +1,6 @@
 # App Store Optimization Skills
 
-Agent skill suite for App Store Optimization: orchestrate end-to-end metadata optimization, identify broad App Store search-term candidates, score keyword relevance, fetch external keyword statistics, calculate derived search-term scores, generate App Store metadata drafts, and localize ASO work per locale and region.
+Agent skill suite for App Store Optimization: orchestrate end-to-end metadata optimization, identify broad App Store search-term candidates, score keyword relevance, fetch external keyword statistics, calculate derived search-term scores, generate App Store metadata drafts, and localize ASO work per locale and platform.
 
 ## Purpose
 
@@ -23,7 +23,7 @@ Recommended user-facing entrypoint for a full source-locale App Store metadata o
 
 ### aso-localized-metadata-workflow
 
-Recommended user-facing entrypoint for optimizing metadata in another language, locale, country, storefront, region, or Apple ISO code. It suggests and validates Apple-supported country/language pairs, creates workspaces under `.agents/aso/locales/<ISO code>/`, uses source terms as intent seeds instead of literal translations, derives ASO tool regions only when needed, and generates localized metadata drafts with `Meaning` next to `Localized value`.
+Recommended user-facing entrypoint for optimizing metadata in another language, locale, country, storefront, region, or Apple ISO code. It suggests and validates Apple-supported country/language pairs, creates workspaces under `.agents/aso/locales/<ISO code>/`, uses source terms as intent seeds instead of literal translations, derives ASO tool regions only when needed, and generates localized metadata drafts with `Meaning` lines for generated values.
 
 ### aso-localization-prioritization
 
@@ -51,7 +51,7 @@ Calculates derived `Strategic score` values for confirmed search terms and deriv
 
 ### aso-metadata-generation
 
-Generates source-locale or localized App Store metadata drafts for app name, subtitle, and keywords from confirmed search terms, `Strategic score` values, and saved `Word Value Scores`. Use this after search-term scoring to create metadata variants. Drafts use grouped variant blocks with value, count, coverage, and notes; localized drafts rename `Value` to `Localized value` and add `Meaning` next to it. Keyword fields are counted against Apple's 100-byte limit.
+Generates source-locale or localized App Store metadata drafts for shared app name, shared subtitle, and platform-specific keyword sections from confirmed search terms, `Strategic score` values, and saved `Word Value Scores`. Use this after search-term scoring to create metadata variants. Drafts use grouped variant blocks with app name/subtitle sections, `Keywords (<platform>)` sections, counts, coverage, and notes. Keyword fields are counted against Apple's 100-byte limit per platform.
 
 ## Artifacts
 
@@ -59,6 +59,7 @@ Generates source-locale or localized App Store metadata drafts for app name, sub
 - Localization prioritization: `.agents/aso/localization-prioritization.md`
 - Localized workspaces: `.agents/aso/locales/<ISO code>/<language-slug>.md`
 - Shared App Store localizations reference: `references/app-store-localizations.md`
+- Shared platform terminology reference: `references/platforms.md`
 
 ## Workflow
 
@@ -67,7 +68,7 @@ Use `aso-metadata-workflow` for a guided end-to-end source-locale optimization r
 1. Use `aso-context` to create or verify the shared ASO context.
 2. Use `aso-search-terms-identification` to build or expand the search-term backlog.
 3. Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance scores.
-4. Use `aso-search-terms-statistics` to fetch popularity and difficulty values for the relevant App Store region.
+4. Use `aso-search-terms-statistics` to fetch popularity and difficulty values for the relevant primary locale.
 5. Use `aso-search-terms-scoring` to calculate strategic priority scores and per-word metadata value scores.
 6. Use `aso-metadata-generation` to generate App Store metadata drafts and compare coverage tradeoffs.
 

@@ -46,11 +46,11 @@ Use `aso-context` when `.agents/aso/context.md` is missing, stale, incomplete, o
 
 The context must identify, when available:
 
-- active search language
-- active App Store region
+- primary locale
+- App Store Connect platforms
 - App Store URL
 - marketing URL
-- App Store Connect keyword field terms
+- App Store Connect keyword field terms by platform
 - app metadata, use cases, features, reviews, and competitors
 
 Stop after drafting or updating the context. Ask the user to confirm what is incorrect, missing, or misleading before treating the context as ready for search-term work.
@@ -75,7 +75,7 @@ After approved scores are saved, continue only with confirmed terms.
 
 Use `aso-search-terms-statistics` to fetch popularity and difficulty for confirmed terms.
 
-Use the active App Store region from context, or let the statistics skill derive or ask for it according to its region-selection rules.
+Use the primary locale from context, or let the statistics skill derive or ask for it according to its locale-selection rules.
 
 Before continuing, let the statistics skill show confirmed terms with missing statistics or statistics more than one month old. If the user declines to refresh outdated statistics, continue only with a stale-statistics warning.
 
@@ -84,7 +84,7 @@ Stop if:
 - no statistics source is available
 - credentials are missing
 - usage limits are reached
-- the App Store region is unresolved
+- the primary locale is unresolved
 - the statistics tool cannot be accessed
 
 Do not estimate or infer missing popularity or difficulty values. Report the blocker and the missing upstream requirement.
@@ -122,7 +122,7 @@ Use these gates to decide whether the workflow can continue:
 
 End the workflow with a compact report:
 
-- active search language and region
+- primary locale and platforms
 - number of backlog terms, confirmed terms, rejected terms, and scored terms
 - statistics source and update date
 - highest strategic terms and highest-value words
