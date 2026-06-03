@@ -36,6 +36,16 @@ Examples:
 
 Slug language labels by lowercasing, removing punctuation, and replacing spaces or parenthetical qualifiers with hyphens. Examples: `English (U.K.)` -> `english-uk`, `Spanish (Mexico)` -> `spanish-mexico`.
 
+## Source Locale Format
+
+Use the same Apple `ISO code` and language labels for the source context:
+
+```markdown
+**Primary locale:** NLD (Dutch)
+```
+
+If a tool requires a two-letter country or region parameter, derive it from the ISO code at tool-call time.
+
 ## Selection Rules
 
 - Explicit user-provided `ISO code` and Apple language label always win when the pair exists in Apple's table.

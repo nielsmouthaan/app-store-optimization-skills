@@ -18,7 +18,7 @@ If the user is working on a localized workspace, also read the relevant `.agents
 If it exists:
 
 - Summarize the app context that matters for search-term discovery.
-- Identify the active `Search language`; if none is specified, use English.
+- Identify the source `Primary locale`; if none is specified, ask only when locale materially affects term language or statistics.
 - For localized work, identify the target `ISO code`, country or region, language, and any existing localized terms.
 - Show any existing terms in `## Search Terms Backlog`.
 - Preserve existing statuses, relevance scores, statistics, notes, and any additional backlog columns unless the user corrects them.
@@ -49,9 +49,9 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 - Do not invent spelling or grammar mistakes.
 - Preserve misspelled or ungrammatical terms only when they come from the user or source evidence.
 - Include the app's own brand name and natural brand variants.
-- Use one active source language for global context work. Default to English unless the prompt or `.agents/aso/context.md` specifies another language.
+- Use the language from the source `Primary locale` for global context work.
 - For localized work, use the workspace language and Apple ISO code. Do not mix search terms from multiple countries, regions, or metadata languages in one workspace.
-- Do not generate translated terms from source material in another language unless the user explicitly switches the active search language or is running the localized workflow.
+- Do not generate translated terms from source material in another language unless the user explicitly changes the source primary locale or is running the localized workflow.
 - In localized workflow, use source terms as intent seeds, not as strings to translate literally.
 - For localized terms, store a concise `Meaning` so users who do not know the target language can audit the term.
 - Prefer compact search phrases that sound like App Store queries.
@@ -66,8 +66,8 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 
 Use the context file as the canonical source for:
 
-- Search language and search region
-- App Store URL, marketing URL, and App Store Connect keywords
+- Primary locale and platforms
+- App Store URL, marketing URL, and current platform keyword sections
 - App name, subtitle, category, and description
 - Features, use cases, and problem language
 - Screenshot text and review themes
@@ -87,13 +87,13 @@ Create candidates from multiple sources:
 - **App language:** app name, subtitle, description, feature names, benefits, jobs-to-be-done, and problem statements.
 - **User language:** reviews, support requests, testimonials, community posts, and user-provided wording.
 - **Competitor research:** competitor app names, subtitles, descriptions, OCR'd screenshot text when already available, and terms they appear to rank for.
-- **Existing ASC keywords:** App Store Connect keyword field terms provided by the user; treat them as source material and seeds, not automatically approved final terms.
+- **Existing ASC keywords:** App Store Connect keyword field terms provided by the user for each platform; treat them as source material and seeds, not automatically approved final terms.
 - **External discovery tools:** If the user provides data or relevant tools are available, use App Store autofill, Google Play autofill, Apple Search Ads terms, Google Keyword Planner, Google Trends, ASO tools, SEO tools, and keyword discovery tools.
 - **Imported keyword lists:** User-provided keyword exports or manual lists; import their keyword language broadly before generating new expansions.
 - **Phrase expansion:** broad head terms, singular/plural variants, synonyms, alternate word order, related nouns and verbs, action-object variants, noun-form variants, compact or compound variants, category modifiers, and long-tail combinations.
 - **Brand terms:** the app's own name, product names, company name, abbreviations, and source-backed misspellings or grammar variants when relevant.
 
-If source material uses a language other than the active search language, use it only as background for understanding the app. Do not translate non-active-language strings into search-term candidates unless the user explicitly switches the active search language.
+If source material uses a language other than the source primary locale language, use it only as background for understanding the app. Do not translate non-active-locale strings into search-term candidates unless the user explicitly changes the source primary locale.
 
 For localized work, reverse that rule: source-language search terms are background for intent, while target-language evidence should drive the final localized search terms. Generate terms from local App Store behavior, localized competitor language, target-language reviews or support language, autocomplete/tool evidence, and natural target-language phrasing.
 
