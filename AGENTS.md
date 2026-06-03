@@ -122,6 +122,9 @@ description: Research App Store keyword candidates with popularity and difficult
 
 ## Skill Suite Guidance
 
+- Use source context fields consistently: `Primary locale` is `<Apple ISO code> (<Apple language label>)` and `Platforms` contains only App Store Connect metadata platforms (`iOS`, `macOS`, `tvOS`, `visionOS`). Derive locales and languages from `references/app-store-localizations.md` and platform/tool aliases from `references/platforms.md`.
+- Treat iPhone, iPad, Mac, Apple TV, and Vision as search surfaces for statistics, rankings, or tool parameters, not as `Platforms` values. Do not store a search surface by default; store `Search surface preference` only when the user explicitly requests one.
+- Treat app name and subtitle as shared metadata, and keywords as platform-specific. Draft or store keywords in `Keywords (iOS)`, `Keywords (macOS)`, etc.; do not silently reuse keyword stats, rankings, or drafts across platforms.
 - Use `aso-context` as the foundation skill for capturing and storing reusable context and data, so agents do not repeat the same questions and can pass context and data between skills.
 - Treat `aso-context` as an internal foundation skill in user-facing docs. Do not over-position it as the primary skill users should invoke directly; user-facing README examples should normally start with specialist skills such as search-term identification or relevance scoring.
 - Specialist skills should check `.agents/aso/context.md` before starting. If it exists, use it as canonical app context. If it is missing or incomplete, invoke or recommend `aso-context` first.
