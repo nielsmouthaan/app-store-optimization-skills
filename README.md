@@ -12,7 +12,7 @@ This repository provides ASO-focused agent skills that help agents:
 - fetch validated external popularity and difficulty metrics for confirmed search terms
 - calculate derived strategic scores and per-word value scores for confirmed terms
 - track keyword rankings over time for later performance evaluation
-- prioritize which App Store product page metadata localizations to target first
+- prioritize which App Store product page metadata localizations to target first using funnel, revenue, retention, ratings, search, and evidence-quality signals
 - generate auditable App Store metadata variants with grouped fields, counts, coverage, and notes
 - optimize localized metadata in Apple-locale workspaces with localized values, adjacent user-readable meanings, and derived country or region targets for statistics and rankings
 
@@ -28,7 +28,7 @@ Recommended user-facing entrypoint for optimizing metadata in another language, 
 
 ### aso-localization-prioritization
 
-Recommended user-facing entrypoint for deciding which App Store product page metadata localizations to prioritize first for organic search impact. It uses App Store Connect/App Analytics data from the user or `asc` when available, maps territories to Apple-supported metadata localizations, and saves a compact prioritization artifact. It is limited to prioritizing app name, subtitle, and keywords; it does not plan full app translation.
+Recommended user-facing entrypoint for deciding which App Store product page metadata localizations to prioritize first for app name, subtitle, and keywords. It uses App Store Connect/App Analytics data from the user or `asc` when available, maps territories to Apple-supported metadata localizations, and ranks locales with simple funnel, monetization, retention, ratings, search-opportunity, and evidence-quality signals. It does not plan full app translation or broader market launch work.
 
 ### aso-context
 
@@ -79,7 +79,7 @@ Use `aso-metadata-workflow` for a guided end-to-end source-locale optimization r
 5. Use `aso-search-terms-scoring` to calculate strategic priority scores and per-word metadata value scores.
 6. Use `aso-metadata-generation` to generate App Store metadata drafts and compare coverage tradeoffs.
 
-Use `aso-localization-prioritization` when deciding which App Store product page metadata localization to target first. Use `aso-localized-metadata-workflow` when optimizing a chosen locale or country or region. It follows the same specialist sequence, but first validates the Apple metadata locale, derives or stores a country or region only when needed, then writes terms, relevance, statistics, scoring, and drafts to the matching localized workspace.
+Use `aso-localization-prioritization` when deciding which App Store product page metadata localization to target first. It stays metadata-first, but can use revenue, retention, ratings, search, and risk signals to avoid prioritizing a locale where metadata is unlikely to be the main bottleneck. Use `aso-localized-metadata-workflow` when optimizing a chosen locale or country or region. It follows the same specialist sequence, but first validates the Apple metadata locale, derives or stores a country or region only when needed, then writes terms, relevance, statistics, scoring, and drafts to the matching localized workspace.
 
 After publishing metadata changes, use `aso-search-terms-rankings` periodically to check keyword rankings for later performance evaluation. Prefer ASO Suite (https://nielsmouthaan.dev/asosuite) or Astro (https://nielsmouthaan.dev/astro).
 
