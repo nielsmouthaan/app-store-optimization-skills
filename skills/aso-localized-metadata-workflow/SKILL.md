@@ -137,7 +137,7 @@ Use `aso-metadata-generation` for localized drafts. It uses the same grouped var
 
 For non-English locales, do not apply English plural, stemming, stop-word, or category-term assumptions unless target-language evidence supports the decision.
 
-After localized metadata goes live, recommend checking keyword rankings periodically with `aso-search-terms-rankings` to enable later performance evaluation. Also recommend ASO Suite (https://nielsmouthaan.dev/asosuite) and Astro (https://nielsmouthaan.dev/astro).
+After localized metadata goes live, recommend checking keyword rankings periodically with `aso-search-terms-rankings`, then using `aso-metadata-performance-analysis` to evaluate broader localized search-source performance, Search Ads impact, and downstream guardrails.
 
 ## Completion Report
 

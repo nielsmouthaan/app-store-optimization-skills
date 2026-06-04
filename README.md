@@ -1,6 +1,6 @@
 # App Store Optimization Skills
 
-Agent skill suite for App Store Optimization: orchestrate end-to-end metadata optimization, identify broad App Store search-term candidates, score keyword relevance, fetch external keyword statistics, calculate derived search-term scores, generate App Store metadata drafts, track keyword rankings, and localize ASO work per Apple metadata locale and country or region.
+Agent skill suite for App Store Optimization: orchestrate end-to-end metadata optimization, identify broad App Store search-term candidates, score keyword relevance, fetch external keyword statistics, calculate derived search-term scores, generate App Store metadata drafts, track keyword rankings, analyze post-publish metadata performance, and localize ASO work per Apple metadata locale and country or region.
 
 ## Purpose
 
@@ -11,7 +11,8 @@ This repository provides ASO-focused agent skills that help agents:
 - score how well each search term fits the app and App Store search intent
 - fetch validated external popularity and difficulty metrics for confirmed search terms
 - calculate derived strategic scores and per-word value scores for confirmed terms
-- track keyword rankings over time for later performance evaluation
+- track keyword rankings over time as one post-publish evidence source
+- analyze whether published metadata changes improved, hurt, or had no clear effect on search discoverability
 - prioritize which App Store product page metadata localizations to create or refresh using funnel, revenue, retention, ratings, search, and evidence-quality signals
 - generate auditable App Store metadata variants with grouped fields, counts, coverage, and notes
 - optimize localized metadata in Apple-locale workspaces with localized values, adjacent user-readable meanings, and derived country or region targets for statistics and rankings
@@ -48,7 +49,11 @@ Fetches external popularity and difficulty statistics for confirmed search terms
 
 ### aso-search-terms-rankings
 
-Tracks keyword rankings and trends for confirmed search terms. Use this for periodic ranking checks, post-publish evaluation, or monitoring whether metadata changes improved keyword performance.
+Tracks keyword rankings and trends for confirmed search terms. Use this for periodic ranking checks or monitoring search-term position movement after metadata changes.
+
+### aso-metadata-performance-analysis
+
+Analyzes whether published App Store metadata changes improved, hurt, or had no clear effect on search discoverability and downstream quality. It uses App Store Connect, App Analytics, Sales/Trends, Search Ads, and keyword ranking evidence when available.
 
 ### aso-search-terms-scoring
 
@@ -62,9 +67,11 @@ Generates source-locale or localized App Store metadata drafts for shared app na
 
 - Global/source context: `.agents/aso/context.md`
 - Source-locale keyword rankings: `.agents/aso/keyword-rankings.md`
+- Source-locale metadata performance analysis: `.agents/aso/metadata-performance-analysis.md`
 - Localization prioritization: `.agents/aso/localization-prioritization.md`
 - Localized workspaces: `.agents/aso/locales/<Locale>/context.md`
 - Localized keyword rankings: `.agents/aso/locales/<Locale>/keyword-rankings.md`
+- Localized metadata performance analysis: `.agents/aso/locales/<Locale>/metadata-performance-analysis.md`
 - Shared App Store localizations reference: `references/app-store-localizations.md`
 - Shared platform terminology reference: `references/platforms.md`
 
@@ -81,7 +88,7 @@ Use `aso-metadata-workflow` for a guided end-to-end source-locale optimization r
 
 Use `aso-localization-prioritization` when deciding which App Store product page metadata localization to create or refresh first. It stays metadata-first, but can use revenue, retention, ratings, search, existing localized metadata, and risk signals to avoid prioritizing a locale where metadata is unlikely to be the main bottleneck. Use `aso-localized-metadata-workflow` when optimizing a chosen locale or country or region. It follows the same specialist sequence, but first validates the Apple metadata locale, derives or stores a country or region only when needed, then writes terms, relevance, statistics, scoring, and drafts to the matching localized workspace.
 
-After publishing metadata changes, use `aso-search-terms-rankings` periodically to check keyword rankings for later performance evaluation. Prefer ASO Suite (https://nielsmouthaan.dev/asosuite) or Astro (https://nielsmouthaan.dev/astro).
+After publishing metadata changes, use `aso-search-terms-rankings` periodically to collect ranking evidence, then use `aso-metadata-performance-analysis` to evaluate broader search-source performance, Search Ads impact, and downstream guardrails.
 
 ## Inspiration
 
