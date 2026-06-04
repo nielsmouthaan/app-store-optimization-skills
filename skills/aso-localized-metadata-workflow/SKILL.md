@@ -17,6 +17,7 @@ If the user asks which country or region, language, or locale would have the hig
 - Use `.agents/aso/locales/<Locale>/context.md` for localized metadata work.
 - Do not duplicate the full source search-term backlog into localized workspaces.
 - Use source terms as intent inspiration, not as strings to translate literally.
+- Treat localized metadata as research-led, not translation-led. Localized terms must come from target-locale search behavior, native vocabulary, or clear local evidence.
 - Store a concise `Meaning` for each localized term so users who do not know the language can audit it.
 - Fetch popularity and difficulty only for exact localized terms in the target App Store country or region.
 - Derive the country or region from the explicit request, saved `Country or region preference`, or locale default in `../../references/app-store-localizations.md`. Store a preference only when the default is overridden.
@@ -43,6 +44,12 @@ If the user names only a country or region, use Apple's default metadata locale 
 If the user names only a language or language group, choose the matching Apple metadata locale and derive its default country or region from `../../references/app-store-localizations.md`. If the user explicitly targets a different country or region for that locale, store `Country or region preference`.
 
 Validate that the locale is supported by Apple before generating metadata. Before fetching statistics or rankings, resolve the country or region in this order: explicit user request for the run, saved `Country or region preference`, default country or region for the active locale from `../../references/app-store-localizations.md`, then ask the user if no safe default exists.
+
+## Cross-Localization
+
+Cross-localization is optional advanced work. Use an additional Apple-supported locale for a territory only when the shared localization reference confirms support and local search evidence justifies the extra workspace.
+
+By default, avoid duplicating keyword terms across locale workspaces for the same territory. If a term is repeated because the user wants a specific phrase or local evidence supports it, mark the reason in `Notes`. Treat exact phrase-combination behavior across locales as `Unresolved`; do not promise that words in different locale fields combine for ranking.
 
 ## Workspace Schema
 
@@ -108,6 +115,8 @@ Use local search behavior as the primary target-locale evidence:
 - source search terms as intent seeds
 
 Do not translate the source backlog mechanically. A localized term is useful only when a real App Store user in the target locale and resolved country or region might search it while expecting this app.
+
+If the localized run is part of a cross-localization strategy, keep the workspace focused on that locale and record duplicate-avoidance or intentional-overlap decisions in `Notes`.
 
 For every localized term, store `Meaning` as a concise back-translation or explanation in a language the user understands.
 

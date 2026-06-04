@@ -45,7 +45,7 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 - Include close variants, singular and plural forms, word-order changes, synonyms, and long-tail combinations.
 - Include broad head terms for the app's core category, jobs-to-be-done, and main user outcomes.
 - Include natural action-object and noun variants for the same intent, including compact forms users may type in the App Store.
-- Include generic category, audience, and use-case synonyms even when they are less precise than the app's positioning.
+- Include generic category, audience, and use-case synonyms even when they are less precise than the app's positioning, but treat them as research candidates rather than final keyword-field recommendations.
 - Do not invent spelling or grammar mistakes.
 - Preserve misspelled or ungrammatical terms only when they come from the user or source evidence.
 - Include the app's own brand name and natural brand variants.
@@ -58,6 +58,7 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 - Avoid full-sentence descriptions, UI commands, or product-internal wording unless external evidence shows users search that way.
 - Ask for clarification when a user-provided term looks like an accidental grammar or spelling mistake.
 - Do not add competitor brand names as usable search-term candidates by default.
+- Keep category words, `app`, generic terms, developer names, and brand terms when useful for research, but flag that they are usually weak or redundant final keyword-field material.
 - Keep source information so later skills can judge evidence quality.
 
 ## Discovery Workflow
@@ -68,7 +69,7 @@ Use the context file as the canonical source for:
 
 - Primary locale, optional country or region preference, and platforms
 - App Store URL, marketing URL, and current platform keyword sections
-- App name, subtitle, category, and description
+- App name, subtitle, primary category, secondary category, and description
 - Features, use cases, and problem language
 - Screenshot text and review themes
 - Competitors and similar apps
@@ -86,9 +87,10 @@ Create candidates from multiple sources:
 
 - **App language:** app name, subtitle, description, feature names, benefits, jobs-to-be-done, and problem statements.
 - **User language:** reviews, support requests, testimonials, community posts, and user-provided wording.
+- **Apple-native search signals:** App Store autocomplete or hints, Apple Search Ads search terms, keyword suggestions, Search Match discoveries, and Search Popularity when available.
 - **Competitor research:** competitor app names, subtitles, descriptions, OCR'd screenshot text when already available, and terms they appear to rank for.
 - **Existing ASC keywords:** App Store Connect keyword field terms provided by the user for each platform; treat them as source material and seeds, not automatically approved final terms.
-- **External discovery tools:** If the user provides data or relevant tools are available, use App Store autofill, Google Play autofill, Apple Search Ads terms, Google Keyword Planner, Google Trends, ASO tools, SEO tools, and keyword discovery tools.
+- **Third-party and web discovery tools:** If the user provides data or relevant tools are available, use ASO tools, Google Play autofill, Google Keyword Planner, Google Trends, SEO tools, and keyword discovery tools with caveats. Web or Google Play demand is not the same as App Store demand.
 - **Imported keyword lists:** User-provided keyword exports or manual lists; import their keyword language broadly before generating new expansions.
 - **Phrase expansion:** broad head terms, singular/plural variants, synonyms, alternate word order, related nouns and verbs, action-object variants, noun-form variants, compact or compound variants, category modifiers, and long-tail combinations.
 - **Brand terms:** the app's own name, product names, company name, abbreviations, and source-backed misspellings or grammar variants when relevant.
@@ -98,6 +100,8 @@ If source material uses a language other than the source primary locale language
 For localized work, reverse that rule: source-language search terms are background for intent, while target-language evidence should drive the final localized search terms. Generate terms from local App Store behavior, localized competitor language, target-language reviews or support language, autocomplete/tool evidence, and natural target-language phrasing.
 
 Do not wait for every source to be available after the user has had a chance to provide them. Use the sources at hand, call tools only when available in the current environment, and mark the source honestly.
+
+When evidence conflicts, prefer app truth and user/searcher language first, Apple-native App Store or Apple Search Ads signals second, local competitor and local-language evidence third, and third-party or web/SEO evidence as lower-confidence expansion material.
 
 ### 3. Filter For App Store Search Plausibility
 
@@ -116,7 +120,7 @@ Avoid or mark as `questionable search intent`:
 
 Present proposed search terms in a compact flat list or table that makes review easy without changing the saved backlog schema.
 
-Before saving new search terms, ask the user what should be accepted, rejected, corrected, or added. Include brief review guidance: keep terms that users might search for and reasonably expect to find this app in the App Store results; keep more relevant possibilities rather than narrowing the list too early; keep useful singular/plural variants, word-order variants, generic and/or reserved terms like "app", developer names, and category terms when they make sense; reject or correct terms that are misleading or unlikely to be searched.
+Before saving new search terms, ask the user what should be accepted, rejected, corrected, or added. Include brief review guidance: keep terms that users might search for and reasonably expect to find this app in the App Store results; keep more relevant possibilities rather than narrowing the list too early; keep useful singular/plural variants and word-order variants; keep generic or reserved terms like `app`, developer names, and category terms only when useful as research signals; reject or correct terms that are misleading or unlikely to be searched.
 
 Do not save the backlog until the user has had a clear chance to review and adjust the proposed terms.
 

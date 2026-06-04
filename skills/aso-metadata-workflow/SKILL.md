@@ -51,7 +51,7 @@ The context must identify, when available:
 - App Store URL
 - marketing URL
 - App Store Connect keyword field terms by platform
-- app metadata, use cases, features, reviews, and competitors
+- app metadata, primary category, secondary category, use cases, features, reviews, and competitors
 
 Stop after drafting or updating the context. Ask the user to confirm what is incorrect, missing, or misleading before treating the context as ready for search-term work.
 

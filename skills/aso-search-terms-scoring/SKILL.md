@@ -61,7 +61,7 @@ Calculate strategic scores only for rows where:
 - `Popularity` is validated numeric from `1` to `100`.
 - `Difficulty` is validated numeric from `1` to `100`.
 
-Use this formula exactly:
+Use this skill suite's derived prioritization formula exactly. Apple does not publish a strategic keyword scoring formula; this model is a planning aid that combines relevance, popularity, difficulty, and reachability for later metadata decisions.
 
 ```text
 Strategic score = 100 * (Popularity / 100)^0.8 * ((101 - Difficulty) / 100) * (Relevance / 5)^1.5

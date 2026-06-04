@@ -53,7 +53,7 @@ If an App Store URL or marketing URL is provided, inspect it before deriving ASO
 
 When using an **App Store URL**, extract what is publicly available:
 
-- Name, subtitle, developer, and category
+- Name, subtitle, developer, primary category, and secondary category when available
 - Description
 - Visible screenshot text using OCR when possible
 - Review themes and user language
@@ -67,7 +67,7 @@ When using a **marketing or landing page URL**, extract only ASO-useful context:
 - Features
 - Use cases
 - Solution to problem
-- Keywords and app category
+- Keywords and app category language
 
 When using **App Store Connect keyword field terms**, capture them as source material for search-term discovery under platform-specific `Keywords (<platform>)` sections. Do not treat them as automatically approved or final search terms.
 
@@ -109,7 +109,8 @@ After review and adjustment, create or update `.agents/aso/context.md` using thi
 **Name:**
 **Subtitle:**
 **Developer:**
-**Category:**
+**Primary category:**
+**Secondary category:**
 
 ## Current Keywords
 ### Keywords (iOS)
@@ -163,6 +164,7 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 - Use screenshots as source material for app context using OCR text extraction.
 - Summarize reviews into themes instead of copying long review text.
 - Include competitor and similar app links when available; otherwise use plain app names.
+- Store App Store categories as `**Primary category:**` and optional `**Secondary category:**`. Omit `**Secondary category:**` when it is unavailable.
 - Store one primary locale for the global backlog using Apple's metadata locale label, such as `Dutch` or `English (U.S.)`. Use `../../references/app-store-localizations.md` to validate or derive it.
 - Do not store an Apple country or region ISO code as part of `Primary locale`. Store `Country or region preference` only when the user or clear source evidence explicitly overrides the default country or region derived from `../../references/app-store-localizations.md`.
 - Store supported App Store Connect platforms in `**Platforms:**` using values from `../../references/platforms.md`, such as `iOS`, `macOS`, `tvOS`, or `visionOS`.

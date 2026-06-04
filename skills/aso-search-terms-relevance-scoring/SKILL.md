@@ -73,7 +73,7 @@ For localized terms, relevance depends on the localized App Store search intent,
 
 Use `.agents/aso/context.md` as the canonical source for:
 
-- App name, subtitle, category, and description
+- App name, subtitle, primary category, secondary category, and description
 - Features, use cases, and problem language
 - Screenshot text and review themes
 - Competitors and similar apps

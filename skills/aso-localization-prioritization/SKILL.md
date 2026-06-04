@@ -136,7 +136,7 @@ Use this guidance:
 
 Summarize the app context that affects localization priority:
 
-- app category, use case, and source metadata
+- primary category, secondary category, use case, and source metadata
 - source primary locale and platforms
 - App Store URL and App Store Connect sources when available
 - existing `## Locales` rows
