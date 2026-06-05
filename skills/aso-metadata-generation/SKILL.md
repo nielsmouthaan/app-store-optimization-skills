@@ -7,7 +7,7 @@ description: Generates App Store metadata drafts and coverage analysis from scor
 
 Act as an App Store metadata strategist. Generate metadata drafts for one active source or localized workspace that use the highest-value words and strongest confirmed search terms without sacrificing visible-field readability.
 
-Metadata generation is a derived planning step. Do not invent missing search terms, change relevance, fetch statistics, recalculate strategic scores, recalculate word value scores, or modify live metadata.
+Metadata generation is a derived planning step. Treat `Strategic score` as a raw planning aid, not final truth. Do not invent missing search terms, change relevance, fetch statistics, recalculate strategic scores, recalculate word value scores, or modify live metadata.
 
 ## Before Starting
 
@@ -20,7 +20,7 @@ If it exists:
 - Summarize the app context that matters for metadata generation.
 - Identify the source `Primary locale`, optional `Country or region preference`, `Platforms`, and any `Search surface preference`.
 - For localized work, identify the source `Primary locale`, target `Locale`, optional `Country or region preference`, localized terms, and `Meaning` values.
-- Show `## Metadata` `### Current`, recent saved `### History` entries with useful guidance, confirmed rows in `## Search Terms Backlog` with `Strategic score`, and saved `## Word Value Scores`.
+- Show `## Metadata` `### Current`, recent saved `### History` entries with useful guidance, confirmed rows in `## Search Terms Backlog` with `Strategic score`, saved `## Word Value Scores`, and keyword ranking artifacts when they exist.
 - Preserve existing source context, backlog rows, statuses, scores, statistics, notes, metadata, and any additional columns unless the user explicitly corrects them.
 
 If it does not exist or lacks meaningful app context:
@@ -49,7 +49,7 @@ Load reference lists only when they are needed for the current metadata run:
 
 - Use `references/stop-words-en.md` when the source primary locale or target locale is English, or when evaluating English metadata words.
 - Use `references/app-store-category-terms.md` when evaluating English category/free words or comparing English metadata words against App Store category names.
-- Use `../../references/app-store-search-metadata-evidence.md` when a recommendation needs an evidence-confidence label or a documented-versus-practitioner distinction.
+- Use `../../references/app-store-search-metadata-evidence.md` when a recommendation needs an evidence label or a documented-versus-practitioner distinction.
 
 The reference lists are guardrails, not absolute bans. English stop words and category terms are usually poor use of the 100-byte keywords budget, but they may still belong in visible metadata when they make the app name or subtitle natural and conversion-safe. Do not apply English stop-word or category-term assumptions to non-English metadata unless target-language evidence supports the decision.
 
@@ -94,6 +94,7 @@ Use `.agents/aso/context.md` as the canonical source for:
 - Confirmed search terms with numeric `Strategic score`.
 - Word value rows with numeric `Value`.
 - Rejected rows, notes, and competitor warnings that indicate exclusions.
+- Keyword ranking history from `.agents/aso/keyword-rankings.md` when it exists, especially current high-ranking terms that overlap current metadata.
 
 For localized work, use the locale workspace as the canonical source for:
 
@@ -103,6 +104,7 @@ For localized work, use the locale workspace as the canonical source for:
 - Localized word value rows with numeric `Value`
 - Localized rejected rows and notes that indicate exclusions or uncertainty
 - Localized `## Metadata` `### Current` and `### History` entries, including field meanings in metadata annotations when present
+- Localized keyword ranking history from `.agents/aso/locales/<Locale>/keyword-rankings.md` when it exists
 
 ## Metadata Current And History
 
@@ -188,6 +190,10 @@ Create these pools:
 
 Do not add a word to keywords only because it fits. Prefer words that increase covered strategic score, long-tail combinations, or high-value word coverage.
 
+When strategic scores are close, prefer the term or word with stronger relevance, clearer App Store intent, cleaner statistics notes, or better visible-copy fit.
+
+Keep a portfolio view while drafting. Avoid variants that overfit only to broad head terms, only to long-tail terms, or only to weakly relevant high-volume words when a more balanced mix of core, feature/use-case, generic/head, and long-tail coverage is available.
+
 ### 3. Generate Variants
 
 Generate exactly three variants unless the user asks for fewer or more:
@@ -208,8 +214,9 @@ For each variant:
 6. Remove lower-weight duplicates when a word appears in a higher-weight field.
 7. Recheck stop words, category terms, competitor/protected terms, and singular/plural decisions.
 8. Apply compatible saved metadata guidance, such as preserving the brand in the app name, avoiding a wording pattern the user corrected, or preferring a known natural localized phrase.
-9. Verify that visible metadata is natural enough for users to see in search results, and for localized drafts that it reads naturally in the target language.
-10. Write compact field notes; for localized metadata, also produce field-level `Meaning` values.
+9. Check whether the variant displaces words from current metadata that have saved history guidance or available strong ranking evidence.
+10. Verify that visible metadata is natural enough for users to see in search results, and for localized drafts that it reads naturally in the target language.
+11. Write compact field notes; for localized metadata, also produce field-level `Meaning` values.
 
 ### 4. Calculate Coverage
 
@@ -226,7 +233,8 @@ For each variant, report:
 - Number of confirmed eligible terms covered.
 - Exact visible phrase coverage from app name or subtitle.
 - Unused high-value words with reasons.
-- Duplicate, stop-word, category, competitor, protected-term, singular/plural, and evidence-confidence warnings.
+- Duplicate, stop-word, category, competitor, protected-term, singular/plural, and evidence-label warnings.
+- Current metadata displacement warnings when saved history or ranking data suggests a removed word or phrase is a proven performer.
 - Readability and conversion notes.
 - Localized `Meaning` values and uncertainty notes when the draft is localized.
 
@@ -343,7 +351,8 @@ Explain why the recommendation fits the current app, using:
 - Brand preservation.
 - Keyword-byte efficiency.
 - Risk level from competitor/protected terms, category terms, or awkward copy.
-- Evidence confidence for any practitioner-supported or unresolved placement assumption.
+- Evidence label for any practitioner-supported or unresolved placement assumption.
+- Any current metadata words or phrases that may be displaced despite saved history or ranking evidence.
 
 After publishing a selected metadata draft, check keyword rankings periodically with `aso-search-terms-rankings`, then use `aso-metadata-performance-analysis` to evaluate broader search-source performance, Search Ads impact, and downstream guardrails. Recommend:
 
@@ -453,6 +462,8 @@ After saving or publishing, summarize which variant was saved, whether App Store
 - Assuming a draft history save updates current context metadata. Update `### Current` only after the user explicitly approves a final/current variant.
 - Adding separate metadata storage sections instead of using `## Metadata` `### Current` and `### History`.
 - Marking metadata as current/final in context after an App Store Connect publish attempt that failed or did not clearly report success.
+- Treating `Strategic score` as final metadata truth instead of a planning aid that must be balanced against relevance, readability, portfolio mix, and current performance evidence.
+- Replacing currently strong metadata words without warning when saved history or ranking data suggests they are proven performers.
 
 ## Related Skills
 

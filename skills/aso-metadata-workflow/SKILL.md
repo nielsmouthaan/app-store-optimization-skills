@@ -73,7 +73,7 @@ After approved scores are saved, continue only with confirmed terms.
 
 ## Phase 3: Fetch Statistics
 
-Use `aso-search-terms-statistics` to fetch popularity and difficulty for confirmed terms.
+Use `aso-search-terms-statistics` to fetch popularity and difficulty for confirmed terms. User-provided Apple Ads Search Popularity on a `1`-`5` scale may be normalized for `Popularity`, but it must not be used as `Difficulty`.
 
 Use the primary locale from context, or let the statistics skill derive or ask for it according to its locale-selection rules.
 
@@ -87,13 +87,13 @@ Stop if:
 - the primary locale is unresolved
 - the statistics tool cannot be accessed
 
-Do not estimate or infer missing popularity or difficulty values. Report the blocker and the missing upstream requirement.
+Do not estimate or infer missing popularity or difficulty values beyond the statistics skill's explicit Apple Ads Search Popularity normalization. Report the blocker and the missing upstream requirement.
 
 ## Phase 4: Calculate Search Term Scores
 
 Use `aso-search-terms-scoring` after confirmed terms have valid relevance, popularity, and difficulty values.
 
-This phase is deterministic. It may save derived strategic scores and word value scores once prerequisites are satisfied, but it must not change relevance, statistics, statuses, notes, or metadata placement.
+This phase is deterministic. It may save derived strategic scores and word value scores once prerequisites are satisfied, but it must not change relevance, statistics, statuses, notes, or metadata placement. Relevance `1` and `2` terms remain scorable when confirmed and complete; the formula discounts them strongly.
 
 If no confirmed terms are eligible, stop and report which upstream input is missing.
 
@@ -101,7 +101,7 @@ If no confirmed terms are eligible, stop and report which upstream input is miss
 
 Use `aso-metadata-generation` after strategic scores and word value scores exist.
 
-Generate metadata variants and coverage analysis for the active source locale. Stop after presenting grouped variants, warnings, coverage tradeoffs, and the recommended option.
+Generate metadata variants and coverage analysis for the active source locale. Stop after presenting grouped variants, portfolio tradeoffs, warnings, coverage tradeoffs, and the recommended option.
 
 Save a draft, update current context metadata, or publish to App Store Connect only when the user explicitly approves the relevant save or publish action. Saved drafts, user-edited variants, current approvals, and published snapshots are recorded under `## Metadata` `### History`; only explicit current approvals or successful publishes update `## Metadata` `### Current`.
 
@@ -116,7 +116,7 @@ Use these gates to decide whether the workflow can continue:
 | Context approved | User confirms app context and source gaps are acceptable | Search-term identification |
 | Backlog approved | User accepts, rejects, corrects, or adds proposed terms; accepted terms are saved as `confirmed` | Relevance scoring |
 | Relevance approved | User explicitly approves or corrects relevance groups | Statistics fetching |
-| Statistics available | External source provides validated popularity and difficulty for the target country or region, or the user accepts stale statistics with a warning | Search term scoring |
+| Statistics available | External source provides validated popularity and difficulty for the target country or region, with Apple Ads normalization allowed for popularity only, or the user accepts stale statistics with a warning | Search term scoring |
 | Search term scores saved | Eligible confirmed terms have derived strategic scores and word value scores are saved in context | Metadata generation |
 | Metadata choice approved | User approves a draft history save, current metadata update, or publish action | Save to `## Metadata` `### History`, and update `### Current` only for current approvals or successful publishes |
 

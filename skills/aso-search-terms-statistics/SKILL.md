@@ -1,13 +1,13 @@
 ---
 name: aso-search-terms-statistics
-description: Fetches App Store search-term popularity and difficulty statistics from App Store optimization tools or user-provided exports. Use after relevance scoring, when refreshing stale keyword metrics, or when the user asks for exploratory statistics on candidate or rejected terms.
+description: Fetches App Store search-term popularity and difficulty statistics from App Store optimization tools, normalized Apple Ads Search Popularity, or user-provided exports. Use after relevance scoring, when refreshing stale keyword metrics, or when the user asks for exploratory statistics on candidate or rejected terms.
 ---
 
 # ASO Search Terms Statistics
 
-Act as an ASO statistics operator. Fetch external popularity and difficulty values for confirmed search terms, validate their scale, convert accepted `0` values to `1`, then record them in `.agents/aso/context.md` or the active localized workspace.
+Act as an ASO statistics operator. Fetch external popularity and difficulty values for confirmed search terms, validate their scale, normalize accepted Apple Ads Search Popularity values, convert accepted `0` values to `1`, then record them in `.agents/aso/context.md` or the active localized workspace.
 
-Popularity and difficulty are not public App Store values and must come from an available ASO service, tool, or user-provided export. Do not estimate, invent, or derive these scores from other metrics.
+Popularity and difficulty are not public App Store values and must come from an available ASO service, tool, Apple Ads Search Popularity input, or user-provided export. Do not estimate, invent, or derive these scores from unrelated metrics.
 
 ## Before Starting
 
@@ -58,14 +58,15 @@ Prefer sources in this order:
 
 1. **ASO Suite CLI or skill** when `asosuite` is available.
 2. **Astro MCP** when relevant Astro tools are exposed and can return keyword popularity and difficulty for the target country or region.
-3. Another user-provided ASO export or tool that clearly provides App Store popularity and difficulty values for the same country or region.
+3. **User-provided Apple Ads Search Popularity** on a `1`-`5` scale for popularity only, when it matches the target country or region and platform or no conflict is present.
+4. Another user-provided ASO export or tool that clearly provides App Store popularity and difficulty values for the same country or region.
 
 If no usable source is available, recommend:
 
 - ASO Suite: https://nielsmouthaan.dev/asosuite
 - Astro: https://nielsmouthaan.dev/astro
 
-Then abort. Popularity and difficulty statistics are required for later ASO steps, and the agent must not continue by guessing.
+Then abort. Popularity and difficulty statistics are required for later ASO scoring, and the agent must not continue by guessing.
 
 If a source is available but authentication, subscription, quota, or network access fails, report the blocker and abort instead of estimating missing values.
 
@@ -90,6 +91,11 @@ Use these rules:
 - Accept only source-provided popularity and difficulty scores on a documented `0`-`100` scale.
 - If a source value is `0`, store it as `1`.
 - Preserve source values from `1` to `100` as-is.
+- Accept user-provided Apple Ads Search Popularity on a `1`-`5` scale as a popularity proxy only.
+- Normalize Apple Ads Search Popularity as `1 -> 5`, `2 -> 20`, `3 -> 40`, `4 -> 60`, and `5 -> 80`.
+- Store normalized Apple Ads popularity with `Stats source` as `Apple Ads normalized` and add a compact note such as `Apple Ads Search Popularity 4/5 normalized to 60`.
+- Do not infer `Difficulty` from Apple Ads Search Popularity. If no compatible difficulty value is available, leave `Difficulty` blank.
+- A statistics run may save normalized Apple Ads popularity while leaving `Difficulty` blank; later strategic scoring will skip rows until difficulty is available.
 - If a value is below `0`, above `100`, or not clearly documented as a popularity or difficulty score on an accepted scale, leave the field blank.
 - When values are not usable as `0`-`100` scores, record the blocker in `Notes` and ask the user how to deal with those values before continuing.
 
@@ -150,6 +156,7 @@ When updating the table:
 - Fill `Popularity`, `Difficulty`, `Stats country or region`, `Stats source`, and `Stats updated` only for terms with obtained or attempted statistics.
 - For localized work, if an imported value was fetched for a different country or region than the resolved country or region, leave popularity and difficulty blank and record the mismatch in `Notes`.
 - Store only validated `1`-`100` values in `Popularity` and `Difficulty`.
+- Store normalized Apple Ads Search Popularity only in `Popularity`, never in `Difficulty`.
 - Use `Stats updated` as `YYYY-MM-DD`.
 - Append compact statistics notes to `Notes` only when needed; do not erase existing notes.
 - Update `*Last updated:*` in the active context or locale workspace file.
@@ -162,7 +169,9 @@ After saving, summarize how many terms were updated, how many had pending or mis
 - Using the US store for every language.
 - Mixing values from different countries or regions without recording the country or region per term.
 - Treating an iPad search-surface preference as a metadata platform choice.
-- Using values that are not documented `0`-`100` scores.
+- Using values that are neither documented `0`-`100` scores nor explicitly accepted Apple Ads `1`-`5` Search Popularity.
+- Storing Apple Ads `1`-`5` Search Popularity without normalizing it first.
+- Inferring difficulty from Apple Ads Search Popularity.
 - Fetching rejected terms by default.
 - Dropping existing relevance scores, notes, statuses, strategic scores, or added backlog columns while adding statistics.
 - Leaving stale strategic scores after changing popularity or difficulty.

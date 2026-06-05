@@ -46,6 +46,7 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 - Include broad head terms for the app's core category, jobs-to-be-done, and main user outcomes.
 - Include natural action-object and noun variants for the same intent, including compact forms users may type in the App Store.
 - Include generic category, audience, and use-case synonyms even when they are less precise than the app's positioning, but treat them as research candidates rather than final keyword-field recommendations.
+- Include seasonal terms only when the app, source evidence, or user request supports the seasonal intent. Mark the season or timing window in `Notes`, and do not treat expired seasonal terms as evergreen opportunities.
 - Do not invent spelling or grammar mistakes.
 - Preserve misspelled or ungrammatical terms only when they come from the user or source evidence.
 - Include the app's own brand name and natural brand variants.
@@ -86,13 +87,13 @@ Do not treat local repository files as complete source coverage when public list
 Create candidates from multiple sources:
 
 - **App language:** app name, subtitle, description, feature names, benefits, jobs-to-be-done, and problem statements.
-- **User language:** reviews, support requests, testimonials, community posts, and user-provided wording.
+- **User language:** reviews, support requests, testimonials, community posts, and user-provided wording. Treat isolated review phrases as weak or noisy evidence unless they recur or are corroborated by other sources.
 - **Apple-native search signals:** App Store autocomplete or hints, Apple Search Ads search terms, keyword suggestions, Search Match discoveries, and Search Popularity when available.
-- **Competitor research:** competitor app names, subtitles, descriptions, OCR'd screenshot text when already available, and terms they appear to rank for.
+- **Competitor research:** competitor app names, subtitles, descriptions, OCR'd screenshot text when already available, and terms they appear to rank for. Remember that visible competitor metadata is incomplete for iOS because the hidden keyword field is not public.
 - **Existing ASC keywords:** App Store Connect keyword field terms provided by the user for each platform; treat them as source material and seeds, not automatically approved final terms.
 - **Third-party and web discovery tools:** If the user provides data or relevant tools are available, use ASO tools, Google Play autofill, Google Keyword Planner, Google Trends, SEO tools, and keyword discovery tools with caveats. Web or Google Play demand is not the same as App Store demand.
 - **Imported keyword lists:** User-provided keyword exports or manual lists; import their keyword language broadly before generating new expansions.
-- **Phrase expansion:** broad head terms, singular/plural variants, synonyms, alternate word order, related nouns and verbs, action-object variants, noun-form variants, compact or compound variants, category modifiers, and long-tail combinations.
+- **Phrase expansion:** broad head terms, singular/plural variants, synonyms, alternate word order, related nouns and verbs, action-object variants, noun-form variants, compact or compound variants, category modifiers, seasonal variants, and long-tail combinations.
 - **Brand terms:** the app's own name, product names, company name, abbreviations, and source-backed misspellings or grammar variants when relevant.
 
 If source material uses a language other than the source primary locale language, use it only as background for understanding the app. Do not translate non-active-locale strings into search-term candidates unless the user explicitly changes the source primary locale.
@@ -160,6 +161,8 @@ When updating the table, follow these rules:
 - For localized terms, fill `Meaning` with a compact back-translation or explanation in a language the user understands.
 - Normalize obvious duplicates, but keep meaningful variants, including singular/plural forms, word-order variants, generic and/or reserved terms like "app", developer names, and category terms when they make sense.
 - Use `Notes` for compact context that helps later skills interpret the term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.
+- For review-mined terms, note when evidence is isolated, noisy, recurring, or corroborated.
+- For seasonal terms, note the season, event, or timing window and whether it appears evergreen or time-limited.
 - Keep source-backed grammar and spelling variants when they reflect realistic user searches.
 - Mark weak-but-possibly-useful terms as `questionable search intent`.
 - In localized work, put original-intent references and uncertainty in `Notes`; do not add a separate `Source` column to localized workspaces.
@@ -175,6 +178,7 @@ Competitor names can be useful research inputs, but they are risky as usable App
 When researching competitors:
 
 - Inspect competitor app names, subtitles, descriptions, OCR'd screenshot text when already available, reviews, categories, and visible positioning when available.
+- Treat visible competitor metadata as incomplete on iOS because the hidden keyword field is not public.
 - Extract generic non-brand search terms from competitor language, category fit, features, benefits, and user intent.
 - Do not propose competitor brand names as normal candidate terms.
 - Keep competitor brand names in competitor notes unless the user asks to track them in the backlog.
@@ -191,7 +195,10 @@ When researching competitors:
 - Generating translated terms from non-active-language source material.
 - Correcting realistic misspellings or grammar mistakes without checking whether they were intentional.
 - Treating web search volume as App Store demand without caveats.
+- Treating one-off review phrases as priority search terms without recurrence, corroboration, or user review.
 - Forgetting long-tail terms with clearer intent.
+- Treating seasonal terms as evergreen without noting the timing window.
+- Assuming visible competitor metadata reveals the full iOS keyword strategy.
 - Proposing competitor brand names as usable search terms instead of extracting generic non-brand alternatives from competitor research.
 - Jumping into keyword prioritization, statistics fetching, or metadata writing before the backlog is broad enough.
 

@@ -49,6 +49,8 @@ For localized work:
 
 Use a **1-5 relevance score** to describe how well the app satisfies the App Store search intent behind a term.
 
+Scores are relative to the backlog. A score of `1` or `2` means lower relative relevance, ambiguity, or weaker App Store expectation; it does not mean the term is rejected or should be ignored when the user has confirmed it.
+
 | Score | Meaning |
 | --- | --- |
 | `1` | Very weak fit, mostly ambiguous, unlikely as an App Store query, or likely to disappoint most searchers. |
@@ -108,6 +110,8 @@ Consider:
 Do not treat product-feature fit alone as relevance. A term can describe a real feature but still deserve a low score if it is unlikely to be used as an App Store search.
 
 Do not treat search volume as relevance. A high-volume term can be irrelevant, and a low-volume term can be highly relevant.
+
+Do not use relevance scoring to remove confirmed terms from later scoring. `aso-search-terms-scoring` can still calculate low but nonzero strategic scores for confirmed terms with relevance `1` or `2` when popularity and difficulty inputs are valid.
 
 ### 3. Calibrate Scores
 
@@ -180,7 +184,7 @@ When updating the table, follow these rules:
 - Score `confirmed` terms by default; leave `candidate` terms unscored until the user accepts them into the backlog.
 - Preserve rejected terms without assigning them a relevance score.
 - Use only integer scores from `1` to `5`.
-- Keep rationale in `Notes` compact and useful for later prioritization.
+- Keep rationale in `Notes` compact and useful for later prioritization, especially when there are genuine doubts such as ambiguous intent, localization uncertainty, policy concerns, noisy review evidence, or questionable search shape.
 - For localized terms, use `Notes` for source-intent references, local nuance, uncertainty, or manual-review reminders.
 - Do not overwrite user-confirmed relevance scores unless the user approves the change.
 - Update `*Last updated:*` in the context file.
@@ -197,6 +201,7 @@ When updating the table, follow these rules:
 - Downgrading the app's own brand terms because the brand is broad or generic.
 - Penalizing relevant long-tail terms only because they may have lower volume.
 - Scoring `candidate` terms before the user accepts them into the usable ASO backlog.
+- Treating relevance `1` or `2` as automatic rejection after the user has confirmed the term.
 - Scoring competitor brand names as normal target terms instead of using competitor research to find generic alternatives.
 - Saving proposed scores before the user reviews them.
 - Treating relevance as final truth instead of a user-validated input for later ASO work.

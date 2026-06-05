@@ -148,7 +148,7 @@ Agent-led review is the default. Ask the user only when ambiguity could material
 
 Use the active locale's resolved country or region, not the source context's country or region, when fetching statistics. Resolve it from the explicit request, saved `Country or region preference`, or locale default in `../../references/app-store-localizations.md`. If the ASO tool requires a two-letter country or region parameter, derive it from the resolved country or region ISO code using `../../references/app-store-localizations.md` or a standard ISO 3166 lookup.
 
-Fetch exact localized search terms. Do not translate terms during statistics fetching. Do not reuse popularity or difficulty values from another locale or country or region.
+Fetch exact localized search terms. Do not translate terms during statistics fetching. Do not reuse popularity or difficulty values from another locale or country or region. User-provided Apple Ads Search Popularity on a `1`-`5` scale may be normalized for `Popularity`, but it must not be used as `Difficulty`.
 
 If imported statistics were fetched for a different country or region than the resolved country or region, treat them as incompatible unless the user explicitly wants exploratory comparison data outside the localized workflow.
 
@@ -156,7 +156,7 @@ If imported statistics were fetched for a different country or region than the r
 
 Use the existing strategic-score formula per localized workspace.
 
-Generate app name, subtitle, and platform keyword sections for the target locale. Visible fields must read naturally for the target language. Each generated keyword section must fit the 100-byte App Store keyword limit.
+Generate app name, subtitle, and platform keyword sections for the target locale. Visible fields must read naturally for the target language. Each generated keyword section must fit the 100-byte App Store keyword limit. Use portfolio balance so localized drafts do not overfit to only broad head terms or only long-tail terms.
 
 Use `aso-metadata-generation` for localized drafts. It uses the same grouped variant structure as source-locale drafts. When saved, localized metadata uses compact field annotations for counts and meanings, such as `*(18/30, scan invoices)`.
 

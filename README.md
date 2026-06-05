@@ -45,7 +45,7 @@ Assigns `1`-`5` relevance scores to search terms, based on App Store search inte
 
 ### aso-search-terms-statistics
 
-Fetches external popularity and difficulty statistics for confirmed search terms and records them in the active ASO context or locale workspace. Use this after relevance scoring and before search-term scoring or metadata placement. These values must come from tools such as ASO Suite or Astro; the agent should not infer them. Stats older than one month should be refreshed when possible, and localized stats must match the resolved country or region.
+Fetches external popularity and difficulty statistics for confirmed search terms and records them in the active ASO context or locale workspace. Use this after relevance scoring and before search-term scoring or metadata placement. These values must come from tools such as ASO Suite or Astro, compatible user-provided exports, or normalized Apple Ads Search Popularity for popularity only; the agent should not infer them from unrelated metrics. Stats older than one month should be refreshed when possible, and localized stats must match the resolved country or region.
 
 ### aso-search-terms-rankings
 
@@ -57,11 +57,11 @@ Analyzes whether published App Store metadata changes improved, hurt, or had no 
 
 ### aso-search-terms-scoring
 
-Calculates derived `Strategic score` values for confirmed search terms and derived per-word value scores from those strategic scores. Use this after relevance scoring and statistics fetching to prioritize terms and identify individual words that cover the most strategic search-term value per metadata character.
+Calculates derived `Strategic score` values for confirmed search terms and derived per-word value scores from those strategic scores. Use this after relevance scoring and statistics fetching to prioritize terms and identify individual words that cover the most strategic search-term value per metadata character. Relevance `1` and `2` terms remain scorable when confirmed and statistically complete, and the formula discounts them strongly.
 
 ### aso-metadata-generation
 
-Generates source-locale or localized App Store metadata drafts for shared app name, shared subtitle, and platform-specific keyword fields from confirmed search terms, `Strategic score` values, saved `Word Value Scores`, current metadata, and saved metadata history guidance. Use this after search-term scoring to create metadata variants. Review output uses grouped variant blocks with counts, coverage, warnings, and notes; explicit saves append compact entries under `## Metadata` `### History`, and current approvals update `## Metadata` `### Current`. Keyword fields are counted against Apple's 100-byte limit per platform.
+Generates source-locale or localized App Store metadata drafts for shared app name, shared subtitle, and platform-specific keyword fields from confirmed search terms, `Strategic score` values, saved `Word Value Scores`, current metadata, ranking evidence when available, and saved metadata history guidance. Use this after search-term scoring to create metadata variants. Review output uses grouped variant blocks with counts, portfolio tradeoffs, coverage, warnings, and notes; explicit saves append compact entries under `## Metadata` `### History`, and current approvals update `## Metadata` `### Current`. Keyword fields are counted against Apple's 100-byte limit per platform.
 
 ## Artifacts
 

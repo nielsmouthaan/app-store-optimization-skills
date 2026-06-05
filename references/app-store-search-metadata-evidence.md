@@ -35,6 +35,14 @@ These fields can affect whether a search impression becomes a tap or install, bu
 
 Use these fields as context for product language, clarity, and conversion. Do not use them as keyword buckets for App Store search metadata generation.
 
+## Statistics Handling
+
+- Treat third-party popularity and difficulty scores as source-defined estimates unless Apple documents otherwise.
+- Store popularity and difficulty only as validated `1`-`100` planning inputs.
+- Apple Ads Search Popularity on a user-provided `1`-`5` scale may be normalized for `Popularity` as `1 -> 5`, `2 -> 20`, `3 -> 40`, `4 -> 60`, and `5 -> 80`.
+- Do not infer `Difficulty` from Apple Ads Search Popularity.
+- Record normalization, stale data, source mismatch, seasonality, or other caveats compactly in backlog `Notes`; do not add separate evidence artifacts by default.
+
 ## Practitioner-Supported Drafting Rules
 
 - Use app name, subtitle, then keyword field as a priority order for placement, but label this as practitioner-supported rather than Apple-documented.
