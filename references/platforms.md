@@ -35,8 +35,8 @@ Use search surfaces only for rankings, statistics, or tool parameters.
 
 ## Selection Rules
 
-- `Platforms` determines which App Store Connect keyword sections may be generated, saved, or published.
+- `Platforms` determines which App Store Connect keyword fields may be generated, saved, or published.
 - Do not store a primary search surface by default.
 - If an ASO tool requires an iPhone or iPad surface for iOS statistics or rankings and the user has not explicitly requested iPad, use iPhone.
 - If the user explicitly requests iPad-based statistics or rankings, store `**Search surface preference:** iPad` in `.agents/aso/context.md` and reuse it for later statistics and ranking calls until the user changes it.
-- Do not use `Search surface preference` to decide which keyword sections exist. Keyword sections are based on `Platforms`.
+- Do not use `Search surface preference` to decide which keyword fields exist. Keyword fields are based on `Platforms`.

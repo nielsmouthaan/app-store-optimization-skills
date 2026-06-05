@@ -24,13 +24,7 @@ If it exists:
 - Update only the parts affected by the current request or newly available sources.
 - Preserve user-confirmed facts unless new evidence clearly contradicts them.
 
-If it does not exist but legacy `.agents/aso-context.md` exists:
-
-- Read the legacy file as the current context.
-- On the next save, write the updated context to `.agents/aso/context.md`.
-- Do not delete the legacy file unless the user explicitly asks.
-
-If neither context file exists:
+If it does not exist:
 
 - Create it from the best available sources.
 
@@ -69,7 +63,7 @@ When using a **marketing or landing page URL**, extract only ASO-useful context:
 - Solution to problem
 - Keywords and app category language
 
-When using **App Store Connect keyword field terms**, capture them as source material for search-term discovery under platform-specific `Keywords (<platform>)` sections. Do not treat them as automatically approved or final search terms.
+When using **App Store Connect keyword field terms**, capture them as source material for search-term discovery under `## Metadata` `### Current` platform-specific `**Keywords (<platform>):**` lines. Do not treat them as automatically approved or final search terms.
 
 When using **local files**, prefer sources that describe the app for users:
 
@@ -103,19 +97,26 @@ After review and adjustment, create or update `.agents/aso/context.md` using thi
 **App Store URL:**
 **Marketing URL:**
 **Other sources:**
-**Localization preferences:**
 
 ## Metadata
-**Name:**
-**Subtitle:**
-**Developer:**
-**Primary category:**
-**Secondary category:**
+### Current
 
-## Current Keywords
-### Keywords (iOS)
+**Name:** Example App *(11/30)*
+**Subtitle:** Example subtitle *(16/30)*
+**Developer:** Example Studio
+**Primary category:** Business
+**Secondary category:** Productivity
+**Keywords (iOS):** example,keyword,terms *(21/100 bytes)*
 
-### Keywords (macOS)
+### History
+
+#### YYYY-MM-DD - Current - User Edited
+
+User approved the current metadata. Guidance: keep the brand in the app name.
+
+**Name:** Example App *(11/30)*
+**Subtitle:** Example subtitle *(16/30)*
+**Keywords (iOS):** example,keyword,terms *(21/100 bytes)*
 
 ## Description
 
@@ -169,15 +170,20 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 - Do not store an Apple country or region ISO code as part of `Primary locale`. Store `Country or region preference` only when the user or clear source evidence explicitly overrides the default country or region derived from `../../references/app-store-localizations.md`.
 - Store supported App Store Connect platforms in `**Platforms:**` using values from `../../references/platforms.md`, such as `iOS`, `macOS`, `tvOS`, or `visionOS`.
 - Omit `**Search surface preference:**` unless the user explicitly asks to use a non-default search surface for statistics or rankings, such as iPad instead of iPhone for iOS.
-- Store current keyword fields in `## Current Keywords` with one `### Keywords (<platform>)` section per relevant platform.
+- Store current metadata under `## Metadata` > `### Current`.
+- Store current keyword fields as platform-specific lines in `### Current`, such as `**Keywords (iOS):** term,term *(42/100 bytes)*`. Omit platform keyword lines when they are unavailable.
+- Treat text inside `*(...)*` on metadata lines as an annotation. The stored metadata value is the text before the annotation.
+- For localized metadata workspaces, put field meanings inside the same annotation when useful, such as `**Subtitle:** Rechnungen scannen *(18/30, scan invoices)*`.
+- Store saved metadata iterations under `## Metadata` > `### History` only when the user explicitly saves a generated draft, provides an edited variant, approves current metadata, or publishes metadata. Do not store unsaved generated variants.
+- Keep history entries compact: a unique heading with date, status, and source; one short notes/guidance paragraph; then the saved metadata field lines. Use `Guidance:` in the paragraph when a user edit should affect later generations.
 - Store localized workspaces in `## Locales` when they exist. Keep only the metadata locale, workspace path, optional country or region preference, and compact notes there; do not duplicate localized search terms in the global context.
-- Use `.agents/aso/locales/<Locale>/context.md` for localized terms, relevance, statistics, scoring, and metadata drafts.
+- Use `.agents/aso/locales/<Locale>/context.md` for localized terms, relevance, statistics, scoring, current metadata, and metadata history.
 - Use `candidate`, `confirmed`, or `rejected` for search-term backlog status values. Use `candidate` for unreviewed suggested or imported terms, `confirmed` for user-accepted terms in the usable ASO backlog, and `rejected` for terms the user does not want to use.
 - Leave `Relevance` blank until `aso-search-terms-relevance-scoring` assigns a user-approved integer score from `1` to `5`; keep it blank for rejected terms.
 - Leave `Popularity`, `Difficulty`, `Stats country or region`, `Stats source`, and `Stats updated` blank until `aso-search-terms-statistics` obtains external statistics; keep them blank for rejected terms unless the user explicitly requests statistics for rejected terms. Store `Popularity` and `Difficulty` as validated `1`-`100` values. Use `Notes` for important compact statistics context.
 - Leave `Strategic score` blank until `aso-search-terms-scoring` calculates it for confirmed terms with valid relevance, popularity, and difficulty values.
 - Leave `## Word Value Scores` empty until `aso-search-terms-scoring` calculates derived word scores from confirmed terms with valid strategic scores.
-- Preserve existing `## Metadata Drafts` sections unless explicitly updating them through `aso-metadata-generation`.
+- Preserve existing `## Metadata` `### History` entries unless explicitly updating them through `aso-metadata-generation`.
 - Use `Notes` for compact context that helps later skills interpret a search term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.
 - Preserve existing backlog columns and values unless the user approves a change. Later skills may add columns, but this skill must not drop them.
 - Preserve rejected search terms when they prevent repeated suggestions.

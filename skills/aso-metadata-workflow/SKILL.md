@@ -51,7 +51,7 @@ The context must identify, when available:
 - App Store URL
 - marketing URL
 - App Store Connect keyword field terms by platform
-- app metadata, primary category, secondary category, use cases, features, reviews, and competitors
+- app metadata under `## Metadata` `### Current`, compact saved metadata `### History`, primary category, secondary category, use cases, features, reviews, and competitors
 
 Stop after drafting or updating the context. Ask the user to confirm what is incorrect, missing, or misleading before treating the context as ready for search-term work.
 
@@ -97,13 +97,13 @@ This phase is deterministic. It may save derived strategic scores and word value
 
 If no confirmed terms are eligible, stop and report which upstream input is missing.
 
-## Phase 5: Generate Metadata Drafts
+## Phase 5: Generate Metadata Variants
 
 Use `aso-metadata-generation` after strategic scores and word value scores exist.
 
 Generate metadata variants and coverage analysis for the active source locale. Stop after presenting grouped variants, warnings, coverage tradeoffs, and the recommended option.
 
-Save a draft, update current context metadata, or publish to App Store Connect only when the user explicitly approves the relevant save or publish action.
+Save a draft, update current context metadata, or publish to App Store Connect only when the user explicitly approves the relevant save or publish action. Saved drafts, user-edited variants, current approvals, and published snapshots are recorded under `## Metadata` `### History`; only explicit current approvals or successful publishes update `## Metadata` `### Current`.
 
 After metadata goes live, recommend checking keyword rankings periodically with `aso-search-terms-rankings`, then using `aso-metadata-performance-analysis` to evaluate broader search-source performance, Search Ads impact, and downstream guardrails.
 
@@ -118,7 +118,7 @@ Use these gates to decide whether the workflow can continue:
 | Relevance approved | User explicitly approves or corrects relevance groups | Statistics fetching |
 | Statistics available | External source provides validated popularity and difficulty for the target country or region, or the user accepts stale statistics with a warning | Search term scoring |
 | Search term scores saved | Eligible confirmed terms have derived strategic scores and word value scores are saved in context | Metadata generation |
-| Metadata choice approved | User approves a draft, current metadata update, or publish action | Save or publish according to `aso-metadata-generation` |
+| Metadata choice approved | User approves a draft history save, current metadata update, or publish action | Save to `## Metadata` `### History`, and update `### Current` only for current approvals or successful publishes |
 
 ## Completion Report
 
@@ -128,7 +128,7 @@ End the workflow with a compact report:
 - number of backlog terms, confirmed terms, rejected terms, and scored terms
 - statistics source and update date
 - highest strategic terms and highest-value words
-- metadata variant recommended or saved
+- metadata variant recommended or saved, including whether a history entry was appended or current metadata was updated
 - field counts and coverage summary
 - unresolved source gaps, warnings, or follow-up tests
 
@@ -141,6 +141,6 @@ If metadata was only saved as a draft, state that App Store Connect was not upda
 - Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance scores.
 - Use `aso-search-terms-statistics` to fetch popularity and difficulty.
 - Use `aso-search-terms-scoring` to calculate derived strategic scores and per-word value scores.
-- Use `aso-metadata-generation` to generate and save metadata drafts.
+- Use `aso-metadata-generation` to generate metadata variants and save approved drafts, edits, current choices, or published snapshots.
 - Use `aso-metadata-performance-analysis` after metadata changes go live to evaluate post-publish impact.
 - Use `aso-localized-metadata-workflow` for localized metadata optimization tied to a specific country or region.

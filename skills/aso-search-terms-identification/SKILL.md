@@ -68,7 +68,7 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 Use the context file as the canonical source for:
 
 - Primary locale, optional country or region preference, and platforms
-- App Store URL, marketing URL, and current platform keyword sections
+- App Store URL, marketing URL, and current `## Metadata` platform keyword lines
 - App name, subtitle, primary category, secondary category, and description
 - Features, use cases, and problem language
 - Screenshot text and review themes

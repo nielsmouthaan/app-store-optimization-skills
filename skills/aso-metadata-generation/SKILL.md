@@ -20,7 +20,7 @@ If it exists:
 - Summarize the app context that matters for metadata generation.
 - Identify the source `Primary locale`, optional `Country or region preference`, `Platforms`, and any `Search surface preference`.
 - For localized work, identify the source `Primary locale`, target `Locale`, optional `Country or region preference`, localized terms, and `Meaning` values.
-- Show current `## Metadata`, confirmed rows in `## Search Terms Backlog` with `Strategic score`, and saved `## Word Value Scores`.
+- Show `## Metadata` `### Current`, recent saved `### History` entries with useful guidance, confirmed rows in `## Search Terms Backlog` with `Strategic score`, and saved `## Word Value Scores`.
 - Preserve existing source context, backlog rows, statuses, scores, statistics, notes, metadata, and any additional columns unless the user explicitly corrects them.
 
 If it does not exist or lacks meaningful app context:
@@ -61,7 +61,7 @@ Generate App Store metadata only:
 | --- | --- | --- |
 | App name | 2-30 characters | Highest-priority visible search field. Relative field weight is practitioner-supported, not Apple-documented. Must be readable, distinctive, and not misleading. Brand may be kept when recognition matters. Use the limit efficiently, but do not force the full 30 characters when that makes the name weaker. |
 | Subtitle | Up to 30 characters | Visible under the app name. Use for a clear benefit, use case, or secondary high-value phrase. Do not repeat app name words. Use the limit efficiently, but do not force the full 30 characters when that makes the subtitle weaker. |
-| Platform keywords | 100 bytes per platform | Hidden fields saved as `Keywords (<platform>)`. Use comma-separated entries with no spaces after commas. Default to individual roots for efficient practitioner-supported coverage; preserve a phrase with spaces only when splitting would change meaning or when a confirmed high-value term explicitly justifies it. |
+| Platform keywords | 100 bytes per platform | Hidden fields are saved as `**Keywords (<platform>):**` metadata lines. Use comma-separated entries with no spaces after commas. Default to individual roots for efficient practitioner-supported coverage; preserve a phrase with spaces only when splitting would change meaning or when a confirmed high-value term explicitly justifies it. |
 
 Apply these rules:
 
@@ -89,7 +89,8 @@ Apply these rules:
 Use `.agents/aso/context.md` as the canonical source for:
 
 - App name, brand, developer, primary category, secondary category, current description, features, use cases, and competitors.
-- Current metadata and current platform keyword sections, when available.
+- `## Metadata` `### Current`, including current app name, subtitle, and platform keyword lines such as `**Keywords (iOS):**`.
+- Recent saved `## Metadata` `### History` entries, especially current, published, and user-edited entries with `Guidance:` notes.
 - Confirmed search terms with numeric `Strategic score`.
 - Word value rows with numeric `Value`.
 - Rejected rows, notes, and competitor warnings that indicate exclusions.
@@ -101,6 +102,19 @@ For localized work, use the locale workspace as the canonical source for:
 - Localized `Meaning` values for user-auditable coverage and visible-copy notes
 - Localized word value rows with numeric `Value`
 - Localized rejected rows and notes that indicate exclusions or uncertainty
+- Localized `## Metadata` `### Current` and `### History` entries, including field meanings in metadata annotations when present
+
+## Metadata Current And History
+
+Read current and saved metadata from the active workspace's `## Metadata` section:
+
+- Treat `### Current` as the active metadata snapshot.
+- Treat `### History` as saved metadata memory for generated drafts, user-edited variants, current approvals, and published snapshots.
+- Treat text inside `*(...)*` on metadata lines as an annotation. The metadata value is the text before the annotation.
+- For localized metadata, use meanings in annotations as audit context, such as `*(18/30, scan invoices)`.
+- Apply reusable guidance from recent history entries when it is compatible with the current request and scored search-term evidence.
+- Prefer explicit current-run user instructions over older history guidance. If two saved guidance notes conflict and the current user request does not resolve them, choose the newest relevant guidance and report the tradeoff.
+- Do not store or rely on unsaved generated variants as history.
 
 ## Metadata Section Format
 
@@ -158,7 +172,8 @@ Separate inputs into:
 - **Eligible search terms:** rows where `Status` is exactly `confirmed` and `Strategic score` is numeric.
 - **Eligible words:** rows in `## Word Value Scores` where `Word` is present and `Value` is numeric.
 - **Guardrail words:** stop words, primary/secondary category tokens, category/free words, brand/developer words, competitor words, protected words, rejected terms, and context-specific exclusions.
-- **Current covered words:** normalized words already present in current metadata, if available.
+- **Current covered words:** normalized words already present in `## Metadata` `### Current`, if available.
+- **Saved metadata guidance:** compact `Guidance:` notes and user-edit rationale from recent `## Metadata` `### History` entries.
 
 If no eligible search terms or eligible words exist, stop after explaining which upstream step is missing.
 
@@ -192,8 +207,9 @@ For each variant:
 5. If a platform lacks specific evidence, include a `Keywords (<platform>)` section with `Not generated.` and a compact note instead of reusing another platform's keywords.
 6. Remove lower-weight duplicates when a word appears in a higher-weight field.
 7. Recheck stop words, category terms, competitor/protected terms, and singular/plural decisions.
-8. Verify that visible metadata is natural enough for users to see in search results, and for localized drafts that it reads naturally in the target language.
-9. Write compact field notes; for localized metadata, also produce field-level `Meaning` values.
+8. Apply compatible saved metadata guidance, such as preserving the brand in the app name, avoiding a wording pattern the user corrected, or preferring a known natural localized phrase.
+9. Verify that visible metadata is natural enough for users to see in search results, and for localized drafts that it reads naturally in the target language.
+10. Write compact field notes; for localized metadata, also produce field-level `Meaning` values.
 
 ### 4. Calculate Coverage
 
@@ -344,131 +360,74 @@ Use three save modes:
 
 | Mode | When to use | What to update |
 | --- | --- | --- |
-| Draft save | The user wants to keep generated options, compare variants, or has not said the choice is final/current. | Update only `## Metadata Drafts` and `*Last updated:*`. |
-| Current metadata update | The user explicitly says a variant or edited variant is final, chosen, current, live, approved for use, or asks to update context metadata. | Update `## Metadata Drafts`, active-workspace `## Metadata` app name/subtitle, active-workspace `## Current Keywords`, and `*Last updated:*`. |
-| App Store Connect publish | The user explicitly asks to apply, push, publish, sync, or update the metadata in App Store Connect. | Use an App Store Connect tool first; update final/current context metadata only after the tool reports success. |
+| Draft history save | The user wants to keep a generated option, compare a saved option later, or has not said the choice is final/current. | Append one compact entry under `## Metadata` `### History` and update `*Last updated:*`. |
+| Current metadata update | The user explicitly says a variant or edited variant is final, chosen, current, live, approved for use, or asks to update context metadata. | Append one compact entry under `## Metadata` `### History`, update `## Metadata` `### Current`, and update `*Last updated:*`. |
+| App Store Connect publish | The user explicitly asks to apply, push, publish, sync, or update the metadata in App Store Connect. | Use an App Store Connect tool first; after confirmed success, append a published history entry, update `### Current`, and update `*Last updated:*`. |
 
 Do not publish anything to App Store Connect by default. If the user explicitly asks to update App Store Connect, use `asc` or another App Store Connect tool when available, optionally using a related skill such as `asc-metadata-sync`.
 
-For draft saves, add or replace only a `## Metadata Drafts` section. Do not overwrite `## Metadata`, because `aso-context` creates or updates that section to store source/current app metadata such as name, subtitle, developer, primary category, and secondary category.
+Draft saves update history only. They must not update `### Current` unless the user explicitly approves the metadata as final/current/live or asks to update current context metadata.
 
-When the active workspace is localized, add or replace `## Metadata Drafts` only in the locale workspace. Do not overwrite source metadata in `.agents/aso/context.md`.
-
-Use this structure.
+Use this compact storage structure:
 
 ```markdown
-## Metadata Drafts
-*Generated: YYYY-MM-DD*
+## Metadata
 
-### Recommended Draft
+### Current
 
-#### Conversion-balanced
+**Name:** Example Brand: Scanner *(22/30)*
+**Subtitle:** Receipts & Expense PDF *(22/30)*
+**Developer:** Example Studio
+**Primary category:** Business
+**Secondary category:** Productivity
+**Keywords (iOS):** tax,report,business,tracker *(27/100 bytes)*
 
-**Intent:** Preserve visible readability while covering the strongest terms.
+### History
 
-##### App Name
-Example Brand: Scanner
+#### YYYY-MM-DD - Current - User Edited - Conversion-balanced
 
-**Count:** 22/30 chars
-**Notes:** readable core intent
+User approved an edited generated variant. Guidance: keep the brand in the app name. Covered strategic score: 84.2.
 
-##### Subtitle
-Receipts & Expense PDF
-
-**Count:** 22/30 chars
-**Notes:** secondary coverage
-
-##### Keywords (iOS)
-tax,report,business,tracker
-
-**Count:** 27/100 bytes
-**Evidence:** Dutch; stats country or region NLD; iPhone used because the tool required iPhone/iPad and no iPad preference was set
-**Notes:** no duplicate words
-
-##### Keywords (macOS)
-Not generated.
-
-**Notes:** no macOS-specific keyword evidence requested or available
-
-##### Coverage
-**Covered strategic score:** 84.2
-**Terms covered:** 6
-**Exact visible phrases:** Example Brand: Scanner
-**Notes:** strongest balanced option
-
-### Variant Summary
-
-#### Conversion-balanced
-
-**Intent:** Preserve visible readability while covering the strongest terms.
-
-##### App Name
-
-**Count:**
-**Notes:**
-
-##### Subtitle
-
-**Count:**
-**Notes:**
-
-##### Keywords (iOS)
-
-**Count:**
-**Evidence:**
-**Notes:**
-
-##### Coverage
-**Covered strategic score:**
-**Terms covered:**
-**Exact visible phrases:**
-**Notes:**
-
-### Search Term Coverage
-| Search term | Strategic score | Coverage type | Matched words | Missing words |
-| --- | ---: | --- | --- | --- |
-
-### Unused High-Value Words
-| Word | Value | Reason unused |
-| --- | ---: | --- |
-
-### Warnings And Notes
--
+**Name:** Example Brand: Scanner *(22/30)*
+**Subtitle:** Receipts & Expense PDF *(22/30)*
+**Keywords (iOS):** tax,report,business,tracker *(27/100 bytes)*
 ```
 
-For localized draft saves, use the same structure and add `**Meaning:**` lines to generated app name, subtitle, and keyword sections.
+Use this compact saved line format:
 
-For draft saves, use the grouped variant format from `### 4. Calculate Coverage` inside `### Recommended Draft` and `### Variant Summary`:
+- `**Name:** value *(N/30)*`
+- `**Subtitle:** value *(N/30)*`
+- `**Keywords (<platform>):** value *(N/100 bytes)*`
+- For localized metadata, add the meaning inside the same annotation when useful: `**Subtitle:** Rechnungen scannen *(18/30, scan invoices)*`.
 
-- Use the metadata sections from `## Metadata Section Format`.
-- Save `### Recommended Draft` as the selected variant's grouped block, including intent, field sections, and `##### Coverage` key/value summary.
-- Save `### Variant Summary` as grouped blocks for all generated variants, including each variant's intent, field sections, and `##### Coverage` key/value summary.
-- Save `### Search Term Coverage`, `### Unused High-Value Words` when useful, and `### Warnings And Notes`.
+When saving history:
 
-When saving a draft:
-
-- Add the section after `## Word Value Scores` when it is missing.
-- Replace only `## Metadata Drafts` when the section already exists.
-- Update only `## Metadata Drafts` and `*Last updated:*`.
+- Add `## Metadata` after `## Source` when it is missing.
+- Add `### History` inside `## Metadata` when it is missing.
+- Append one entry for the selected or user-provided variant only. Do not save all generated variants by default.
+- Use a unique heading: `#### YYYY-MM-DD - <Status> - <Source or variant>`, such as `#### 2026-06-05 - Draft - Generated - Visibility-focused`.
+- Use status labels such as `Draft`, `Edited`, `Current`, or `Published`.
+- Keep the entry to one compact notes paragraph plus field lines. Do not save full coverage tables, unused-word tables, or every warning into history.
+- Include covered strategic score, terms covered, and key warnings in the notes paragraph when they affect later comparison.
+- If a user edit clearly implies a reusable preference, include it as `Guidance:` in the notes paragraph. Do not invent guidance from an ambiguous edit.
 - Use `YYYY-MM-DD` for dates.
-- Preserve all backlog rows, scores, word value data, and live metadata.
-- Preserve generated localized `Meaning` values in `## Metadata Drafts` when the active workspace is localized.
+- Preserve all backlog rows, scores, word value data, current metadata, and existing history entries.
+- Preserve localized meanings in saved metadata annotations when the active workspace is localized.
 
 When updating current context metadata after explicit approval:
 
-- First save the approved or user-edited variant in `## Metadata Drafts`.
-- For source-locale work, update `.agents/aso/context.md` `## Metadata` `**Name:**` with the approved app name.
-- For source-locale work, update `.agents/aso/context.md` `## Metadata` `**Subtitle:**` with the approved subtitle.
-- For localized work, update the locale workspace `## Metadata` `**Name:**` and `**Subtitle:**` values instead.
+- First append the approved or user-edited variant under `## Metadata` `### History`.
+- Update the active workspace `## Metadata` `### Current` `**Name:**` with the approved app name when one is provided.
+- Update the active workspace `## Metadata` `### Current` `**Subtitle:**` with the approved subtitle when one is provided.
+- Update matching active-workspace `### Current` `**Keywords (<platform>):**` lines with approved generated keyword values.
 - Preserve `**Developer:**`, `**Primary category:**`, `**Secondary category:**`, description, screenshots, use cases, features, reviews, competitors, backlog rows, scores, and word value data.
-- For source-locale work, update matching `## Current Keywords` `### Keywords (<platform>)` sections with approved generated keyword values.
-- For localized work, update matching locale workspace current keyword sections with approved generated keyword values, adding a minimal current keywords section if missing.
+- Omit platform keyword lines when no value exists for that platform.
 - Do not change the keyword terms into search-term backlog rows unless the user explicitly asks to import them.
 - Summarize that the active workspace now treats the approved values as current metadata, but App Store Connect has not been updated.
 
 When publishing to App Store Connect after an explicit request:
 
-- The App Store Connect tool must clearly report success before updating `## Metadata`, current keyword sections, or any current/final context metadata.
+- The App Store Connect tool must clearly report success before updating `## Metadata` `### Current` or appending a `Published` history entry.
 - If the tool fails, is unavailable, or does not clearly report success, keep the metadata as a draft only and report the blocker.
 
 After saving or publishing, summarize which variant was saved, whether App Store Connect was updated, whether current context metadata was updated, field counts, covered strategic score, terms covered, and key warnings.
@@ -489,8 +448,10 @@ After saving or publishing, summarize which variant was saved, whether App Store
 - Assuming English singular/plural rules apply to non-English metadata.
 - Presenting practitioner assumptions as Apple-documented ranking rules or treating combined word coverage as guaranteed App Store ranking behavior.
 - Keyword-stuffing the app name or subtitle in a way that hurts conversion.
-- Saving drafts into `## Metadata` instead of `## Metadata Drafts`.
-- Assuming a draft save updates current context metadata. Update `## Metadata` and `## Current Keywords` only after the user explicitly approves a final/current variant.
+- Saving every generated variant into history instead of only explicit saves.
+- Treating count or meaning annotations in `*(...)*` as part of the metadata value.
+- Assuming a draft history save updates current context metadata. Update `### Current` only after the user explicitly approves a final/current variant.
+- Adding separate metadata storage sections instead of using `## Metadata` `### Current` and `### History`.
 - Marking metadata as current/final in context after an App Store Connect publish attempt that failed or did not clearly report success.
 
 ## Related Skills
