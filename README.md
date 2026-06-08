@@ -14,7 +14,7 @@ This repository provides ASO-focused agent skills that help agents:
 - track keyword rankings over time as one post-publish evidence source
 - analyze whether published metadata changes improved, hurt, or had no clear effect on search discoverability
 - prioritize which App Store product page metadata localizations to create or refresh using funnel, revenue, retention, ratings, search, and evidence-quality signals
-- generate auditable App Store metadata variants with grouped fields, counts, coverage, warnings, and notes, then save approved choices in compact metadata history
+- generate an auditable recommended App Store metadata draft with grouped fields, counts, coverage, warnings, and notes, then save approved choices in compact metadata history
 - optimize localized metadata in Apple-locale workspaces with localized values, compact field-meaning annotations, and derived country or region targets for statistics and rankings
 
 ## Skills
@@ -61,7 +61,7 @@ Calculates derived `Strategic score` values for confirmed search terms and deriv
 
 ### aso-metadata-generation
 
-Generates source-locale or localized App Store metadata drafts for shared app name, shared subtitle, and platform-specific keyword fields from confirmed search terms, `Strategic score` values, saved `Word Value Scores`, current metadata, ranking evidence when available, and saved metadata history guidance. Use this after search-term scoring to create metadata variants. Review output uses grouped variant blocks with counts, portfolio tradeoffs, coverage, warnings, and notes; explicit saves append compact entries under `## Metadata` `### History`, and current approvals update `## Metadata` `### Current`. Keyword fields are counted against Apple's 100-byte limit per platform.
+Generates one recommended source-locale or localized App Store metadata draft for shared app name, shared subtitle, and platform-specific keyword fields from confirmed search terms, `Strategic score` values, saved `Word Value Scores`, current metadata, ranking evidence when available, and saved metadata history guidance. Use this after search-term scoring to create a metadata draft and coverage analysis. Review output uses grouped draft sections with counts, recommendation rationale, coverage, warnings, and notes; explicit saves append compact entries under `## Metadata` `### History`, and current approvals update `## Metadata` `### Current`. Keyword fields are counted against Apple's 100-byte limit per platform.
 
 ## Artifacts
 
@@ -85,7 +85,7 @@ Use `aso-metadata-workflow` for a guided end-to-end source-locale optimization r
 3. Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance scores.
 4. Use `aso-search-terms-statistics` to fetch popularity and difficulty values for the relevant primary locale.
 5. Use `aso-search-terms-scoring` to calculate strategic priority scores and per-word metadata value scores.
-6. Use `aso-metadata-generation` to generate App Store metadata drafts, compare coverage tradeoffs, and save approved drafts, edits, current choices, or published snapshots under metadata history.
+6. Use `aso-metadata-generation` to generate a recommended App Store metadata draft, review coverage tradeoffs, and save approved drafts, edits, current choices, or published snapshots under metadata history.
 
 Use `aso-localization-prioritization` when deciding which App Store product page metadata localization to create or refresh first. It stays metadata-first, but can use revenue, retention, ratings, search, existing localized metadata, and risk signals to avoid prioritizing a locale where metadata is unlikely to be the main bottleneck. Use `aso-localized-metadata-workflow` when optimizing a chosen locale or country or region. It follows the same specialist sequence, but first validates the Apple metadata locale, derives or stores a country or region only when needed, then writes terms, relevance, statistics, scoring, and saved metadata history to the matching localized workspace.
 
