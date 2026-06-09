@@ -48,11 +48,11 @@ Use these fields as context for product language, clarity, and conversion. Do no
 - Use app name, subtitle, then keyword field as a priority order for placement, but label this as practitioner-supported rather than Apple-documented.
 - Avoid duplicate words across indexed fields; Apple discourages duplicates and practitioner evidence strongly supports avoiding them.
 - Use the keyword field for unique remaining terms and efficient roots by default.
-- Preserve phrases only when splitting would change meaning or when a confirmed high-value term justifies the byte cost.
+- Preserve phrases only when splitting would change meaning or when a confirmed high-value term justifies the character cost.
 
 ## Unresolved Claims
 
 - Apple does not publish exact relative weights for app name, subtitle, keyword field, and category.
-- Apple documents both 100-character and 100-byte keyword limits in different places; use 100 bytes for implementation.
+- Apple documentation and ASO sources may use mixed character/byte wording for keyword limits; this skill suite uses 100 characters for implementation.
 - Exact phrase-combination mechanics, especially across localizations, are not Apple-documented.
 - Screenshot text and description semantics are not documented as direct App Store search text-relevance inputs.

@@ -18,9 +18,6 @@ app-store-optimization-skills/
 ├── skills/              # Agent Skills
 │   └── skill-name/
 │       └── SKILL.md     # Required skill file
-├── references/          # Optional detailed docs loaded on demand
-├── scripts/             # Optional executable helpers
-├── assets/              # Optional templates or data files
 ├── AGENTS.md
 ├── LICENSE
 └── README.md
@@ -124,11 +121,12 @@ description: Research App Store keyword candidates with popularity and difficult
 
 - Use source context fields consistently: `Primary locale` is the exact Apple metadata locale label, such as `Dutch` or `Spanish (Mexico)`. Do not include an ISO code in `Primary locale`.
 - Treat Apple `ISO code` values from the localization reference as country or region identifiers for storefront-specific statistics, rankings, App Analytics, App Store URLs, or explicit user preferences; never use them as locale identifiers or locale folders.
-- Derive the default country or region from `references/app-store-localizations.md` when a tool needs one. Store `Country or region preference` only when the user or clear source evidence explicitly overrides the default, similar to `Search surface preference`.
+- Derive the default country or region from the relevant skill-local `references/app-store-localizations.md` when a tool needs one. Store `Country or region preference` only when the user or clear source evidence explicitly overrides the default, similar to `Search surface preference`.
 - Store localized ASO work under `.agents/aso/locales/<Apple locale label>/context.md`, for example `.agents/aso/locales/Spanish (Mexico)/context.md`.
-- `Platforms` contains only App Store Connect metadata platforms (`iOS`, `macOS`, `tvOS`, `visionOS`). Derive platform/tool aliases from `references/platforms.md`.
+- `Platforms` contains only App Store Connect metadata platforms (`iOS`, `macOS`, `tvOS`, `visionOS`). Derive platform/tool aliases from the relevant skill-local `references/platforms.md`.
 - Treat iPhone, iPad, Mac, Apple TV, and Vision as search surfaces for statistics, rankings, or tool parameters, not as `Platforms` values. Do not store a search surface by default; store `Search surface preference` only when the user explicitly requests one.
 - Treat app name and subtitle as shared metadata, and keywords as platform-specific. Draft or store keywords in `Keywords (iOS)`, `Keywords (macOS)`, etc.; do not silently reuse keyword stats, rankings, or drafts across platforms.
+- Treat App Store keyword fields as 100-character limits per platform for this skill suite. Do not use byte counting for keyword fields, even when Apple documentation or other sources use mixed character/byte wording.
 - Use `aso-context` as the foundation skill for capturing and storing reusable context and data, so agents do not repeat the same questions and can pass context and data between skills.
 - Treat `aso-context` as an internal foundation skill in user-facing docs. Do not over-position it as the primary skill users should invoke directly; user-facing README examples should normally start with specialist skills such as search-term identification or relevance scoring.
 - Specialist skills should check `.agents/aso/context.md` before starting. If it exists, use it as canonical app context. If it is missing or incomplete, invoke or recommend `aso-context` first.
@@ -137,8 +135,9 @@ description: Research App Store keyword candidates with popularity and difficult
 - Workflow skills should not duplicate specialist skill instructions. They should point to the relevant skill for each phase and pass along the required context or artifacts.
 - Keep specialist skills independently useful when invoked directly.
 - Use explicit artifacts between phases instead of relying on chat history.
-- Treat root-level shared support files as canonical.
-- Copy shared files into skill-local folders only when standalone installation requires those files.
+- Skills must be independently installable. Any support file a skill needs at runtime must live inside that skill's folder.
+- Use standard skill-local directories when applicable: `references/` for documentation, `scripts/` for executable helpers, and `assets/` for templates or static resources.
+- Do not make installed skills depend on repository-level support files.
 
 ## README Updates
 

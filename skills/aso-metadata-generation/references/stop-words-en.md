@@ -1,6 +1,6 @@
 # English Stop Words
 
-Use this list when evaluating English App Store metadata. These words are usually poor use of the 100-byte keywords budget because they are common, low-intent, or treated as free/stop words by ASO convention.
+Use this list when evaluating English App Store metadata. These words are usually poor use of the 100-character keywords budget because they are common, low-intent, or treated as free/stop words by ASO convention.
 
 ## Words
 

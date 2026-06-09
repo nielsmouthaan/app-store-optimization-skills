@@ -57,11 +57,11 @@ Analyzes whether published App Store metadata changes improved, hurt, or had no 
 
 ### aso-search-terms-scoring
 
-Calculates derived `Strategic score` values for confirmed search terms and derived per-word value scores from those strategic scores. Use this after relevance scoring and statistics fetching to prioritize terms and identify individual words that cover the most strategic search-term value per metadata character. Relevance `1` and `2` terms remain scorable when confirmed and statistically complete, and the formula discounts them strongly.
+Calculates derived `Strategic score` values for confirmed App Store search terms and derived per-word value scores from those strategic scores. Use this after relevance scoring and statistics fetching to prioritize terms and identify individual words that cover the most strategic search-term value per metadata character.
 
 ### aso-metadata-generation
 
-Generates one recommended source-locale or localized App Store metadata draft for shared app name, shared subtitle, and platform-specific keyword fields from confirmed search terms, `Strategic score` values, saved `Word Value Scores`, current metadata, ranking evidence when available, and saved metadata history guidance. Use this after search-term scoring to create a metadata draft and coverage analysis. Review output uses grouped draft sections with counts, recommendation rationale, coverage, warnings, and notes; explicit saves append compact entries under `## Metadata` `### History`, and current approvals update `## Metadata` `### Current`. Keyword fields are counted against Apple's 100-byte limit per platform.
+Generates one recommended source-locale or localized App Store metadata draft for shared app name, shared subtitle, and platform-specific keyword fields from confirmed search terms, `Strategic score` values, saved `Word Value Scores`, current metadata, ranking evidence when available, and saved metadata history guidance. Use this after search-term scoring to create a metadata draft and coverage analysis. Review output uses grouped draft sections with counts, recommendation rationale, coverage, warnings, and notes; explicit saves append compact entries under `## Metadata` `### History`, and current approvals update `## Metadata` `### Current`.
 
 ## Artifacts
 
@@ -72,10 +72,6 @@ Generates one recommended source-locale or localized App Store metadata draft fo
 - Localized workspaces with the same compact metadata current/history model: `.agents/aso/locales/<Locale>/context.md`
 - Localized keyword rankings: `.agents/aso/locales/<Locale>/keyword-rankings.md`
 - Localized metadata performance analysis: `.agents/aso/locales/<Locale>/metadata-performance-analysis.md`
-- Shared App Store search metadata evidence reference: `references/app-store-search-metadata-evidence.md`
-- Shared App Store localizations reference: `references/app-store-localizations.md`
-- Shared platform terminology reference: `references/platforms.md`
-
 ## Workflow
 
 Use `aso-metadata-workflow` for a guided end-to-end source-locale optimization run. It coordinates the specialist skills in this order:

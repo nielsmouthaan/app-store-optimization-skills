@@ -41,14 +41,14 @@ Resolve the App Store country or region before fetching statistics.
 
 1. Use an explicit country or region request for the current run.
 2. Use saved `Country or region preference` from the active source context or localized workspace.
-3. Derive the default country or region for the active `Primary locale` or localized workspace `Locale` from `../../references/app-store-localizations.md`.
+3. Derive the default country or region for the active `Primary locale` or localized workspace `Locale` from `references/app-store-localizations.md`.
 4. Ask the user if no safe default exists.
 
 Use one country or region per run unless the user explicitly asks for statistics across multiple countries or regions.
 
 Validate the resolved country or region against Apple's supported App Store localizations when localized work is active. If the resolved country or region does not support the active locale, stop before fetching statistics unless the user explicitly wants exploratory comparison data outside the localized workflow.
 
-If a statistics source requires a two-letter country or region parameter, derive it from the resolved Apple country or region ISO code using `../../references/app-store-localizations.md` or a standard ISO 3166 lookup. Do not store the derived tool parameter in the workspace.
+If a statistics source requires a two-letter country or region parameter, derive it from the resolved Apple country or region ISO code using `references/app-store-localizations.md` or a standard ISO 3166 lookup. Do not store the derived tool parameter in the workspace.
 
 ## Tool Discovery
 
@@ -107,7 +107,7 @@ When using ASO Suite:
 - Use the selected tool country or region parameter.
 - Derive the value for ASO Suite's `--region` flag from the resolved Apple country or region ISO code.
 - Use the app URL or app ID from context when available.
-- Map the requested platform or search surface to the tool's supported platform parameter at call time using `../../references/platforms.md`.
+- Map the requested platform or search surface to the tool's supported platform parameter at call time using `references/platforms.md`.
 - For iOS statistics or rankings, use iPhone when the tool requires an iPhone/iPad distinction and no `Search surface preference` is set.
 - If the user explicitly requests iPad, save `**Search surface preference:** iPad` in `.agents/aso/context.md` and use iPad for later statistics and ranking calls until the user changes it.
 - Fetch at most 50 keywords per request.

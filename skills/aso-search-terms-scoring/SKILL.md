@@ -1,6 +1,6 @@
 ---
 name: aso-search-terms-scoring
-description: Calculates strategic scores and per-word value scores for confirmed App Store search terms. Use after relevance scoring and popularity/difficulty statistics when prioritizing keywords for App Store optimization metadata planning, keyword focus, character-limited coverage, or metadata generation.
+description: Calculates strategic scores and per-word value scores for confirmed App Store search terms. Use after relevance scoring and popularity/difficulty statistics when prioritizing keywords for App Store optimization metadata planning, keyword focus, character-limited metadata fields, or metadata generation.
 ---
 
 # ASO Search Terms Scoring
@@ -106,7 +106,7 @@ Where:
 - `Appearances` is the count of eligible search terms that contain the word.
 - `Total strategic score` is the sum of `Strategic score` values from every eligible search term that contains the word.
 - `Length` is the character count of the normalized word.
-- `Value` is the per-character efficiency score.
+- `Value` is the per-character efficiency score for metadata planning.
 
 Store `Total strategic score` and `Value` rounded to the nearest whole number, with no percent sign. Store `Appearances` and `Length` as integers.
 

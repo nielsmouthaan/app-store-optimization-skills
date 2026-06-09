@@ -49,9 +49,9 @@ Load reference lists only when they are needed for the current metadata run:
 
 - Use `references/stop-words-en.md` when the source primary locale or target locale is English, or when evaluating English metadata words.
 - Use `references/app-store-category-terms.md` when evaluating English category/free words or comparing English metadata words against App Store category names.
-- Use `../../references/app-store-search-metadata-evidence.md` when a recommendation needs an evidence label or a documented-versus-practitioner distinction.
+- Use `references/app-store-search-metadata-evidence.md` when a recommendation needs an evidence label or a documented-versus-practitioner distinction.
 
-The reference lists are guardrails, not absolute bans. English stop words and category terms are usually poor use of the 100-byte keywords budget, but they may still belong in visible metadata when they make the app name or subtitle natural and conversion-safe. Do not apply English stop-word or category-term assumptions to non-English metadata unless target-language evidence supports the decision.
+The reference lists are guardrails, not absolute bans. English stop words and category terms are usually poor use of the 100-character keywords budget, but they may still belong in visible metadata when they make the app name or subtitle natural and conversion-safe. Do not apply English stop-word or category-term assumptions to non-English metadata unless target-language evidence supports the decision.
 
 ## Field Rules
 
@@ -61,12 +61,12 @@ Generate App Store metadata only:
 | --- | --- | --- |
 | App name | 2-30 characters | Highest-priority visible search field. Relative field weight is practitioner-supported, not Apple-documented. Must be readable, distinctive, and not misleading. Brand may be kept when recognition matters. Use the limit efficiently, but do not force the full 30 characters when that makes the name weaker. |
 | Subtitle | Up to 30 characters | Visible under the app name. Use for a clear benefit, use case, or secondary high-value phrase. Do not repeat app name words. Use the limit efficiently, but do not force the full 30 characters when that makes the subtitle weaker. |
-| Platform keywords | 100 bytes per platform | Hidden fields are saved as `**Keywords (<platform>):**` metadata lines. Use comma-separated entries with no spaces after commas. Default to individual roots for efficient practitioner-supported coverage; preserve a phrase with spaces only when splitting would change meaning or when a confirmed high-value term explicitly justifies it. |
+| Platform keywords | 100 characters per platform | Hidden fields are saved as `**Keywords (<platform>):**` metadata lines. Use comma-separated entries with no spaces after commas. Default to individual roots for efficient practitioner-supported coverage; preserve a phrase with spaces only when splitting would change meaning or when a confirmed high-value term explicitly justifies it. |
 
 Apply these rules:
 
-- Count app name and subtitle as characters.
-- Count each platform keyword section as UTF-8 bytes, including commas and every non-ASCII byte.
+- Count app name, subtitle, and each platform keyword section as characters.
+- Count commas in platform keyword sections.
 - Keep each keyword entry greater than two characters unless the user explicitly accepts a shorter exception.
 - Do not repeat normalized words across app name, subtitle, and each generated keyword section. Use field priority order: app name, then subtitle, then platform keywords.
 - Treat primary category as Apple-documented indexed metadata; treat secondary category as indexed but with less clearly documented relative importance. Treat primary and secondary category tokens as already covered for keyword-field planning.
@@ -129,7 +129,7 @@ For localized metadata:
 - Put a user-readable back-translation or explanation in `Meaning`, not a required literal translation.
 - Produce field-level `Meaning` values for app name and subtitle, because generated visible phrases can combine words into a new nuance.
 - For keywords, write `Meaning` per keyword entry when useful; otherwise use a concise comma-separated explanation.
-- Keep visible app name and subtitle natural for the target language users will see. Hidden keyword fields can be more flexible, but they still need truthful local search intent; in multibyte scripts, prioritize terms more aggressively because 100 bytes can be much shorter than 100 characters.
+- Keep visible app name and subtitle natural for the target language users will see. Hidden keyword fields can be more flexible, but they still need truthful local search intent.
 - Use localized search-term `Meaning` values as input, but recompute metadata meanings from the generated field itself instead of copying term meanings blindly.
 - If the meaning or nuance is uncertain, still add a best-effort `Meaning` and include a compact warning in `Notes`, such as `meaning uncertain` or `ambiguous phrase`.
 
@@ -148,14 +148,14 @@ For English only:
 
 - Flag obvious simple pairs such as `invoice` and `invoices`, `receipt` and `receipts`, `photo` and `photos`, or `category` and `categories` as likely related forms.
 - Use the related-form signal only as a decision aid. Do not merge their scores.
-- When only one form is needed, choose the form with the higher `Value`; if value and coverage are similar, choose the shorter form for keyword-byte efficiency.
+- When only one form is needed, choose the form with the higher `Value`; if value and coverage are similar, choose the shorter form for keyword-character efficiency.
 - Use both forms only when they each cover meaningful confirmed terms, rank tracking shows different behavior, or the user explicitly wants to test both.
 
 For non-English languages:
 
 - Do not assume singular/plural equivalence.
 - Keep related-looking forms separate unless the user, context, or language-specific evidence confirms that one form safely covers the other.
-- Do not stem, transliterate, remove accents, or merge related forms to save bytes unless target-language evidence supports the decision.
+- Do not stem, transliterate, remove accents, or merge related forms to save characters unless target-language evidence supports the decision.
 
 When a form is omitted because a related form is selected, report the decision:
 
@@ -183,7 +183,7 @@ If no eligible search terms or eligible words exist, stop after explaining which
 
 Create these pools:
 
-- **High-value words:** eligible words sorted by `Value` descending, then `Total strategic score` descending, then `Appearances` descending, then `Word` ascending.
+- **High-value words:** eligible words sorted by `Value` descending, then `Total strategic score` descending, `Appearances` descending, and `Word` ascending.
 - **High-strategic phrases:** confirmed search terms sorted by `Strategic score` descending.
 - **Visible phrase candidates:** readable phrases from high-strategic confirmed terms that fit app name or subtitle limits.
 - **Keywords candidates:** high-value individual words not already covered by app name/subtitle and not blocked by guardrails.
@@ -205,7 +205,7 @@ For the recommended draft:
 1. Draft the app name within 30 characters.
 2. Draft the subtitle within 30 characters without repeating app name words.
 3. For each platform listed in `.agents/aso/context.md` `Platforms`, decide whether platform-specific keyword evidence exists.
-4. Fill generated platform keyword sections with comma-separated individual roots by default, no spaces after commas, up to 100 bytes.
+4. Fill generated platform keyword sections with comma-separated individual roots by default, no spaces after commas, up to 100 characters.
 5. If a platform lacks specific evidence, include a `Keywords (<platform>)` section with `Not generated.` and a compact note instead of reusing another platform's keywords.
 6. Remove lower-weight duplicates when a word appears in a higher-weight field.
 7. Recheck stop words, category terms, competitor/protected terms, and singular/plural decisions.
@@ -224,7 +224,7 @@ For the recommended draft, report:
 
 - App name length, such as `28/30`.
 - Subtitle length, such as `29/30`.
-- Keywords length for each generated platform section, such as `97/100 bytes`.
+- Keywords length for each generated platform section, such as `97/100 chars`.
 - Covered strategic score, calculated as the sum of `Strategic score` values for covered eligible search terms.
 - Number of confirmed eligible terms covered.
 - Exact visible phrase coverage from app name or subtitle.
@@ -258,7 +258,7 @@ Receipts & Expense PDF
 ##### Keywords (iOS)
 tax,report,business,tracker
 
-**Count:** 27/100 bytes
+**Count:** 27/100 chars
 **Evidence:** Dutch; stats country or region NLD; iPhone used because the tool required iPhone/iPad and no iPad preference was set
 **Notes:** no duplicate words
 
@@ -295,7 +295,7 @@ Localized drafts use the same block with `Meaning` lines:
 待办,提醒,效率
 
 **Meaning:** to-do, reminders, efficiency
-**Count:** 20/100 bytes
+**Count:** 20/100 chars
 **Notes:** keyword-entry meanings
 ```
 
@@ -339,7 +339,7 @@ In `### Recommendation Rationale`, explain why the recommended draft fits the cu
 - Strongest strategic search terms covered.
 - Visible metadata readability.
 - Brand preservation.
-- Keyword-byte efficiency.
+- Keyword-character efficiency.
 - Risk level from competitor/protected terms, category terms, or awkward copy.
 - Evidence label for any practitioner-supported or unresolved placement assumption.
 - Any current metadata words or phrases that may be displaced despite saved history or ranking evidence.
@@ -379,7 +379,7 @@ Use this compact storage structure:
 **Developer:** Example Studio
 **Primary category:** Business
 **Secondary category:** Productivity
-**Keywords (iOS):** tax,report,business,tracker *(27/100 bytes)*
+**Keywords (iOS):** tax,report,business,tracker *(27/100 chars)*
 
 ### History
 
@@ -389,14 +389,14 @@ User approved an edited generated draft. Guidance: keep the brand in the app nam
 
 **Name:** Example Brand: Scanner *(22/30)*
 **Subtitle:** Receipts & Expense PDF *(22/30)*
-**Keywords (iOS):** tax,report,business,tracker *(27/100 bytes)*
+**Keywords (iOS):** tax,report,business,tracker *(27/100 chars)*
 ```
 
 Use this compact saved line format:
 
 - `**Name:** value *(N/30)*`
 - `**Subtitle:** value *(N/30)*`
-- `**Keywords (<platform>):** value *(N/100 bytes)*`
+- `**Keywords (<platform>):** value *(N/100 chars)*`
 - For localized metadata, add the meaning inside the same annotation when useful: `**Subtitle:** Rechnungen scannen *(18/30, scan invoices)*`.
 
 When saving history:
@@ -440,7 +440,7 @@ After saving or publishing, summarize which draft was saved, whether App Store C
 - Treating keyword words already placed in the app name as banned instead of counting them as covered high-weight words and excluding them only from lower-weight repeats.
 - Duplicating app name, developer name, competitor names, or other company names in keywords.
 - Filling keywords with phrases by default instead of individual combinable words.
-- Counting keywords as characters instead of UTF-8 bytes.
+- Counting keywords as bytes instead of characters.
 - Counting keywords without including commas.
 - Leaving spaces after commas in keywords.
 - Using stop words or category terms as if they were normal high-value keywords.

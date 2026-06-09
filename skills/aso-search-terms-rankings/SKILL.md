@@ -29,16 +29,16 @@ If `## Search Terms Backlog` is missing or empty in the active workspace:
 
 Use `confirmed` search terms by default. Include `candidate` or `rejected` terms only when the user explicitly asks to track those statuses.
 
-Use the active platform from context when available. If no platform is stored or requested, use `iphone` and state that default in the summary.
+Resolve a search surface before fetching rankings. Use an explicit search-surface request first, then saved `Search surface preference`, then derive the default from `references/platforms.md`. If no platform or search surface is stored or requested, use `iPhone` and state that default in the summary. Derive tool aliases such as `iphone`, `ipad`, or `mac` only at tool-call time.
 
 Resolve the App Store country or region before fetching or saving rankings:
 
 1. Use an explicit country or region request for the current run.
 2. Use saved `Country or region preference` from the active source context or localized workspace.
-3. Derive the default country or region for the active `Primary locale` or localized workspace `Locale` from `../../references/app-store-localizations.md`.
+3. Derive the default country or region for the active `Primary locale` or localized workspace `Locale` from `references/app-store-localizations.md`.
 4. Ask the user if no safe default exists.
 
-If a ranking source requires a two-letter country or region parameter, derive it from the resolved Apple country or region ISO code using `../../references/app-store-localizations.md` or a standard ISO 3166 lookup. Do not store the derived tool parameter in the workspace.
+If a ranking source requires a two-letter country or region parameter, derive it from the resolved Apple country or region ISO code using `references/app-store-localizations.md` or a standard ISO 3166 lookup. Do not store the derived tool parameter in the workspace.
 
 ## Source Selection
 
@@ -46,8 +46,8 @@ Before fetching, check whether ranking sources are available in the current envi
 
 Prefer sources in this order:
 
-1. **ASO Suite** when the `asosuite` skill or CLI is available and can return keyword positions for the target app, country or region, and platform.
-2. **Astro** when relevant Astro tools are exposed and can return keyword positions for the target app, country or region, and platform.
+1. **ASO Suite** when the `asosuite` skill or CLI is available and can return keyword positions for the target app, country or region, and search surface.
+2. **Astro** when relevant Astro tools are exposed and can return keyword positions for the target app, country or region, and search surface.
 3. **User-provided ranking data** from tables, CSV, JSON, spreadsheet-like exports, or free text.
 4. **iTunes Search API fallback** only when no better ranking source is available or when the user explicitly asks for it.
 
@@ -69,11 +69,11 @@ For each row, identify:
 - date checked
 - source
 - country or region
-- platform
+- search surface
 
-Use the active context or locale workspace to resolve app, country or region, and locale. If platform is missing, use the active context platform; if that is missing, use `iphone` and state the default. If the date is missing but the user clearly says the data is current or from today, use the current date. Otherwise ask how to proceed.
+Use the active context or locale workspace to resolve app, country or region, locale, and search surface. If search surface is missing, derive it from the active context platform and `references/platforms.md`; if that is missing, use `iPhone` and state the default. If the date is missing but the user clearly says the data is current or from today, use the current date. Otherwise ask how to proceed.
 
-Ask the user before saving when term, rank, date, source, country or region, or platform cannot be resolved safely, or when the imported data conflicts with the active source-locale or localized workspace.
+Ask the user before saving when term, rank, date, source, country or region, or search surface cannot be resolved safely, or when the imported data conflicts with the active source-locale or localized workspace.
 
 ## iTunes Search API Fallback
 
@@ -91,9 +91,10 @@ python3 scripts/itunes_search_rankings.py --app <APP_ID_OR_URL> --country <COUNT
 
 Rules:
 
-- Use `media=software`, a platform-appropriate `entity`, the selected `country`, each exact search `term`, and the selected `limit`.
+- Use `media=software`, a search-surface-appropriate `entity`, the selected `country`, each exact search `term`, and the selected `limit`.
 - Pass the derived two-letter iTunes Search API `country` value, such as `US` derived from Apple country or region ISO code `USA`.
-- Use only `iphone`, `ipad`, or `mac` with the iTunes fallback. For other platforms, use ASO Suite, Astro, or user-provided data instead.
+- Derive the script `--platform` value from the resolved search surface: `iPhone` -> `iphone`, `iPad` -> `ipad`, `Mac` -> `mac`.
+- Use only `iphone`, `ipad`, or `mac` with the iTunes fallback. For other search surfaces, use ASO Suite, Astro, or user-provided data instead.
 - Treat positions as approximate. Do not claim iTunes results are actual App Store keyword rankings.
 - Record `Source` as `iTunes Search API`.
 - Use `-` when the app is not found within the script's result limit.
@@ -114,7 +115,7 @@ For localized work, save:
 .agents/aso/locales/<Locale>/keyword-rankings.md
 ```
 
-Do not duplicate app, locale, country or region, or platform in an artifact header when those values are available from `.agents/aso/context.md` or the locale workspace content. Keep country or region and platform per row.
+Do not duplicate app, locale, country or region, or search surface in an artifact header when those values are available from `.agents/aso/context.md` or the locale workspace content. Keep country or region and search surface per row.
 
 Use this artifact structure exactly:
 
@@ -123,26 +124,26 @@ Use this artifact structure exactly:
 
 ## Overview
 
-| Search term | Country or region | Platform | Current | Previous | Change | Highest | Lowest | Source | Last checked |
+| Search term | Country or region | Search surface | Current | Previous | Change | Highest | Lowest | Source | Last checked |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 ## History
 
-| Date | Search term | Country or region | Platform | Rank | Source |
+| Date | Search term | Country or region | Search surface | Rank | Source |
 | --- | --- | --- | --- | --- | --- |
 ```
 
 When updating:
 
 - Add new rows to `## History` for each fetched or imported term.
-- If a row for the same `Date`, `Search term`, `Country or region`, `Platform`, and `Source` already exists, update it instead of duplicating it.
+- If a row for the same `Date`, `Search term`, `Country or region`, `Search surface`, and `Source` already exists, update it instead of duplicating it.
 - Rebuild `## Overview` from `## History`.
-- Set `Current` to the newest row for the search term, country or region, and platform.
-- Set `Previous` to the row immediately before `Current` for the same search term, country or region, and platform.
+- Set `Current` to the newest row for the search term, country or region, and search surface.
+- Set `Previous` to the row immediately before `Current` for the same search term, country or region, and search surface.
 - Use `-` for missing, unknown, or not-found ranks.
 - Calculate `Change` only when both current and previous ranks are numeric. A better rank is positive: moving from `12` to `8` is `+4`.
-- Set `Highest` to the best numeric rank observed for the search term, country or region, and platform.
-- Set `Lowest` to the worst numeric rank observed for the search term, country or region, and platform.
+- Set `Highest` to the best numeric rank observed for the search term, country or region, and search surface.
+- Set `Lowest` to the worst numeric rank observed for the search term, country or region, and search surface.
 - Preserve all existing history rows unless the user explicitly asks to correct or remove them.
 
 ## Summary
@@ -155,7 +156,7 @@ After saving, summarize:
 - the source used
 - the number of terms checked or imported
 - how many terms were found and how many were `-`
-- any defaulted platform
+- any defaulted search surface
 - any ASO tool blocker or fallback warning
 - the most important improvements or declines when previous data exists
 

@@ -106,7 +106,7 @@ After review and adjustment, create or update `.agents/aso/context.md` using thi
 **Developer:** Example Studio
 **Primary category:** Business
 **Secondary category:** Productivity
-**Keywords (iOS):** example,keyword,terms *(21/100 bytes)*
+**Keywords (iOS):** example,keyword,terms *(21/100 chars)*
 
 ### History
 
@@ -116,7 +116,7 @@ User approved the current metadata. Guidance: keep the brand in the app name.
 
 **Name:** Example App *(11/30)*
 **Subtitle:** Example subtitle *(16/30)*
-**Keywords (iOS):** example,keyword,terms *(21/100 bytes)*
+**Keywords (iOS):** example,keyword,terms *(21/100 chars)*
 
 ## Description
 
@@ -166,12 +166,12 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 - Summarize reviews into themes instead of copying long review text.
 - Include competitor and similar app links when available; otherwise use plain app names.
 - Store App Store categories as `**Primary category:**` and optional `**Secondary category:**`. Omit `**Secondary category:**` when it is unavailable.
-- Store one primary locale for the global backlog using Apple's metadata locale label, such as `Dutch` or `English (U.S.)`. Use `../../references/app-store-localizations.md` to validate or derive it.
-- Do not store an Apple country or region ISO code as part of `Primary locale`. Store `Country or region preference` only when the user or clear source evidence explicitly overrides the default country or region derived from `../../references/app-store-localizations.md`.
-- Store supported App Store Connect platforms in `**Platforms:**` using values from `../../references/platforms.md`, such as `iOS`, `macOS`, `tvOS`, or `visionOS`.
+- Store one primary locale for the global backlog using Apple's metadata locale label, such as `Dutch` or `English (U.S.)`. Use `references/app-store-localizations.md` to validate or derive it.
+- Do not store an Apple country or region ISO code as part of `Primary locale`. Store `Country or region preference` only when the user or clear source evidence explicitly overrides the default country or region derived from `references/app-store-localizations.md`.
+- Store supported App Store Connect platforms in `**Platforms:**` using values from `references/platforms.md`, such as `iOS`, `macOS`, `tvOS`, or `visionOS`.
 - Omit `**Search surface preference:**` unless the user explicitly asks to use a non-default search surface for statistics or rankings, such as iPad instead of iPhone for iOS.
 - Store current metadata under `## Metadata` > `### Current`.
-- Store current keyword fields as platform-specific lines in `### Current`, such as `**Keywords (iOS):** term,term *(42/100 bytes)*`. Omit platform keyword lines when they are unavailable.
+- Store current keyword fields as platform-specific lines in `### Current`, such as `**Keywords (iOS):** term,term *(42/100 chars)*`. Omit platform keyword lines when they are unavailable.
 - Treat text inside `*(...)*` on metadata lines as an annotation. The stored metadata value is the text before the annotation.
 - For localized metadata workspaces, put field meanings inside the same annotation when useful, such as `**Subtitle:** Rechnungen scannen *(18/30, scan invoices)*`.
 - Store saved metadata iterations under `## Metadata` > `### History` only when the user explicitly saves a generated draft, provides an edited variant, approves current metadata, or publishes metadata. Do not store unsaved generated variants.

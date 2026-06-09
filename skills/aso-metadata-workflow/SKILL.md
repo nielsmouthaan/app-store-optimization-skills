@@ -93,11 +93,11 @@ Do not estimate or infer missing popularity or difficulty values beyond the stat
 
 Use `aso-search-terms-scoring` after confirmed terms have valid relevance, popularity, and difficulty values.
 
-This phase is deterministic. It may save derived strategic scores and word value scores once prerequisites are satisfied, but it must not change relevance, statistics, statuses, notes, or metadata placement. Relevance `1` and `2` terms remain scorable when confirmed and complete; the formula discounts them strongly.
+This phase is deterministic. It may save derived strategic scores and word value scores once prerequisites are satisfied, but it must not change relevance, statistics, statuses, notes, or metadata placement.
 
 If no confirmed terms are eligible, stop and report which upstream input is missing.
 
-## Phase 5: Generate Metadata Variants
+## Phase 5: Generate Recommended Metadata Draft
 
 Use `aso-metadata-generation` after strategic scores and word value scores exist.
 

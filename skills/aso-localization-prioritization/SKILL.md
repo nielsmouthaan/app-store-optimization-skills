@@ -15,7 +15,7 @@ Use broader business signals only to improve the metadata prioritization decisio
 
 Read `.agents/aso/context.md` first.
 
-Use `../../references/app-store-localizations.md` to map territories, countries or regions, and languages to Apple-supported metadata locales and optional country or region preferences.
+Use `references/app-store-localizations.md` to map territories, countries or regions, and languages to Apple-supported metadata locales and optional country or region preferences.
 
 If `.agents/aso/context.md` is missing or lacks meaningful app context, invoke or recommend `aso-context` before continuing. Do not rank localizations without knowing what the app does.
 
@@ -162,7 +162,7 @@ If neither route provides enough information, ask for a compact localization and
 
 ### 3. Map Territories To Metadata Localizations
 
-For each promising territory, use `../../references/app-store-localizations.md` to choose the Apple metadata `Locale`.
+For each promising territory, use `references/app-store-localizations.md` to choose the Apple metadata `Locale`.
 
 When multiple territories point to the same metadata locale, summarize them together as affected storefronts in the recommendation. This is prioritization evidence only; downstream localized metadata work still uses one Apple metadata locale workspace.
 
