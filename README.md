@@ -33,7 +33,7 @@ Recommended user-facing entrypoint for deciding which App Store product page met
 
 ### aso-context
 
-Internal foundation skill used by the workflow and specialist skills. It stores global/source context in `.agents/aso/context.md`. Users typically start with `aso-metadata-workflow` for a full source-locale optimization run, `aso-localization-prioritization` to decide which metadata localization to create or refresh first, `aso-localized-metadata-workflow` for a chosen localized metadata target, or `aso-search-terms-identification` for a narrower keyword research task.
+Internal foundation skill used by the workflow and specialist skills. It stores global/source context in `.agents/aso/context.md`, including private App Store Connect keyword fields when they are available and documented source gaps when they are not. Users typically start with `aso-metadata-workflow` for a full source-locale optimization run, `aso-localization-prioritization` to decide which metadata localization to create or refresh first, `aso-localized-metadata-workflow` for a chosen localized metadata target, or `aso-search-terms-identification` for a narrower keyword research task.
 
 ### aso-search-terms-identification
 

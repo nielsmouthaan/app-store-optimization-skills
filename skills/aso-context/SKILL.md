@@ -26,7 +26,7 @@ If it exists:
 
 If it does not exist:
 
-- Create it from the best available sources.
+- Draft it from the best available sources, show it to the user, and save `.agents/aso/context.md` only after approval.
 
 ### 2. Gather Sources
 
@@ -43,6 +43,10 @@ Ask once for missing high-value sources, then use whichever sources are availabl
 
 If an App Store URL or marketing URL is provided, inspect it before deriving ASO context from local files alone. If the current environment cannot access the URL, ask the user to paste relevant copy and note the access gap.
 
+For private App Store Connect metadata such as keyword fields, use `asc` first when available, optionally guided by the relevant `asc` skill, CLI help, or command discovery. If `asc` is available but fails with an unclear error and the environment may be sandboxed, retry outside the sandbox when applicable and permitted before treating the source as unavailable. If `asc` is unavailable or still fails, attempt read-only access through the official App Store Connect API when credentials and tooling are available. If automated retrieval still fails, ask once for the private values manually and continue with a documented source gap when useful.
+
+Never write to App Store Connect through `asc`, the App Store Connect API, or another tool unless the user explicitly reviews and approves that write.
+
 ### 3. Populate From Sources
 
 When using an **App Store URL**, extract what is publicly available:
@@ -53,7 +57,7 @@ When using an **App Store URL**, extract what is publicly available:
 - Review themes and user language
 - Competitors or similar apps, including links when available
 
-After finding or receiving an App Store URL, ask the user to provide the current App Store Connect keyword field terms for each relevant platform. These are not public, but they are important source material for ASO search-term work. If the user does not provide them, continue with available sources and note the gap.
+After finding or receiving an App Store URL, try to capture the current App Store Connect keyword field terms for each relevant platform. These are not public, but they are important source material for ASO search-term work. If they cannot be retrieved automatically or provided by the user, continue with available sources and note the gap.
 
 When using a **marketing or landing page URL**, extract only ASO-useful context:
 
@@ -79,7 +83,9 @@ When using a **user description**, capture the user's wording directly where it 
 
 ### 4. Verify The Draft
 
-Before saving, show the drafted app context to the user and ask what is incorrect, missing, or misleading.
+Before saving, show the drafted app context to the user and ask what is incorrect, missing, or misleading. Briefly explain that this review matters because later search-term and metadata work will treat approved context as source truth.
+
+Call out important source gaps and optional-but-useful fields that were expected, attempted, or relevant but unavailable. For example, if secondary category is not visible in available sources, mention that it is unavailable rather than silently implying the context is complete.
 
 Iterate until the user is satisfied with the captured context.
 
@@ -158,14 +164,15 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 
 ## Writing Rules
 
-- Keep the file concise enough for other skills to read quickly.
+- Keep the file concise enough for other skills to read quickly, but preserve enough source-backed feature, audience, workflow, problem, jobs-to-be-done, and review language to support later search-term discovery.
 - Prefer factual extraction over interpretation.
 - Do not invent missing metadata, competitors, review themes, or screenshot text.
 - Preserve keyword-rich phrases from source material when they are natural and accurate.
+- Record important source gaps compactly in `## Source`, especially unavailable private keyword fields or App Store Connect fields that were expected, attempted, or relevant to the current workflow.
 - Use screenshots as source material for app context using OCR text extraction.
 - Summarize reviews into themes instead of copying long review text.
 - Include competitor and similar app links when available; otherwise use plain app names.
-- Store App Store categories as `**Primary category:**` and optional `**Secondary category:**`. Omit `**Secondary category:**` when it is unavailable.
+- Store App Store categories as `**Primary category:**` and optional `**Secondary category:**`. Omit `**Secondary category:**` when it is unavailable, but mention it in the review or source gaps when it was expected, attempted, or relevant.
 - Store one primary locale for the global backlog using Apple's metadata locale label, such as `Dutch` or `English (U.S.)`. Use `references/app-store-localizations.md` to validate or derive it.
 - Do not store an Apple country or region ISO code as part of `Primary locale`. Store `Country or region preference` only when the user or clear source evidence explicitly overrides the default country or region derived from `references/app-store-localizations.md`.
 - Store supported App Store Connect platforms in `**Platforms:**` using values from `references/platforms.md`, such as `iOS`, `macOS`, `tvOS`, or `visionOS`.

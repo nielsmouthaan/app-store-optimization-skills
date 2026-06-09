@@ -20,7 +20,7 @@ This workflow coordinates the specialist ASO skills. It owns sequencing, prerequ
 - Stop for user review before saving user-judgment inputs: app context, search-term backlog, relevance scores, and final metadata choices.
 - Do not estimate popularity or difficulty. They must come from an external ASO statistics source.
 - Do not generate metadata drafts until confirmed terms have strategic scores and word value scores.
-- Do not publish or update App Store Connect metadata unless the user explicitly asks for that action.
+- Do not publish, update, or otherwise write to App Store Connect through `asc`, the App Store Connect API, or another tool unless the user explicitly reviews and approves that action.
 
 ## Workflow Overview
 
@@ -40,6 +40,8 @@ After every phase, summarize:
 - blockers or source gaps
 - the next required review or phase
 
+At each user review gate, briefly explain why the review matters, what to check, examples of useful corrections, and what will be saved or used after approval.
+
 ## Phase 0: Establish Context
 
 Use `aso-context` when `.agents/aso/context.md` is missing, stale, incomplete, or contradicted by new source material.
@@ -53,7 +55,9 @@ The context must identify, when available:
 - App Store Connect keyword field terms by platform
 - app metadata under `## Metadata` `### Current`, compact saved metadata `### History`, primary category, secondary category, use cases, features, reviews, and competitors
 
-Stop after drafting or updating the context. Ask the user to confirm what is incorrect, missing, or misleading before treating the context as ready for search-term work.
+Private App Store Connect metadata collection and source-gap handling belong to `aso-context`; follow that skill instead of duplicating retrieval steps here.
+
+Stop after drafting or updating the context. Ask the user to confirm what is incorrect, missing, or misleading before treating the context as ready for search-term work. If no approved context exists yet, keep the draft in the response until approval.
 
 ## Phase 1: Identify Search Terms
 

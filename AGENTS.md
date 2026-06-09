@@ -130,6 +130,9 @@ description: Research App Store keyword candidates with popularity and difficult
 - Use `aso-context` as the foundation skill for capturing and storing reusable context and data, so agents do not repeat the same questions and can pass context and data between skills.
 - Treat `aso-context` as an internal foundation skill in user-facing docs. Do not over-position it as the primary skill users should invoke directly; user-facing README examples should normally start with specialist skills such as search-term identification or relevance scoring.
 - Specialist skills should check `.agents/aso/context.md` before starting. If it exists, use it as canonical app context. If it is missing or incomplete, invoke or recommend `aso-context` first.
+- When instructing agents to stop for ASO user review, briefly state why the review matters, what the user should check, examples of useful corrections, and what will be saved or used after approval.
+- Never allow an agent to write to App Store Connect through `asc`, the App Store Connect API, or another tool unless the user has explicitly reviewed and approved that write.
+- Keep skill-development guidance in `AGENTS.md` and skill-execution behavior in `SKILL.md`. For example, do not hardcode exact `asc` command parameters in ASO skills; instruct agents to use the current `asc` skill, CLI help, or command discovery instead.
 - Use an `aso-*` prefix for ASO-specific skills so installed skills remain clearly namespaced.
 - Use workflow skills, such as `aso-metadata-workflow` and `aso-localized-metadata-workflow`, as the primary entrypoint for workflows.
 - Workflow skills should not duplicate specialist skill instructions. They should point to the relevant skill for each phase and pass along the required context or artifacts.
