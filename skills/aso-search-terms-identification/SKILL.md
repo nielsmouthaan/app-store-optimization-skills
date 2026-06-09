@@ -7,7 +7,7 @@ description: Finds broad App Store search-term candidates for App Store optimiza
 
 Act as an ASO search-term researcher. Help the user create a large backlog of search terms that potential users might reasonably type in the App Store and expect to find the app in the results.
 
-Optimize for **breadth and App Store search plausibility**. Do not assign relevance scores, popularity, difficulty, strategic scores, prioritize terms, assign metadata fields, or decide final targeting. If the user asks for relevance scoring, finish or save the backlog and use `aso-search-terms-relevance-scoring`; if the user asks for popularity or difficulty, use `aso-search-terms-statistics`; if the user asks for derived scoring or prioritization, use `aso-search-terms-scoring`; treat metadata placement and final targeting as outside this skill.
+Optimize for **breadth and App Store search plausibility**. Broad coverage is useful only after each term sounds like something a person might actually type in App Store search. Do not assign relevance scores, popularity, difficulty, strategic scores, prioritize terms, assign metadata fields, or decide final targeting. If the user asks for relevance scoring, finish or save the backlog and use `aso-search-terms-relevance-scoring`; if the user asks for popularity or difficulty, use `aso-search-terms-statistics`; if the user asks for derived scoring or prioritization, use `aso-search-terms-scoring`; treat metadata placement and final targeting as outside this skill.
 
 ## Before Starting
 
@@ -41,11 +41,14 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 ## Search-Term Backlog Rules
 
 - Include terms that are **somewhat relevant** and plausible as App Store searches, even if imperfect.
-- Prefer more candidates over fewer candidates, but avoid phrases that a real App Store user is unlikely to type.
-- Include close variants, singular and plural forms, word-order changes, synonyms, and long-tail combinations.
+- Prefer a broad backlog, but do not add a term solely to increase the count.
+- Include close variants, singular and plural forms, word-order changes, synonyms, and long-tail combinations only when each variant has a natural App Store query shape or reflects meaningfully different intent.
 - Include broad head terms for the app's core category, jobs-to-be-done, and main user outcomes.
 - Include natural action-object and noun variants for the same intent, including compact forms users may type in the App Store.
+- Generate variants from real search-intent patterns, not every possible modifier-plus-category combination.
+- Do not create weak combinations only because both words appear in app context.
 - Include generic category, audience, and use-case synonyms even when they are less precise than the app's positioning, but treat them as research candidates rather than final keyword-field recommendations.
+- For a first-pass backlog, check coverage across brand, core category, primary jobs-to-be-done, common synonyms, audience and use-case terms, problem terms, existing keyword-field seeds, and source-backed feature terms. Skip coverage areas where plausible App Store queries are weak.
 - Include seasonal terms only when the app, source evidence, or user request supports the seasonal intent. Mark the season or timing window in `Notes`, and do not treat expired seasonal terms as evergreen opportunities.
 - Do not invent spelling or grammar mistakes.
 - Preserve misspelled or ungrammatical terms only when they come from the user or source evidence.
@@ -56,7 +59,7 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 - In localized workflow, use source terms as intent seeds, not as strings to translate literally.
 - For localized terms, store a concise `Meaning` so users who do not know the target language can audit the term.
 - Prefer compact search phrases that sound like App Store queries.
-- Avoid full-sentence descriptions, UI commands, or product-internal wording unless external evidence shows users search that way.
+- Avoid full-sentence descriptions, web or SEO-style phrases, UI commands, implementation terms, technical capability terms, or product-internal wording unless clear App Store, Apple Search Ads, autocomplete, user, review, or competitor evidence shows users search that way.
 - Ask for clarification when a user-provided term looks like an accidental grammar or spelling mistake.
 - Do not add competitor brand names as usable search-term candidates by default.
 - Keep category words, `app`, generic terms, developer names, and brand terms when useful for research, but flag that they are usually weak or redundant final keyword-field material.
@@ -93,7 +96,7 @@ Create candidates from multiple sources:
 - **Existing ASC keywords:** App Store Connect keyword field terms provided by the user for each platform; treat them as source material and seeds, not automatically approved final terms.
 - **Third-party and web discovery tools:** If the user provides data or relevant tools are available, use ASO tools, Google Play autofill, Google Keyword Planner, Google Trends, SEO tools, and keyword discovery tools with caveats. Web or Google Play demand is not the same as App Store demand.
 - **Imported keyword lists:** User-provided keyword exports or manual lists; import their keyword language broadly before generating new expansions.
-- **Phrase expansion:** broad head terms, singular/plural variants, synonyms, alternate word order, related nouns and verbs, action-object variants, noun-form variants, compact or compound variants, category modifiers, seasonal variants, and long-tail combinations.
+- **Phrase expansion:** broad head terms, singular/plural variants, synonyms, alternate word order, related nouns and verbs, action-object variants, noun-form variants, compact or compound variants, category modifiers, seasonal variants, and long-tail combinations that still sound like natural App Store searches.
 - **Brand terms:** the app's own name, product names, company name, abbreviations, and source-backed misspellings or grammar variants when relevant.
 
 If source material uses a language other than the source primary locale language, use it only as background for understanding the app. Do not translate non-active-locale strings into search-term candidates unless the user explicitly changes the source primary locale.
@@ -108,20 +111,26 @@ When evidence conflicts, prefer app truth and user/searcher language first, Appl
 
 Keep a candidate when a user might plausibly type it in the App Store while looking for an app like this.
 
-Avoid or mark as `questionable search intent`:
+Prefer compact noun, category, and user-intent phrases. Remove terms that read like mechanical combinations of feature words, technical details, or context nouns instead of real search phrases.
+
+Omit:
 
 - Internal feature labels or implementation details
 - UI-action fragments and settings labels
 - Sentence-like phrases
-- Integration-only terms that are not likely app discovery queries
+- Technical or capability terms that are not likely app discovery queries
+- Web or SEO-style phrases
 - Phrases that describe a workflow but do not sound like search terms
 - Adjacent category terms that would likely return apps with a different core promise
+- Near-duplicates that do not reflect meaningfully different user intent
 
 ### 4. Review And Verify
 
+Before review, run a cleanup pass. Remove obvious duplicates, near-duplicates, weak combinations, doubtful terms, and evidence-poor terms that do not sound like real App Store searches.
+
 Present proposed search terms in a compact flat list or table that makes review easy without changing the saved backlog schema.
 
-Before saving new search terms, ask the user what should be accepted, rejected, corrected, or added. Include brief review guidance: keep terms that users might search for and reasonably expect to find this app in the App Store results; keep more relevant possibilities rather than narrowing the list too early; keep useful singular/plural variants and word-order variants; keep generic or reserved terms like `app`, developer names, and category terms only when useful as research signals; reject or correct terms that are misleading or unlikely to be searched.
+Before saving new search terms, ask the user what should be accepted, rejected, corrected, or added. Include brief review guidance: review the suggested terms, remove terms that are not relevant, and add potentially missing terms. Brand terms, plural variants, and terms with free or reserved words like `app` can remain at this stage because metadata-generation filtering happens later.
 
 Do not save the backlog until the user has had a clear chance to review and adjust the proposed terms.
 
@@ -164,7 +173,7 @@ When updating the table, follow these rules:
 - For review-mined terms, note when evidence is isolated, noisy, recurring, or corroborated.
 - For seasonal terms, note the season, event, or timing window and whether it appears evergreen or time-limited.
 - Keep source-backed grammar and spelling variants when they reflect realistic user searches.
-- Mark weak-but-possibly-useful terms as `questionable search intent`.
+- Do not save weak, doubtful, glued, or evidence-poor terms as normal candidates.
 - In localized work, put original-intent references and uncertainty in `Notes`; do not add a separate `Source` column to localized workspaces.
 - Preserve rejected terms when they prevent repeated suggestions.
 - Update `*Last updated:*` in the context file.
@@ -189,7 +198,10 @@ When researching competitors:
 
 - Creating only a short list of polished terms too early.
 - Removing variants because they look similar.
+- Over-expanding modifier combinations instead of using natural App Store query shapes.
 - Adding phrases only because they appear in source files, even when they are not plausible App Store searches.
+- Treating technical or product details as discovery queries.
+- Converting every context phrase into a candidate.
 - Treating local files as enough without asking for App Store listing, marketing page, and ASC keyword sources.
 - Proposing relevance scores during search-term identification.
 - Generating translated terms from non-active-language source material.
