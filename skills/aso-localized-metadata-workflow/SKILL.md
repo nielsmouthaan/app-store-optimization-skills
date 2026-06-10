@@ -107,11 +107,10 @@ Run phases in this order:
 1. Establish or update global app context with `aso-context`.
 2. Choose and validate target metadata locale and optional country or region preference.
 3. Create or update the localized workspace.
-4. Identify localized search terms with `aso-search-terms-identification`.
-5. Assign localized relevance with `aso-search-terms-relevance-scoring`.
-6. Fetch target country or region statistics with `aso-search-terms-statistics`.
-7. Calculate localized scores with `aso-search-terms-scoring`.
-8. Generate localized metadata drafts with `aso-metadata-generation`.
+4. Identify localized search terms and assign and validate localized relevance with `aso-search-terms-identification`.
+5. Fetch target country or region statistics with `aso-search-terms-statistics`.
+6. Calculate localized scores with `aso-search-terms-scoring`.
+7. Generate localized metadata drafts with `aso-metadata-generation`.
 
 After every phase, summarize the target locale, localized workspace path, resolved or preferred country or region when relevant, what changed, and the next required phase.
 
@@ -123,7 +122,7 @@ Read `.agents/aso/context.md` first.
 
 The global context should contain source app facts, primary locale, platforms, source metadata under `## Metadata` `### Current`, saved source metadata history, source search terms, source relevance, and original App Store Connect keyword field terms by platform when available.
 
-### 2. Identify Localized Search Terms
+### 2. Identify Localized Search Terms And Assign And Validate Relevance
 
 Use `aso-search-terms-identification` and pass these localization constraints. Use local search behavior as the primary target-locale evidence:
 
@@ -139,15 +138,11 @@ If the localized run is part of a cross-localization strategy, keep the workspac
 
 For every localized term, store `Meaning` as a concise back-translation or explanation in a language the user understands.
 
-### 3. Score Localized Relevance
-
-Use `aso-search-terms-relevance-scoring` and pass these localization constraints.
-
 Project relevance from source terms only when the localized term preserves the same App Store search intent. If the localized phrase has a different nuance, broader category, different user expectation, or uncertain idiom, score conservatively and add a compact note.
 
 Agent-led review is the default. Ask the user only when ambiguity could materially change relevance, metadata placement, or whether a term should remain confirmed.
 
-### 4. Fetch Localized Statistics
+### 3. Fetch Localized Statistics
 
 Use `aso-search-terms-statistics` and pass these localization constraints. Use the active locale's resolved country or region, not the source context's country or region, when fetching statistics. Resolve it from the explicit request, saved `Country or region preference`, or locale default in `references/app-store-localizations.md`. If the ASO tool requires a two-letter country or region parameter, derive it from the resolved country or region ISO code using `references/app-store-localizations.md` or a standard ISO 3166 lookup.
 
@@ -155,7 +150,7 @@ Fetch exact localized search terms. Do not translate terms during statistics fet
 
 If imported statistics were fetched for a different country or region than the resolved country or region, treat them as incompatible unless the user explicitly wants exploratory comparison data outside the localized workflow.
 
-### 5. Score And Generate Metadata
+### 4. Score And Generate Metadata
 
 Use `aso-search-terms-scoring` to calculate localized strategic scores and word value scores inside the active localized workspace.
 
@@ -186,8 +181,7 @@ If metadata was only saved as a draft, state that App Store Connect was not upda
 
 - Use `aso-context` to create or update global app context.
 - Use `aso-localization-prioritization` to choose which metadata localization to target before this workflow.
-- Use `aso-search-terms-identification` for localized search-term discovery.
-- Use `aso-search-terms-relevance-scoring` for localized relevance.
+- Use `aso-search-terms-identification` for localized search-term discovery and relevance assignment.
 - Use `aso-search-terms-statistics` for target country or region popularity and difficulty.
 - Use `aso-search-terms-scoring` for localized strategic and word value scores.
 - Use `aso-metadata-generation` for localized metadata drafts.

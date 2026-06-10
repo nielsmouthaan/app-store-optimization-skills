@@ -7,7 +7,7 @@ description: Builds and refreshes shared app context for App Store metadata opti
 
 Create and maintain `.agents/aso/context.md`, which captures global app context and the source-locale ASO workspace that other skills reference so users do not repeat themselves.
 
-The context should be compact, factual, and useful for later search-term identification, relevance scoring, statistics fetching, search term scoring, metadata generation, and localized ASO work.
+The context should be compact, factual, and useful for later search-term identification plus relevance assignment and validation, statistics fetching, search term scoring, metadata generation, and localized ASO work.
 
 Localized ASO work belongs in `.agents/aso/locales/<Locale>/context.md`, not in the global context file.
 
@@ -186,7 +186,7 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 - Store localized workspaces in `## Locales` when they exist. Keep only the metadata locale, workspace path, optional country or region preference, and compact notes there; do not duplicate localized search terms in the global context.
 - Use `.agents/aso/locales/<Locale>/context.md` for localized terms, relevance, statistics, scoring, current metadata, and metadata history.
 - Use `candidate`, `confirmed`, or `rejected` for search-term backlog status values. Use `candidate` for unreviewed suggested or imported terms, `confirmed` for user-accepted terms in the usable ASO backlog, and `rejected` for terms the user does not want to use.
-- Leave `Relevance` blank until `aso-search-terms-relevance-scoring` assigns a user-approved integer score from `1` to `5`; keep it blank for rejected terms.
+- Leave `Relevance` blank until `aso-search-terms-identification` assigns a user-approved integer score from `1` to `5`; keep it blank for rejected terms.
 - Leave `Popularity`, `Difficulty`, `Stats country or region`, `Stats source`, and `Stats updated` blank until `aso-search-terms-statistics` obtains external statistics or normalizes user-provided Apple Ads Search Popularity. Keep them blank for rejected terms unless the user explicitly requests statistics for rejected terms. Store `Popularity` and `Difficulty` as validated `1`-`100` values. Use `Notes` for important compact statistics context, including Apple Ads normalization details.
 - Leave `Strategic score` blank until `aso-search-terms-scoring` calculates it for confirmed terms with valid relevance from `1` to `5`, popularity, and difficulty values.
 - Leave `## Word Value Scores` empty until `aso-search-terms-scoring` calculates derived word scores from confirmed terms with valid strategic scores.

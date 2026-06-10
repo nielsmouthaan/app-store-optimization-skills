@@ -1,13 +1,13 @@
 ---
 name: aso-search-terms-identification
-description: Finds broad App Store search-term candidates for App Store optimization. Use when creating or expanding a keyword backlog, researching App Store search terms, localizing keyword ideas, mining competitor language, collecting user search phrases, or preparing terms for relevance scoring.
+description: Finds broad App Store search-term candidates and assigns user-reviewed relevance scores for App Store optimization. Use when creating or expanding a keyword backlog, researching App Store search terms, reviewing keyword relevance, localizing keyword ideas, mining competitor language, collecting user search phrases, or preparing terms for statistics and strategic scoring.
 ---
 
 # ASO Search Terms Identification
 
-Act as an ASO search-term researcher. Help the user create a large backlog of search terms that potential users might reasonably type in the App Store and expect to find the app in the results.
+Act as an ASO search-term researcher and relevance analyst. Help the user create a large backlog of search terms that potential users might reasonably type in the App Store, then score how well the app fits each term's search intent.
 
-Optimize for **breadth and App Store search plausibility**. Broad coverage is useful only after each term sounds like something a person might actually type in App Store search. Do not assign relevance scores, popularity, difficulty, strategic scores, prioritize terms, assign metadata fields, or decide final targeting. If the user asks for relevance scoring, finish or save the backlog and use `aso-search-terms-relevance-scoring`; if the user asks for popularity or difficulty, use `aso-search-terms-statistics`; if the user asks for derived scoring or prioritization, use `aso-search-terms-scoring`; treat metadata placement and final targeting as outside this skill.
+Optimize for **breadth, App Store search plausibility, and consistent user-reviewed relevance**. Broad coverage is useful only after each term sounds like something a person might actually type in App Store search. Do not assign popularity, difficulty, strategic scores, metadata fields, or final targeting. If the user asks for popularity or difficulty, use `aso-search-terms-statistics`; if the user asks for derived scoring or prioritization, use `aso-search-terms-scoring`; treat metadata placement and final targeting as outside this skill.
 
 ## Before Starting
 
@@ -22,6 +22,8 @@ If it exists:
 - For localized work, identify the target locale, optional country or region preference, and any existing localized terms.
 - Show any existing terms in `## Search Terms Backlog`.
 - Preserve existing statuses, relevance scores, statistics, notes, and any additional backlog columns unless the user corrects them.
+- If the user only asks to review or rescore existing terms, use the existing backlog and skip new candidate generation unless obvious gaps would materially affect the request.
+- If the backlog contains only `candidate` rows, present them in the combined term-and-relevance review; do not silently promote them while assigning relevance.
 
 If it does not exist or lacks meaningful app context:
 
@@ -128,13 +130,27 @@ Omit:
 
 Before review, run a cleanup pass. Remove obvious duplicates, near-duplicates, weak combinations, doubtful terms, and evidence-poor terms that do not sound like real App Store searches.
 
-Present proposed search terms in a compact flat list or table that makes review easy without changing the saved backlog schema.
+Assign provisional relevance groups before presenting the review. Present suggested search terms grouped by relevance so the user can review the term list and relevance fit in one pass:
 
-Before saving new search terms, ask the user what should be accepted, rejected, corrected, or added. Include brief review guidance: the suggested terms are potential App Store searches users might use to find the app; broader coverage is useful, but terms should still match realistic search intent. Ask the user to remove terms that are not relevant and add potentially missing terms. Mention briefly that brand terms, plural variants, and terms with free or reserved words like `app` can remain at this stage because metadata-generation filtering happens later.
+```markdown
+| Relevance | Search terms |
+| --- | --- |
+| Very high | term one; term two; term three |
+| High | term one; term two |
+| Medium | term one; term two |
+| Low | term one; term two |
+| Very low | term one |
+```
 
-Explain that approved terms will later be used to fetch popularity and difficulty statistics, so the workflow can quantify which terms are useful and how hard they may be to rank for.
+Use compact text labels in the review table. These labels map to the numeric scores in `## Relevance Score`: `Very high` = `5`, `High` = `4`, `Medium` = `3`, `Low` = `2`, and `Very low` = `1`.
 
-Do not save the backlog until the user has had a clear chance to review and adjust the proposed terms.
+Before saving new search terms or relevance scores, ask the user what should be accepted, rejected, corrected, added, or moved between relevance groups. Include brief review guidance: the suggested terms are potential App Store searches users might use to find the app; broader coverage is useful, but terms should still match realistic search intent. Explain that relevance is a relative fit score: if a user searched this term and found the app, how likely is the app to be a good result compared with the other terms in the backlog? Ask the user to remove terms that are not relevant and add potentially missing terms. Mention briefly that brand terms, plural variants, and terms with free or reserved words like `app` can remain at this stage because metadata-generation filtering happens later.
+
+Explain that approved terms will later be used to fetch popularity and difficulty statistics, and that approved relevance scores help later prioritization.
+
+Do not save the backlog or source-locale relevance scores until the user has had a clear chance to review and adjust the proposed terms and relevance groups.
+
+For localized work, use agent-led relevance review by default. Present proposed scores with `Meaning` values, then save them when the mapping is clear and confidence is adequate. Ask the user or request native-speaker review before saving only for localized terms whose meaning, idiom, or App Store intent is materially ambiguous.
 
 ### 5. Save Results
 
@@ -145,7 +161,7 @@ Use this canonical table for global/source-locale work:
 ```markdown
 | Search term | Source | Status | Relevance | Popularity | Difficulty | Stats country or region | Stats source | Stats updated | Notes | Strategic score |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| example term | app description | confirmed |  |  |  |  |  |  | feature phrase |  |
+| example term | app description | confirmed | 4 |  |  |  |  |  | strong feature fit |  |
 ```
 
 Use this canonical table for localized work:
@@ -153,7 +169,7 @@ Use this canonical table for localized work:
 ```markdown
 | Search term | Meaning | Status | Relevance | Popularity | Difficulty | Stats country or region | Stats source | Stats updated | Notes | Strategic score |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| quittung scanner | receipt scanner | confirmed |  |  |  |  |  |  | inspired by source intent: receipt scanner |  |
+| quittung scanner | receipt scanner | confirmed | 5 |  |  |  |  |  | same intent as source core term |  |
 ```
 
 Use these status values:
@@ -166,12 +182,15 @@ Use these status values:
 
 When updating the table, follow these rules:
 
+- Add a `Relevance` column if it is missing.
 - Append new terms rather than replacing existing work.
-- Save user-accepted terms as `confirmed`, user-rejected terms as `rejected`, and leave unreviewed suggestions or imports as `candidate`.
-- Leave `Relevance`, `Popularity`, `Difficulty`, `Stats country or region`, `Stats source`, `Stats updated`, and `Strategic score` blank for new terms. Preserve existing relevance scores, statistics, strategic scores, and any additional columns.
+- Save user-accepted terms as `confirmed` with approved integer `Relevance` scores from `1` to `5`, user-rejected terms as `rejected` with blank relevance, and leave explicitly unreviewed suggestions or imports as `candidate` with blank relevance.
+- Leave `Popularity`, `Difficulty`, `Stats country or region`, `Stats source`, `Stats updated`, and `Strategic score` blank for new terms. Preserve existing statistics and any additional columns.
+- Clear `Strategic score` for rows where `Relevance` is added or changed; preserve it for unchanged rows.
+- Do not overwrite user-confirmed relevance scores unless the user approves the change.
 - For localized terms, fill `Meaning` with a compact back-translation or explanation in a language the user understands.
 - Normalize obvious duplicates, but keep meaningful variants, including singular/plural forms, word-order variants, generic and/or reserved terms like "app", developer names, and category terms when they make sense.
-- Use `Notes` for compact context that helps later skills interpret the term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, or user verification details.
+- Use `Notes` for compact context that helps later skills interpret the term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, localization uncertainty, or user verification details.
 - For review-mined terms, note when evidence is isolated, noisy, recurring, or corroborated.
 - For seasonal terms, note the season, event, or timing window and whether it appears evergreen or time-limited.
 - Keep source-backed grammar and spelling variants when they reflect realistic user searches.
@@ -180,7 +199,71 @@ When updating the table, follow these rules:
 - Preserve rejected terms when they prevent repeated suggestions.
 - Update `*Last updated:*` in the context file.
 
-Stop after saving or presenting the backlog. Do not propose relevance, popularity, difficulty, or strategic scores from this skill; use `aso-search-terms-relevance-scoring` when the user asks for relevance scoring, `aso-search-terms-statistics` when the user asks for popularity or difficulty, and `aso-search-terms-scoring` when the user asks for derived scoring or prioritization.
+Stop after saving or presenting the reviewed backlog and relevance groups. Do not propose popularity, difficulty, strategic scores, metadata placement, or final targeting from this skill; use `aso-search-terms-statistics` when the user asks for popularity or difficulty, and `aso-search-terms-scoring` when the user asks for derived scoring or prioritization.
+
+## Relevance Score
+
+Use a **1-5 relevance score** to describe how well the app satisfies the App Store search intent behind a term.
+
+Scores are relative to the backlog. A score of `1` or `2` means lower relative relevance, ambiguity, or weaker App Store expectation; it does not mean the term is rejected or should be ignored when the user has confirmed it.
+
+| Score | Meaning |
+| --- | --- |
+| `1` | Very weak fit, mostly ambiguous, unlikely as an App Store query, or likely to disappoint most searchers. |
+| `2` | Adjacent, partial, or category-neighbor fit; the app may help some searchers, but it is not a primary App Store expectation. |
+| `3` | Relevant but mixed-intent, secondary, or likely to attract many searchers who want a different kind of app. |
+| `4` | Strong fit for a meaningful app use case, synonym, feature, audience, or problem, but less central than the app's core category or job-to-be-done. |
+| `5` | Own-brand, brand-plus-category, core category, or primary job-to-be-done intent the app directly serves. A `5` term should describe what the user is primarily trying to find, not merely a feature, output, report, or metadata phrase. |
+
+Score terms **relative to the whole backlog**. If two terms have the same level of fit for the app, give them the same score even when they differ in wording, length, or expected search volume.
+
+The app's own brand name and natural brand variants are always highly relevant. Score own-brand terms as `5`; if the brand is also a generic word, note the ambiguity, but do not downgrade the own-brand intent.
+
+Do not penalize broad terms solely because they are broad. If the app is a legitimate strong result for a broad category, core job-to-be-done, or main user outcome, score that term high. Use ambiguity to distinguish `5` from `4` or `3`, not to automatically demote broad terms.
+
+Do not treat a term as highly relevant only because it appears in the app name, subtitle, screenshots, or description. Metadata is useful source evidence, but relevance depends on the app's actual functionality, user value, category, and likely search intent.
+
+For localized terms, relevance depends on the localized App Store search intent, not only the source-language term that inspired it. Project a source relevance score only when the localized term clearly expresses the same user intent.
+
+## Relevance Workflow
+
+### 1. Interpret Search Intent
+
+For each term that survives the plausibility filter, infer what a searcher probably wants.
+
+Consider:
+
+- **Specificity:** Long-tail terms often reveal clearer intent than short, broad terms.
+- **App Store query fit:** Whether the term sounds like something a user would type in the App Store to find an app.
+- **Search phrase shape:** Whether the term is a compact app-search phrase rather than a sentence, UI command, or product-internal label.
+- **Feature fit:** Whether the app directly offers the feature, workflow, content, or outcome implied by the term.
+- **Audience fit:** Whether the likely searcher is part of the app's intended audience.
+- **Problem fit:** Whether the app solves the problem implied by the term.
+- **Category fit:** Whether the term belongs to the app's category or an adjacent category.
+- **Ambiguity:** Whether the same term could mean unrelated things in the App Store.
+- **Search-result evidence:** If available, whether top-ranking apps for the term satisfy a different intent.
+- **User evidence:** Whether user wording, reviews, support requests, or provided source material confirm the intent.
+
+Do not treat product-feature fit alone as relevance. A term can describe a real feature but still deserve a low score if it is unlikely to be used as an App Store search.
+
+Do not treat search volume as relevance. A high-volume term can be irrelevant, and a low-volume term can be highly relevant.
+
+Do not use relevance scoring to remove confirmed terms from later scoring. `aso-search-terms-scoring` can still calculate low but nonzero strategic scores for confirmed terms with relevance `1` or `2` when popularity and difficulty inputs are valid.
+
+### 2. Calibrate Scores
+
+Before presenting scores, compare terms across the backlog:
+
+- Group terms that express the same or similar intent.
+- Make sure equivalent relevance receives equivalent scores.
+- Cluster broad core terms, close synonyms, action-object variants, noun-form variants, word-order variants, and app/category suffix variants near each other when they express the same user intent.
+- Run a metadata-bias check. A term that appears in current metadata should still pass the same product-fit test as every other term before receiving `5`.
+- Apply an ambiguity cap. A broad term with several plausible App Store intents should not receive `5` unless the app is a clearly excellent result for the dominant intent.
+- Check `5` and `1` scores last so extreme scores are applied consistently across comparable terms.
+- For every proposed `5`, write a one-sentence internal justification: "A user searching this term primarily wants ___, and this app directly provides ___." If that sentence is weak, ambiguous, or describes only a secondary output, downgrade the term.
+- When unsure between two adjacent scores, choose the lower score and mark the term for user review.
+- Mark uncertain source-locale scores for user review instead of pretending they are precise.
+- For localized work, put uncertainty in `Notes` and ask for review only when the uncertainty is likely to affect downstream metadata choices.
 
 ## Competitor Research Handling
 
@@ -205,7 +288,13 @@ When researching competitors:
 - Treating technical or product details as discovery queries.
 - Converting every context phrase into a candidate.
 - Treating local files as enough without asking for App Store listing, marketing page, and ASC keyword sources.
-- Proposing relevance scores during search-term identification.
+- Saving source-locale terms or relevance scores before the user reviews them.
+- Scoring terms in isolation instead of calibrating across the whole backlog.
+- Using popularity, competition, or ranking difficulty as a proxy for relevance.
+- Automatically downgrading broad core category terms even when the app is a legitimate strong result for that intent.
+- Giving terms high scores only because they already appear in prominent app metadata.
+- Giving semantically equivalent terms different scores because of word order, suffixes, or minor modifiers.
+- Treating relevance `1` or `2` as automatic rejection after the user has confirmed the term.
 - Generating translated terms from non-active-language source material.
 - Correcting realistic misspellings or grammar mistakes without checking whether they were intentional.
 - Treating web search volume as App Store demand without caveats.
@@ -225,6 +314,8 @@ Ask only questions that improve the backlog materially:
 - "Would a user searching this term reasonably expect an app like yours?"
 - "Do you have existing App Store Connect keyword terms I should treat as source material?"
 - "Does this phrase sound like something a user would type in the App Store, or is it just internal product language?"
+- "Are these two terms equally relevant, or should one score higher?"
+- "Should this broad term stay in the backlog with a low relevance score, or be rejected?"
 - "Was this spelling or grammar mistake intentional because users may search that way?"
 - "Should I use these competitors as research sources for generic non-brand alternatives?"
 - "What terms would customers use if they did not know the app or category name?"
@@ -232,6 +323,5 @@ Ask only questions that improve the backlog materially:
 ## Related Skills
 
 - Use `aso-context` to create or update shared app context and store the search-term backlog.
-- Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance scores to the backlog.
 - Use `aso-search-terms-statistics` to fetch external popularity and difficulty values after terms exist.
 - Use `aso-search-terms-scoring` to calculate derived priority scores after confirmed terms have relevance and statistics.

@@ -1,6 +1,6 @@
 ---
 name: aso-search-terms-statistics
-description: Fetches App Store search-term popularity and difficulty statistics from App Store optimization tools, normalized Apple Ads Search Popularity, or user-provided exports. Use after relevance scoring, when refreshing stale keyword metrics, or when the user asks for exploratory statistics on candidate or rejected terms.
+description: Fetches App Store search-term popularity and difficulty statistics from App Store optimization tools, normalized Apple Ads Search Popularity, or user-provided exports. Use after search terms have been identified and relevance-scored, when refreshing stale keyword metrics, or when the user asks for exploratory statistics on candidate or rejected terms.
 ---
 
 # ASO Search Terms Statistics
@@ -33,7 +33,7 @@ If `## Search Terms Backlog` is missing or empty:
 - Invoke or recommend `aso-search-terms-identification` before continuing.
 - Abort statistics fetching until search terms exist.
 
-Prefer running this skill after `aso-search-terms-relevance-scoring`, but do not block statistics fetching only because relevance scores are blank. Relevance and statistics are independent inputs for later ASO work. Fetch statistics for `confirmed` terms by default; fetch `candidate` or `rejected` terms only when the user explicitly asks for exploratory statistics.
+Prefer running this skill after `aso-search-terms-identification` has assigned relevance, but do not block statistics fetching only because relevance scores are blank. Relevance and statistics are independent inputs for later ASO work. Fetch statistics for `confirmed` terms by default; fetch `candidate` or `rejected` terms only when the user explicitly asks for exploratory statistics.
 
 ## Country Or Region Selection
 
@@ -186,6 +186,5 @@ If all requested statistics are present, validated, and fresh enough for the run
 ## Related Skills
 
 - Use `aso-context` to create or update shared app context.
-- Use `aso-search-terms-identification` to create or expand the search-term backlog.
-- Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance before prioritization.
+- Use `aso-search-terms-identification` to create or expand the search-term backlog and assign relevance scores before prioritization.
 - Use `aso-search-terms-scoring` to calculate derived priority scores after popularity and difficulty are saved.

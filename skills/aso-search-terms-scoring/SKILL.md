@@ -1,6 +1,6 @@
 ---
 name: aso-search-terms-scoring
-description: Calculates strategic scores and per-word value scores for confirmed App Store search terms. Use after relevance scoring and popularity/difficulty statistics when prioritizing keywords for App Store optimization metadata planning, keyword focus, character-limited metadata fields, or metadata generation.
+description: Calculates strategic scores and per-word value scores for confirmed App Store search terms. Use after search terms have relevance scores and popularity/difficulty statistics when prioritizing keywords for App Store optimization metadata planning, keyword focus, character-limited metadata fields, or metadata generation.
 ---
 
 # ASO Search Terms Scoring
@@ -34,7 +34,7 @@ If `## Search Terms Backlog` is missing or empty:
 
 If confirmed terms are missing relevance, popularity, or difficulty values:
 
-- Use `aso-search-terms-relevance-scoring` for missing or unapproved relevance.
+- Use `aso-search-terms-identification` for missing or unapproved relevance.
 - Use `aso-search-terms-statistics` for missing popularity or difficulty.
 - Do not estimate missing inputs or score incomplete rows.
 - Treat relevance scores `1` and `2` as lower relative relevance, not as automatic exclusions.
@@ -182,7 +182,6 @@ After saving, summarize how many terms received strategic scores, how many terms
 ## Related Skills
 
 - Use `aso-context` to create or update shared app context.
-- Use `aso-search-terms-identification` to create or expand the search-term backlog.
-- Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance.
+- Use `aso-search-terms-identification` to create or expand the search-term backlog and assign relevance scores.
 - Use `aso-search-terms-statistics` to fetch popularity and difficulty before scoring.
 - Use `aso-metadata-generation` after scoring to generate metadata drafts from strategic scores and word value scores.

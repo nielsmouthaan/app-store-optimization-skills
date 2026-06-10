@@ -1,6 +1,6 @@
 ---
 name: aso-metadata-workflow
-description: Runs the end-to-end App Store optimization workflow for the app's primary or source metadata language. Use for full primary listing optimization, organic search metadata work, or coordinating context, keyword research, relevance scoring, statistics, strategic scoring, and metadata drafts. For other languages, countries or regions, use aso-localized-metadata-workflow.
+description: Runs the end-to-end App Store optimization workflow for the app's primary or source metadata language. Use for full primary listing optimization, organic search metadata work, or coordinating context, search-term identification, relevance assignment and validation, statistics, strategic scoring, and metadata drafts. For other languages, countries or regions, use aso-localized-metadata-workflow.
 ---
 
 # ASO Metadata Workflow
@@ -27,11 +27,10 @@ This workflow coordinates the specialist ASO skills. It owns sequencing, prerequ
 Run phases in this order:
 
 1. Establish app context with `aso-context`.
-2. Identify search terms with `aso-search-terms-identification`.
-3. Validate relevance with `aso-search-terms-relevance-scoring`.
-4. Fetch statistics with `aso-search-terms-statistics`.
-5. Calculate search term scores with `aso-search-terms-scoring`.
-6. Generate metadata drafts with `aso-metadata-generation`.
+2. Identify search terms and assign and validate relevance with `aso-search-terms-identification`.
+3. Fetch statistics with `aso-search-terms-statistics`.
+4. Calculate search term scores with `aso-search-terms-scoring`.
+5. Generate metadata drafts with `aso-metadata-generation`.
 
 After every phase, summarize:
 
@@ -59,23 +58,17 @@ Private App Store Connect metadata collection and source-gap handling belong to 
 
 Stop after drafting or updating the context. Ask the user to confirm what is incorrect, missing, or misleading before treating the context as ready for search-term work. If no approved context exists yet, keep the draft in the response until approval.
 
-## Phase 1: Identify Search Terms
+## Phase 1: Identify Search Terms And Assign And Validate Relevance
 
-Use `aso-search-terms-identification` to create or expand the search-term backlog.
+Use `aso-search-terms-identification` to create or expand the search-term backlog and assign user-reviewed `1`-`5` relevance scores.
 
-Before proceeding, confirm that the backlog is broad enough for later scoring and includes plausible App Store search phrases, source notes, and useful variants.
+Before proceeding, confirm that the backlog is broad enough for later scoring, includes plausible App Store search phrases, source notes, useful variants, and approved relevance groups.
 
-Stop after presenting proposed terms. Let the user accept, reject, correct, or add terms before saving or moving to relevance scoring. Save accepted terms as `confirmed`, rejected terms as `rejected`, and unreviewed suggestions or imports as `candidate`. Preserve rejected terms so future runs do not suggest them again.
+Stop after presenting proposed terms grouped by relevance. Let the user accept, reject, correct, add terms, or move terms between relevance groups before saving. Save accepted terms as `confirmed` with approved `Relevance`, rejected terms as `rejected` without relevance, and explicitly undecided suggestions or imports as `candidate` without relevance. Preserve rejected terms so future runs do not suggest them again.
 
-## Phase 2: Validate Relevance
+After approved terms and relevance scores are saved, continue only with confirmed terms.
 
-Use `aso-search-terms-relevance-scoring` to assign user-reviewed `1`-`5` relevance scores to confirmed terms.
-
-Relevance is a user-judgment input for all later prioritization. Stop before saving scores and require explicit user approval or corrections to the relevance groups.
-
-After approved scores are saved, continue only with confirmed terms.
-
-## Phase 3: Fetch Statistics
+## Phase 2: Fetch Statistics
 
 Use `aso-search-terms-statistics` to fetch popularity and difficulty for confirmed terms. User-provided Apple Ads Search Popularity on a `1`-`5` scale may be normalized for `Popularity`, but it must not be used as `Difficulty`.
 
@@ -93,7 +86,7 @@ Stop and require user intervention if:
 
 Do not estimate or infer missing popularity or difficulty values beyond the statistics skill's explicit Apple Ads Search Popularity normalization. Report the blocker and the missing upstream requirement.
 
-## Phase 4: Calculate Search Term Scores
+## Phase 3: Calculate Search Term Scores
 
 Use `aso-search-terms-scoring` after confirmed terms have valid relevance, popularity, and difficulty values.
 
@@ -101,7 +94,7 @@ This phase is deterministic. It may save derived strategic scores and word value
 
 If no confirmed terms are eligible, stop and report which upstream input is missing.
 
-## Phase 5: Generate Recommended Metadata Draft
+## Phase 4: Generate Recommended Metadata Draft
 
 Use `aso-metadata-generation` after strategic scores and word value scores exist.
 
@@ -117,9 +110,8 @@ Use these gates to decide whether the workflow can continue:
 
 | Gate | Required user or tool confirmation | Next phase |
 | --- | --- | --- |
-| Context approved | User confirms app context and source gaps are acceptable | Search-term identification |
-| Backlog approved | User accepts, rejects, corrects, or adds proposed terms; accepted terms are saved as `confirmed` | Relevance scoring |
-| Relevance approved | User explicitly approves or corrects relevance groups | Statistics fetching |
+| Context approved | User confirms app context and source gaps are acceptable | Search-term identification plus relevance assignment and validation |
+| Search terms and relevance approved | User accepts, rejects, corrects, adds, or moves proposed terms between relevance groups; accepted terms are saved as `confirmed` with `Relevance` | Statistics fetching |
 | Statistics available | External source provides complete validated popularity and difficulty for the target country or region, with Apple Ads normalization allowed for popularity only; incomplete statistics require a user decision before continuing | Search term scoring |
 | Search term scores saved | Eligible confirmed terms have derived strategic scores and word value scores are saved in context | Metadata generation |
 | Metadata choice approved | User approves a draft history save, current metadata update, or publish action | Save to `## Metadata` `### History`, and update `### Current` only for current approvals or successful publishes |
@@ -141,8 +133,7 @@ If metadata was only saved as a draft, state that App Store Connect was not upda
 ## Related Skills
 
 - Use `aso-context` to create or update shared app context.
-- Use `aso-search-terms-identification` to create or expand the search-term backlog.
-- Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance scores.
+- Use `aso-search-terms-identification` to create or expand the search-term backlog and assign user-reviewed relevance scores.
 - Use `aso-search-terms-statistics` to fetch popularity and difficulty.
 - Use `aso-search-terms-scoring` to calculate derived strategic scores and per-word value scores.
 - Use `aso-metadata-generation` to generate a recommended metadata draft and save approved drafts, edits, current choices, or published snapshots.

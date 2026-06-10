@@ -172,7 +172,7 @@ After saving, summarize:
 ## Related Skills
 
 - Use `aso-context` to create or update shared app context.
-- Use `aso-search-terms-identification` to create or expand the search-term backlog.
+- Use `aso-search-terms-identification` to create or expand the search-term backlog and assign relevance scores.
 - Use `aso-search-terms-statistics` to fetch popularity and difficulty statistics.
 - Use `aso-metadata-generation` before publishing metadata changes that will later be evaluated with keyword rankings.
 - Use `aso-metadata-performance-analysis` to evaluate broader metadata impact using rankings, App Store search-source data, Search Ads, and downstream guardrails.

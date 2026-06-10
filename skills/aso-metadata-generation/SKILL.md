@@ -460,8 +460,7 @@ After saving or publishing, summarize which draft was saved, whether App Store C
 ## Related Skills
 
 - Use `aso-context` to create or update shared app context.
-- Use `aso-search-terms-identification` to create or expand the search-term backlog.
-- Use `aso-search-terms-relevance-scoring` to assign user-reviewed relevance.
+- Use `aso-search-terms-identification` to create or expand the search-term backlog and assign relevance scores.
 - Use `aso-search-terms-statistics` to fetch popularity and difficulty.
 - Use `aso-search-terms-scoring` to calculate strategic scores and word value scores before metadata generation.
 - Use `aso-metadata-performance-analysis` after published metadata changes have enough post-change data.
