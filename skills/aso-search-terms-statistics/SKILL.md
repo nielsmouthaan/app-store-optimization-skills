@@ -66,21 +66,23 @@ If no usable source is available, recommend:
 - ASO Suite: https://nielsmouthaan.dev/asosuite
 - Astro: https://nielsmouthaan.dev/astro
 
-Then abort. Popularity and difficulty statistics are required for later ASO scoring, and the agent must not continue by guessing.
+Then stop and ask the user to provide a usable statistics source, a compatible export, compatible manual values, or to pause the workflow.
 
-If a source is available but authentication, subscription, quota, or network access fails, report the blocker and abort instead of estimating missing values.
+If a source is available but authentication, subscription, quota, or network access fails, report the blocker and ask the user whether to fix access, provide compatible values manually, try another available statistics source, or pause the workflow.
 
 ## Stats Freshness
 
 Treat statistics as outdated when `Stats updated` is more than one month older than the current date.
 
-Before fetching, show confirmed terms with:
+Before fetching, identify confirmed terms with:
 
 - missing `Popularity` or `Difficulty`
 - missing `Stats updated`
 - `Stats updated` more than one month old
 
-Ask the user whether to refresh outdated statistics before continuing. If the user declines, continue with existing values only when useful and include a stale-statistics warning in the summary. If outdated statistics are refreshed, clear `Strategic score` for rows where `Popularity` or `Difficulty` changes, is removed, remains missing after an attempted refresh, or is reattempted after being stale.
+When a statistics source is available, fetch or refresh these values without treating this as a normal user review gate. If any requested statistics remain missing, pending, stale, incompatible, or unusable after the fetch attempt, stop and ask the user how to proceed before continuing to strategic scoring. Required options are: provide compatible values manually, try another available statistics source, remove or skip incomplete terms for scoring, or pause until statistics can be fetched.
+
+If outdated statistics are refreshed, clear `Strategic score` for rows where `Popularity` or `Difficulty` changes, is removed, remains missing after an attempted refresh, or is reattempted after being stale.
 
 ## Metric Validation
 
@@ -125,6 +127,7 @@ If a value is pending or missing:
 - Leave that metric blank in the backlog.
 - Add a compact note such as `popularity pending`, `difficulty missing`, or `stats unavailable`.
 - Do not fill missing values from another source unless the source is explicit and compatible with that country or region.
+- Require a user decision before continuing to strategic scoring.
 
 ## Saving Results
 
@@ -162,6 +165,8 @@ When updating the table:
 - Update `*Last updated:*` in the active context or locale workspace file.
 
 After saving, summarize how many terms were updated, how many had pending or missing values, whether any values were unusable because they were outside the accepted scale, whether any stale statistics were kept, the primary locale or localized workspace used, the resolved country or region, any derived ASO tool country or region parameter, any explicit search-surface preference, and the source used.
+
+If all requested statistics are present, validated, and fresh enough for the run, proceed to strategic scoring. If any requested statistic is missing, pending, stale, incompatible, or unusable, stop after the summary and ask the user how to proceed before strategic scoring. Required options are: provide compatible values manually, try another available statistics source, remove or skip incomplete terms for scoring, or pause until statistics can be fetched.
 
 ## Common Mistakes
 

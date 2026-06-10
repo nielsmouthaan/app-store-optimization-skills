@@ -144,7 +144,7 @@ Before saving anything, present a review table:
 
 Use compact text labels in the review table so the user can scan the relevance groups quickly. These labels map to the numeric `1`-`5` scores defined in `## Relevance Score`: `Very high` = `5`, `High` = `4`, `Medium` = `3`, `Low` = `2`, and `Very low` = `1`. Save the approved numeric score to the `Relevance` column in `.agents/aso/context.md`.
 
-For source-locale work, require the user to carefully review the proposed relevance groups before saving. Explain that relevance scores are a critical input for later steps in the ASO process; inaccurate relevance scoring can cause later workflow steps to prioritize or use the wrong terms. Do not save source-locale scores until the user has explicitly approved or corrected them.
+For source-locale work, require the user to carefully review the proposed relevance groups before saving. Explain that relevance is a relative fit score: if a user searched this term and found the app, how likely is the app to be a good result compared with the other terms in the backlog? Also explain that approved relevance scores are combined with popularity and difficulty during later prioritization. Do not save source-locale scores until the user has explicitly approved or corrected them.
 
 For localized work, use agent-led review by default. Present the proposed scores with `Meaning` values, then save them when the mapping is clear and confidence is adequate. Ask the user or request native-speaker review before saving only for localized terms whose meaning, idiom, or App Store intent is materially ambiguous.
 

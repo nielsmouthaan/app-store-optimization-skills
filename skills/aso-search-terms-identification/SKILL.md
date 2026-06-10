@@ -130,7 +130,9 @@ Before review, run a cleanup pass. Remove obvious duplicates, near-duplicates, w
 
 Present proposed search terms in a compact flat list or table that makes review easy without changing the saved backlog schema.
 
-Before saving new search terms, ask the user what should be accepted, rejected, corrected, or added. Include brief review guidance: review the suggested terms, remove terms that are not relevant, and add potentially missing terms. Brand terms, plural variants, and terms with free or reserved words like `app` can remain at this stage because metadata-generation filtering happens later.
+Before saving new search terms, ask the user what should be accepted, rejected, corrected, or added. Include brief review guidance: the suggested terms are potential App Store searches users might use to find the app; broader coverage is useful, but terms should still match realistic search intent. Ask the user to remove terms that are not relevant and add potentially missing terms. Mention briefly that brand terms, plural variants, and terms with free or reserved words like `app` can remain at this stage because metadata-generation filtering happens later.
+
+Explain that approved terms will later be used to fetch popularity and difficulty statistics, so the workflow can quantify which terms are useful and how hard they may be to rank for.
 
 Do not save the backlog until the user has had a clear chance to review and adjust the proposed terms.
 

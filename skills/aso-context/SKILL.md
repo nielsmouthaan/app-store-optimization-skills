@@ -83,7 +83,7 @@ When using a **user description**, capture the user's wording directly where it 
 
 ### 4. Verify The Draft
 
-Before saving, show the drafted app context to the user and ask what is incorrect, missing, or misleading. Briefly explain that this review matters because later search-term and metadata work will treat approved context as source truth.
+Before saving, show the drafted app context to the user and ask what is inaccurate, missing, misleading, or overemphasized. Briefly explain that search-term discovery uses this context as its source, so context that accurately reflects the app's purpose, audience, features, and positioning leads to better search terms and metadata recommendations.
 
 Call out important source gaps and optional-but-useful fields that were expected, attempted, or relevant but unavailable. For example, if secondary category is not visible in available sources, mention that it is unavailable rather than silently implying the context is complete.
 

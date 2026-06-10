@@ -81,9 +81,9 @@ Use `aso-search-terms-statistics` to fetch popularity and difficulty for confirm
 
 Use the primary locale from context, or let the statistics skill derive or ask for it according to its locale-selection rules.
 
-Before continuing, let the statistics skill show confirmed terms with missing statistics or statistics more than one month old. If the user declines to refresh outdated statistics, continue only with a stale-statistics warning.
+When all requested statistics are fetched, validated, and fresh enough for the run, continue to search term scoring without a user review gate. If any requested statistic is missing, pending, stale, incompatible, or unusable after the fetch attempt, require a user decision before continuing.
 
-Stop if:
+Stop and require user intervention if:
 
 - no statistics source is available
 - credentials are missing
@@ -120,7 +120,7 @@ Use these gates to decide whether the workflow can continue:
 | Context approved | User confirms app context and source gaps are acceptable | Search-term identification |
 | Backlog approved | User accepts, rejects, corrects, or adds proposed terms; accepted terms are saved as `confirmed` | Relevance scoring |
 | Relevance approved | User explicitly approves or corrects relevance groups | Statistics fetching |
-| Statistics available | External source provides validated popularity and difficulty for the target country or region, with Apple Ads normalization allowed for popularity only, or the user accepts stale statistics with a warning | Search term scoring |
+| Statistics available | External source provides complete validated popularity and difficulty for the target country or region, with Apple Ads normalization allowed for popularity only; incomplete statistics require a user decision before continuing | Search term scoring |
 | Search term scores saved | Eligible confirmed terms have derived strategic scores and word value scores are saved in context | Metadata generation |
 | Metadata choice approved | User approves a draft history save, current metadata update, or publish action | Save to `## Metadata` `### History`, and update `### Current` only for current approvals or successful publishes |
 

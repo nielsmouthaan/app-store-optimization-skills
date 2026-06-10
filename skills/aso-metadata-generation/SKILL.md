@@ -353,7 +353,9 @@ Advise the user not to change too many metadata variables at once when they want
 
 ## Saving Results
 
-Save generated metadata only after the user explicitly approves a draft, asks to save a specific draft, or provides an edited version of a generated draft. Save into the active workspace: `.agents/aso/context.md` for source-locale work or `.agents/aso/locales/<Locale>/context.md` for localized work.
+Before saving generated metadata, ask the user to review the human-facing quality of the draft: readability, brand awareness, clarity, natural wording, trust, and conversion-hurting issues such as obvious keyword stuffing. The app name and subtitle should remain readable and trustworthy for real App Store users.
+
+Save generated metadata only after the user explicitly approves a draft, asks to save a specific draft, or provides an edited version of a generated draft. Ask the user to choose whether approval means a draft history save, current context metadata update, or App Store Connect publish. Save into the active workspace: `.agents/aso/context.md` for source-locale work or `.agents/aso/locales/<Locale>/context.md` for localized work.
 
 Use three save modes:
 
