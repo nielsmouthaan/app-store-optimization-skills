@@ -9,7 +9,8 @@ import json
 import re
 import sys
 import time
-from typing import Any
+from pathlib import Path
+from typing import Any, TextIO
 from urllib.error import HTTPError, URLError
 from urllib.parse import parse_qs, urlencode, urlparse
 from urllib.request import Request, urlopen
@@ -85,6 +86,13 @@ def parse_args() -> argparse.Namespace:
         "--json",
         action="store_true",
         help="Emit compact JSON. Without this flag, JSON is pretty-printed.",
+    )
+    parser.add_argument(
+        "--jsonl-output",
+        help=(
+            "Write one compact JSON object per completed term to this file as "
+            "the run progresses. Existing files are overwritten."
+        ),
     )
     return parser.parse_args()
 
@@ -223,6 +231,30 @@ def result_for_term(
     }
 
 
+def open_jsonl_output(path: str | None) -> TextIO | None:
+    if path is None:
+        return None
+
+    try:
+        return Path(path).open("w", encoding="utf-8")
+    except OSError as error:
+        raise ValueError(f"Could not open --jsonl-output for writing: {error}") from error
+
+
+def write_jsonl_result(
+    handle: TextIO | None,
+    result: dict[str, Any],
+    run_metadata: dict[str, Any],
+) -> None:
+    if handle is None:
+        return
+
+    row = {**run_metadata, **result}
+    handle.write(json.dumps(row, sort_keys=True, separators=(",", ":")))
+    handle.write("\n")
+    handle.flush()
+
+
 def main() -> int:
     args = parse_args()
 
@@ -234,17 +266,29 @@ def main() -> int:
         delay = validate_delay(args.delay)
         if args.timeout <= 0:
             raise ValueError("--timeout must be greater than zero.")
+        jsonl_output = open_jsonl_output(args.jsonl_output)
     except ValueError as error:
         print(f"error: {error}", file=sys.stderr)
         return 2
 
     print(f"warning: {WARNING}", file=sys.stderr)
 
+    checked_date = dt.date.today().isoformat()
+    run_metadata = {
+        "source": SOURCE,
+        "warning": WARNING,
+        "app": args.app,
+        "appId": app_id,
+        "country": country,
+        "platform": args.platform,
+        "limit": limit,
+        "checkedDate": checked_date,
+    }
     results: list[dict[str, Any]] = []
-    for index, term in enumerate(terms):
-        try:
-            results.append(
-                result_for_term(
+    try:
+        for index, term in enumerate(terms):
+            try:
+                result = result_for_term(
                     term=term,
                     app_id=app_id,
                     country=country,
@@ -253,23 +297,24 @@ def main() -> int:
                     timeout=args.timeout,
                     dry_run=args.dry_run,
                 )
-            )
-        except RuntimeError as error:
-            print(f"error: {term}: {error}", file=sys.stderr)
-            return 1
+                results.append(result)
+                write_jsonl_result(
+                    handle=jsonl_output,
+                    result=result,
+                    run_metadata=run_metadata,
+                )
+            except RuntimeError as error:
+                print(f"error: {term}: {error}", file=sys.stderr)
+                return 1
 
-        if not args.dry_run and index < len(terms) - 1 and delay > 0:
-            time.sleep(delay)
+            if not args.dry_run and index < len(terms) - 1 and delay > 0:
+                time.sleep(delay)
+    finally:
+        if jsonl_output is not None:
+            jsonl_output.close()
 
     payload = {
-        "source": SOURCE,
-        "warning": WARNING,
-        "app": args.app,
-        "appId": app_id,
-        "country": country,
-        "platform": args.platform,
-        "limit": limit,
-        "checkedDate": dt.date.today().isoformat(),
+        **run_metadata,
         "results": results,
     }
 
