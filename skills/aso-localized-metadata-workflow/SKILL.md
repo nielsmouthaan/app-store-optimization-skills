@@ -1,6 +1,6 @@
 ---
 name: aso-localized-metadata-workflow
-description: Runs the localized App Store optimization workflow for a chosen non-source language, locale, country or region, storefront, or Apple country or region ISO code. Use when a prompt names a target language, locale, country or region, translated keywords, localized search terms, or per-market app name, subtitle, and keywords. For deciding which localization to prioritize first, use aso-localization-prioritization. For primary/source metadata, use aso-metadata-workflow.
+description: Runs the localized App Store optimization workflow for a chosen non-source language, locale, country or region, storefront, or Apple country or region ISO code. Use when a prompt names a target language, locale, country or region, translated keywords, localized search terms, or per-market app name, subtitle, and keywords. For primary/source metadata, use aso-metadata-workflow.
 ---
 
 # ASO Localized Metadata Workflow
@@ -9,7 +9,7 @@ Use this skill as the primary entrypoint for App Store metadata optimization in 
 
 This workflow coordinates the specialist ASO skills with localization-specific guardrails. It uses source search terms as intent seeds, but localized terms must reflect how users in the target locale actually search.
 
-If the user asks which country or region, language, or locale would have the highest organic search impact and has not chosen a target locale, use `aso-localization-prioritization` first. Return to this workflow after the user chooses a recommended locale.
+If the user has not chosen a target locale, ask them to choose the language, locale, country or region, storefront, or Apple country or region ISO code before starting localized metadata work.
 
 ## Non-Negotiable Rules
 
@@ -180,7 +180,6 @@ If metadata was only saved as a draft, state that App Store Connect was not upda
 ## Related Skills
 
 - Use `aso-context` to create or update global app context.
-- Use `aso-localization-prioritization` to choose which metadata localization to target before this workflow.
 - Use `aso-search-terms-identification` for localized search-term discovery and relevance assignment.
 - Use `aso-search-terms-statistics` for target country or region popularity and difficulty.
 - Use `aso-search-terms-scoring` for localized strategic and word value scores.
