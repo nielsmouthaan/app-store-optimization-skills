@@ -28,7 +28,7 @@ Recommended user-facing entrypoint for optimizing metadata in another language, 
 
 ### aso-localization-prioritization
 
-Recommended user-facing entrypoint for deciding which App Store product page metadata localizations to create or refresh first for app name, subtitle, and keywords. It uses App Store Connect/App Analytics data from the user or `asc` when available, inspects existing localized metadata when available, maps territories to Apple-supported metadata localizations, and ranks new-localization and existing-locale refresh opportunities with funnel, monetization, retention, ratings, search-opportunity, and evidence-quality signals. It does not plan full app translation or broader market launch work.
+Recommended user-facing entrypoint for deciding which App Store product page metadata localizations to create or refresh first for app name, subtitle, and keywords. It uses App Store Connect/App Analytics data from the user or available App Store Connect-capable tools, such as `asc`, the Helm CLI (`helm-asc`), the App Store Connect API, or user-provided tooling, inspects existing localized metadata when available, maps territories to Apple-supported metadata localizations, and ranks new-localization and existing-locale refresh opportunities with funnel, monetization, retention, ratings, search-opportunity, and evidence-quality signals. It does not plan full app translation or broader market launch work.
 
 ### aso-context
 

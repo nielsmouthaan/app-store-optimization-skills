@@ -365,7 +365,7 @@ Use three save modes:
 | Current metadata update | The user explicitly says a draft or edited draft is final, chosen, current, live, approved for use, or asks to update context metadata. | Append one compact entry under `## Metadata` `### History`, update `## Metadata` `### Current`, and update `*Last updated:*`. |
 | App Store Connect publish | The user explicitly asks to apply, push, publish, sync, or update the metadata in App Store Connect. | Use an App Store Connect tool first; after confirmed success, append a published history entry, update `### Current`, and update `*Last updated:*`. |
 
-Do not publish anything to App Store Connect by default. If the user explicitly asks to update App Store Connect, use `asc` or another App Store Connect tool when available, optionally using a related skill such as `asc-metadata-sync`.
+Do not publish anything to App Store Connect by default. If the user explicitly asks to update App Store Connect, use an available App Store Connect-capable tool such as `asc`, the Helm CLI (`helm-asc`), the App Store Connect API, or user-provided tooling, optionally using a related skill such as `asc-metadata-sync` or `helm-asc`.
 
 Draft saves update history only. They must not update `### Current` unless the user explicitly approves the metadata as final/current/live or asks to update current context metadata.
 

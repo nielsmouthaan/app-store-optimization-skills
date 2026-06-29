@@ -35,7 +35,7 @@ Useful data includes:
 - User-provided ASO tool exports, App Store Connect exports, Search Ads exports, or analytics summaries.
 - Release notes, major app releases, featuring, Product Page Optimization, Custom Product Pages, paid campaigns, pricing changes, outages, or external events.
 
-When `asc` and `asc-cli-usage` are available, use them to obtain relevant App Store Connect, App Analytics, Sales/Trends, and Search Ads data before asking the user for manual exports.
+When App Store Connect-capable tools are available, use them in a read-only way to obtain relevant App Store Connect, App Analytics, Sales/Trends, and Search Ads data before asking the user for manual exports. Useful options can include `asc`, the Helm CLI (`helm-asc`), the App Store Connect API, or user-provided tooling; use relevant tool-specific skills such as `asc-cli-usage` or `helm-asc` when available.
 
 If a source is unavailable, unauthenticated, stale, thresholded, or incomplete, continue with the available evidence and mark the confidence impact.
 
@@ -75,7 +75,7 @@ Start with App Store search-source funnel metrics:
 - first-time downloads, total downloads, or App Units
 - conversion rate
 
-Treat App Store Connect `App Store search` as potentially blended because search-result ads can contribute to it. Use Search Ads data to judge whether paid search could explain the movement. Search Ads data may be user-provided or obtained automatically through available tools such as `asc`.
+Treat App Store Connect `App Store search` as potentially blended because search-result ads can contribute to it. Use Search Ads data to judge whether paid search could explain the movement. Search Ads data may be user-provided or obtained automatically through available App Store Connect-capable tools such as `asc`, the Helm CLI (`helm-asc`), the App Store Connect API, or user-provided tooling.
 
 Do not call a result purely organic unless Search Ads evidence, campaign records, or explicit user confirmation supports that conclusion. If Search Ads data is missing, analyze search-source performance but lower organic-attribution confidence.
 
@@ -171,6 +171,6 @@ End with:
 ## Related Skills
 
 - Use `aso-context` to create or update shared app context before analyzing impact.
-- Use `asc-cli-usage` when `asc` is available for App Store Connect, App Analytics, Sales/Trends, or Search Ads data collection.
+- Use relevant tool-specific skills such as `asc-cli-usage` or `helm-asc` when CLI tools are available for App Store Connect, App Analytics, Sales/Trends, or Search Ads data collection.
 - Use `aso-search-terms-rankings` to collect or update keyword ranking data.
 - Use `aso-metadata-generation` to create a new metadata iteration after analysis.

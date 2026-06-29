@@ -95,7 +95,7 @@ Create candidates from multiple sources:
 - **User language:** reviews, support requests, testimonials, community posts, and user-provided wording. Treat isolated review phrases as weak or noisy evidence unless they recur or are corroborated by other sources.
 - **Apple-native search signals:** App Store autocomplete or hints, Apple Search Ads search terms, keyword suggestions, Search Match discoveries, and Search Popularity when available.
 - **Competitor research:** competitor app names, subtitles, descriptions, OCR'd screenshot text when already available, and terms they appear to rank for. Remember that visible competitor metadata is incomplete for iOS because the hidden keyword field is not public.
-- **Existing ASC keywords:** App Store Connect keyword field terms provided by the user for each platform; treat them as source material and seeds, not automatically approved final terms.
+- **Existing App Store Connect keywords:** App Store Connect keyword field terms provided by the user for each platform; treat them as source material and seeds, not automatically approved final terms.
 - **Third-party and web discovery tools:** If the user provides data or relevant tools are available, use ASO tools, Google Play autofill, Google Keyword Planner, Google Trends, SEO tools, and keyword discovery tools with caveats. Web or Google Play demand is not the same as App Store demand.
 - **Imported keyword lists:** User-provided keyword exports or manual lists; import their keyword language broadly before generating new expansions.
 - **Phrase expansion:** broad head terms, singular/plural variants, synonyms, alternate word order, related nouns and verbs, action-object variants, noun-form variants, compact or compound variants, category modifiers, seasonal variants, and long-tail combinations that still sound like natural App Store searches.
@@ -287,7 +287,7 @@ When researching competitors:
 - Adding phrases only because they appear in source files, even when they are not plausible App Store searches.
 - Treating technical or product details as discovery queries.
 - Converting every context phrase into a candidate.
-- Treating local files as enough without asking for App Store listing, marketing page, and ASC keyword sources.
+- Treating local files as enough without asking for App Store listing, marketing page, and App Store Connect keyword sources.
 - Saving source-locale terms or relevance scores before the user reviews them.
 - Scoring terms in isolation instead of calibrating across the whole backlog.
 - Using popularity, competition, or ranking difficulty as a proxy for relevance.
@@ -309,7 +309,7 @@ When researching competitors:
 
 Ask only questions that improve the backlog materially:
 
-- "Do you have an App Store URL, marketing URL, ASC keyword terms, or competitor list I should use before creating the first backlog?"
+- "Do you have an App Store URL, marketing URL, App Store Connect keyword terms, or competitor list I should use before creating the first backlog?"
 - "Are these similar apps real competitors, inspiration, or irrelevant?"
 - "Would a user searching this term reasonably expect an app like yours?"
 - "Do you have existing App Store Connect keyword terms I should treat as source material?"

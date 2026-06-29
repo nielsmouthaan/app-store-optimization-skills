@@ -20,7 +20,7 @@ This workflow coordinates the specialist ASO skills. It owns sequencing, prerequ
 - Stop for user review before saving user-judgment inputs: app context, search-term backlog, relevance scores, and final metadata choices.
 - Do not estimate popularity or difficulty. They must come from an external ASO statistics source.
 - Do not generate metadata drafts until confirmed terms have strategic scores and word value scores.
-- Do not publish, update, or otherwise write to App Store Connect through `asc`, the App Store Connect API, or another tool unless the user explicitly reviews and approves that action.
+- Do not publish, update, or otherwise write to App Store Connect through `asc`, the Helm CLI (`helm-asc`), the App Store Connect API, or another tool unless the user explicitly reviews and approves that action.
 
 ## Workflow Overview
 

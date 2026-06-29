@@ -43,9 +43,9 @@ Ask once for missing high-value sources, then use whichever sources are availabl
 
 If an App Store URL or marketing URL is provided, inspect it before deriving ASO context from local files alone. If the current environment cannot access the URL, ask the user to paste relevant copy and note the access gap.
 
-For private App Store Connect metadata such as keyword fields, use `asc` first when available, optionally guided by the relevant `asc` skill, CLI help, or command discovery. If `asc` is available but fails with an unclear error and the environment may be sandboxed, retry outside the sandbox when applicable and permitted before treating the source as unavailable. If `asc` is unavailable or still fails, attempt read-only access through the official App Store Connect API when credentials and tooling are available. If automated retrieval still fails, ask once for the private values manually and continue with a documented source gap when useful.
+For private App Store Connect metadata such as keyword fields, use available App Store Connect-capable tooling in a read-only way before asking the user to provide values manually. Useful options can include `asc`, the Helm CLI (`helm-asc`), the official App Store Connect API, or user-provided tooling. Prefer the relevant tool-specific skill, CLI help, or command discovery instead of hardcoded commands. If a tool is available but fails with an unclear error and the environment may be sandboxed, retry outside the sandbox when applicable and permitted before treating the source as unavailable. If automated retrieval still fails, ask once for the private values manually and continue with a documented source gap when useful.
 
-Never write to App Store Connect through `asc`, the App Store Connect API, or another tool unless the user explicitly reviews and approves that write.
+Never write to App Store Connect through `asc`, the Helm CLI (`helm-asc`), the App Store Connect API, or another tool unless the user explicitly reviews and approves that write.
 
 ### 3. Populate From Sources
 

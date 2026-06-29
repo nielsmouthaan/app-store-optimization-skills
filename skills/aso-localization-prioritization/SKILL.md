@@ -57,13 +57,13 @@ If the user provides App Store Connect, App Analytics, Sales, ratings, reviews, 
 
 Ask only for missing data that materially changes the ranking. If the user cannot provide a metric, continue with the available data and mark the uncertainty.
 
-### App Store Connect Data With asc
+### App Store Connect Data With Tools
 
-If `asc` is available and the user wants automatic data collection, use it to inspect or fetch App Store Connect, App Analytics, Sales, ratings, and review data when possible. Use `asc-cli-usage` when available to understand current `asc` commands, flags, output formats, authentication, and pagination behavior.
+If the user wants automatic data collection, use available App Store Connect-capable tools in a read-only way to inspect or fetch App Store Connect, App Analytics, Sales, ratings, and review data when possible. Useful options can include `asc`, the Helm CLI (`helm-asc`), the App Store Connect API, or user-provided tooling. Use relevant tool-specific skills such as `asc-cli-usage` or `helm-asc` when available, or use CLI help and command discovery to understand current commands, flags, output formats, authentication, and pagination behavior.
 
-When available, use `asc` or user-provided App Store Connect exports to inspect existing metadata localizations and current localized app name, subtitle, and keyword fields by platform. Treat this as read-only evidence for whether the opportunity is a new localization or an existing-localization refresh.
+When available, use App Store Connect-capable tools or user-provided App Store Connect exports to inspect existing metadata localizations and current localized app name, subtitle, and keyword fields by platform. Treat this as read-only evidence for whether the opportunity is a new localization or an existing-localization refresh.
 
-If `asc` is unavailable, unauthenticated, lacks access, or analytics data is not ready, ask the user to provide App Store Connect or App Analytics territory data manually.
+If tooling is unavailable, unauthenticated, lacks access, or analytics data is not ready, ask the user to provide App Store Connect or App Analytics territory data manually.
 
 ## Opportunity Types
 
@@ -148,7 +148,7 @@ Use `Platforms` from `.agents/aso/context.md` to understand which App Store Conn
 
 ### 2. Collect Or Inspect Localization And Territory Data
 
-Use user-provided data first when present. If the user wants automatic collection and `asc` is available, use `asc`, guided by `asc-cli-usage` when available.
+Use user-provided data first when present. If the user wants automatic collection and App Store Connect-capable tooling is available, use it in a read-only way, guided by relevant tool-specific skills such as `asc-cli-usage` or `helm-asc` when available.
 
 Collect or inspect:
 
@@ -256,5 +256,5 @@ End with:
 ## Related Skills
 
 - Use `aso-context` to create or update shared app context before ranking.
-- Use `asc-cli-usage` to understand `asc` when fetching App Store Connect or App Analytics data.
+- Use relevant tool-specific skills such as `asc-cli-usage` or `helm-asc` when fetching App Store Connect or App Analytics data through CLI tools.
 - Use `aso-localized-metadata-workflow` after the user chooses a recommended locale.
