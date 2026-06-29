@@ -160,7 +160,7 @@ Use `aso-metadata-generation` for one recommended localized draft. It uses the s
 
 For non-English locales, do not apply English plural, stemming, stop-word, or category-term assumptions unless target-language evidence supports the decision.
 
-After localized metadata goes live, recommend checking keyword rankings periodically with `aso-search-terms-rankings`, then using `aso-metadata-performance-analysis` to evaluate broader localized search-source performance, Search Ads impact, and downstream guardrails.
+After localized metadata goes live, recommend checking keyword rankings periodically with `aso-search-terms-rankings`.
 
 ## Completion Report
 

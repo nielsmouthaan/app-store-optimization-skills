@@ -102,7 +102,7 @@ Generate one recommended metadata draft and coverage analysis for the active sou
 
 Save a draft, update current context metadata, or publish to App Store Connect only when the user explicitly approves the relevant save or publish action. Saved drafts, user-edited drafts, current approvals, and published snapshots are recorded under `## Metadata` `### History`; only explicit current approvals or successful publishes update `## Metadata` `### Current`.
 
-After metadata goes live, recommend checking keyword rankings periodically with `aso-search-terms-rankings`, then using `aso-metadata-performance-analysis` to evaluate broader search-source performance, Search Ads impact, and downstream guardrails.
+After metadata goes live, recommend checking keyword rankings periodically with `aso-search-terms-rankings`.
 
 ## Review Gates
 
@@ -137,5 +137,4 @@ If metadata was only saved as a draft, state that App Store Connect was not upda
 - Use `aso-search-terms-statistics` to fetch popularity and difficulty.
 - Use `aso-search-terms-scoring` to calculate derived strategic scores and per-word value scores.
 - Use `aso-metadata-generation` to generate a recommended metadata draft and save approved drafts, edits, current choices, or published snapshots.
-- Use `aso-metadata-performance-analysis` after metadata changes go live to evaluate post-publish impact.
 - Use `aso-localized-metadata-workflow` for localized metadata optimization tied to a specific country or region.

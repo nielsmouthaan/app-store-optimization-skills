@@ -1,6 +1,6 @@
 ---
 name: aso-search-terms-rankings
-description: Tracks App Store keyword rankings and trends for confirmed search terms. Use when the user asks for keyword rankings, rank tracking, ranking trends, search term positions, periodic monitoring, or checking search-term position movement after metadata changes. For broader metadata performance analysis, use aso-metadata-performance-analysis. For popularity and difficulty statistics, use aso-search-terms-statistics.
+description: Tracks App Store keyword rankings and trends for confirmed search terms. Use when the user asks for keyword rankings, rank tracking, ranking trends, search term positions, periodic monitoring, or checking search-term position movement after metadata changes. For popularity and difficulty statistics, use aso-search-terms-statistics.
 ---
 
 # ASO Search Terms Rankings
@@ -190,4 +190,3 @@ After saving, summarize:
 - Use `aso-search-terms-identification` to create or expand the search-term backlog and assign relevance scores.
 - Use `aso-search-terms-statistics` to fetch popularity and difficulty statistics.
 - Use `aso-metadata-generation` before publishing metadata changes that will later be evaluated with keyword rankings.
-- Use `aso-metadata-performance-analysis` to evaluate broader metadata impact using rankings, App Store search-source data, Search Ads, and downstream guardrails.
