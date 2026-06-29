@@ -7,7 +7,7 @@ description: Tracks App Store keyword rankings and trends for confirmed search t
 
 ## Overview
 
-Act as an ASO ranking monitor. Fetch or import keyword rankings for saved search terms, append a ranking history, and maintain a compact overview that shows current position, previous position, movement, and best/worst observed ranks.
+Act as an ASO ranking monitor. Fetch or import keyword rankings for saved search terms, append a ranking history, and maintain a compact overview that shows current position, current App Store version, previous position, movement, and best/worst observed ranks.
 
 Rankings are monitoring data for later evaluation. Do not use them as a replacement for popularity, difficulty, relevance, or strategic scoring inputs.
 
@@ -40,6 +40,15 @@ Resolve the App Store country or region before fetching or saving rankings:
 
 If a ranking source requires a two-letter country or region parameter, derive it from the resolved Apple country or region ISO code using `references/app-store-localizations.md` or a standard ISO 3166 lookup. Do not store the derived tool parameter in the workspace.
 
+Resolve the current live App Store version before saving rankings when possible:
+
+- Capture the version once per ranking run and apply it to each current ranking row saved from that run.
+- Prefer available read-only tools that can inspect App Store Connect or public App Store listing data. For example, use a tool like `asc` to obtain the latest live App Store version when available.
+- If an App Store Connect-capable tool is unavailable or blocked, inspect the public App Store page or public App Store listing data for the resolved country or region and extract the displayed app version.
+- Use `references/platforms.md` to map the resolved search surface to the matching App Store Connect platform before resolving the live version.
+- Use `-` when the current live version cannot be resolved safely. Do not block ranking collection only because the version is unavailable, but report the source gap in the summary.
+- Do not store the app version as a global context preference. Store it on each ranking history row so older rankings keep the version that was current when they were checked.
+
 ## Source Selection
 
 Before fetching, check whether ranking sources are available in the current environment.
@@ -66,12 +75,15 @@ For each row, identify:
 
 - search term
 - rank, using `-` for not found
+- app version, when provided or safely resolvable
 - date checked
 - source
 - country or region
 - search surface
 
 Use the active context or locale workspace to resolve app, country or region, locale, and search surface. If search surface is missing, derive it from the active context platform and `references/platforms.md`; if that is missing, use `iPhone` and state the default. If the date is missing but the user clearly says the data is current or from today, use the current date. Otherwise ask how to proceed.
+
+For imported current data, if the app version is missing, resolve the current live App Store version using the normal version-resolution rules. For historical imported data, use the provided app version when available; otherwise use `-` instead of inferring a past version from the current store listing.
 
 Ask the user before saving when term, rank, date, source, country or region, or search surface cannot be resolved safely, or when the imported data conflicts with the active source-locale or localized workspace.
 
@@ -124,23 +136,25 @@ Use this artifact structure exactly:
 
 ## Overview
 
-| Search term | Country or region | Search surface | Current | Previous | Change | Highest | Lowest | Source | Last checked |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Search term | Country or region | Search surface | Current | App version | Previous | Change | Highest | Lowest | Source | Last checked |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 ## History
 
-| Date | Search term | Country or region | Search surface | Rank | Source |
-| --- | --- | --- | --- | --- | --- |
+| Date | Search term | Country or region | Search surface | App version | Rank | Source |
+| --- | --- | --- | --- | --- | --- | --- |
 ```
 
 When updating:
 
 - Add new rows to `## History` for each fetched or imported term.
-- If a row for the same `Date`, `Search term`, `Country or region`, `Search surface`, and `Source` already exists, update it instead of duplicating it.
+- If a row for the same `Date`, `Search term`, `Country or region`, `Search surface`, `App version`, and `Source` already exists, update it instead of duplicating it.
 - Rebuild `## Overview` from `## History`.
 - Set `Current` to the newest row for the search term, country or region, and search surface.
+- Set `App version` to the app version from the newest row used for `Current`.
 - Set `Previous` to the row immediately before `Current` for the same search term, country or region, and search surface.
 - Use `-` for missing, unknown, or not-found ranks.
+- Use `-` for unknown app versions.
 - Calculate `Change` only when both current and previous ranks are numeric. A better rank is positive: moving from `12` to `8` is `+4`.
 - Set `Highest` to the best numeric rank observed for the search term, country or region, and search surface.
 - Set `Lowest` to the worst numeric rank observed for the search term, country or region, and search surface.
@@ -153,6 +167,7 @@ After saving, summarize:
 - the active source-locale or localized workspace used
 - the artifact path updated
 - the resolved country or region
+- the resolved current App Store version or version source gap
 - the source used
 - the number of terms checked or imported
 - how many terms were found and how many were `-`

@@ -10,7 +10,7 @@ This repository provides ASO-focused agent skills that help agents:
 - identify a broad backlog of plausible App Store search terms and score how well each term fits the app and App Store search intent
 - fetch validated external popularity and difficulty metrics for confirmed search terms
 - calculate derived strategic scores and per-word value scores for confirmed terms
-- track keyword rankings over time as one post-publish evidence source
+- track keyword rankings over time with the current App Store version as one post-publish evidence source
 - analyze whether published metadata changes improved, hurt, or had no clear effect on search discoverability
 - prioritize which App Store product page metadata localizations to create or refresh using funnel, revenue, retention, ratings, search, and evidence-quality signals
 - generate an auditable recommended App Store metadata draft with grouped fields, counts, coverage, warnings, and notes, then save approved choices in compact metadata history
@@ -44,7 +44,7 @@ Fetches external popularity and difficulty statistics for confirmed search terms
 
 ### aso-search-terms-rankings
 
-Tracks keyword rankings and trends for confirmed search terms. Use this for periodic ranking checks or monitoring search-term position movement after metadata changes.
+Tracks keyword rankings and trends for confirmed search terms, including the current App Store version for each saved ranking run. Use this for periodic ranking checks or monitoring search-term position movement after metadata changes.
 
 ### aso-metadata-performance-analysis
 
