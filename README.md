@@ -34,7 +34,7 @@ Identifies a broad single-language or localized backlog of plausible App Store s
 
 ### aso-search-terms-statistics
 
-Fetches external popularity and difficulty statistics for confirmed search terms and records them in the active ASO context or locale workspace. Use this after search terms have approved relevance scores and before search-term scoring or metadata placement. These values must come from tools such as ASO Suite or Astro, compatible user-provided exports, or normalized Apple Ads Search Popularity for popularity only; the agent should not infer them from unrelated metrics. Stats older than one month should be refreshed when possible, and localized stats must match the resolved country or region.
+Fetches external popularity and difficulty statistics for confirmed search terms and records them in the active ASO context or locale workspace. Use this after search terms have approved relevance scores and before search-term scoring or metadata placement. These values must come from tools such as ASO Suite or Astro, compatible user-provided exports, or normalized Apple Ads Search Popularity for popularity only; the agent should not infer them from unrelated metrics. Scoring should continue only when all in-scope confirmed terms have complete valid statistics, unless the user explicitly approves partial data. Stats older than one month should be refreshed when possible, and localized stats must match the resolved country or region.
 
 ### aso-search-terms-rankings
 
@@ -46,7 +46,7 @@ Calculates derived `Strategic score` values for confirmed App Store search terms
 
 ### aso-metadata-generation
 
-Generates one recommended source-locale or localized App Store metadata draft for shared app name, shared subtitle, and platform-specific keyword fields from confirmed search terms, `Strategic score` values, saved `Word Value Scores`, current metadata, ranking evidence when available, and saved metadata history guidance. Use this after search-term scoring to create a metadata draft and coverage analysis. Review output uses grouped draft sections with counts, recommendation rationale, coverage, warnings, and notes; explicit saves append compact entries under `## Metadata` `### History`, and current approvals update `## Metadata` `### Current`.
+Generates one recommended source-locale or localized App Store metadata draft for shared app name, shared subtitle, and platform-specific keyword fields from confirmed search terms, `Strategic score` values, saved `Word Value Scores`, current metadata, ranking evidence when available, and saved metadata history guidance. Use this after search-term scoring to create a metadata draft and coverage analysis. It applies guardrails for function words, generic app/store terms, platform/device words, localized compounds or tokenization, platform keyword reuse, and source-language coverage strategy. Review output uses grouped draft sections with counts, recommendation rationale, coverage, warnings, and notes; explicit saves append compact entries under `## Metadata` `### History`, and current approvals update `## Metadata` `### Current`.
 
 ## Artifacts
 

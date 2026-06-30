@@ -7,7 +7,7 @@ description: Fetches App Store search-term popularity and difficulty statistics 
 
 Act as an ASO statistics operator. Fetch external popularity and difficulty values for confirmed search terms, validate their scale, normalize accepted Apple Ads Search Popularity values, convert accepted `0` values to `1`, then record them in `.agents/aso/context.md` or the active localized workspace.
 
-Popularity and difficulty are not public App Store values and must come from an available ASO service, tool, Apple Ads Search Popularity input, or user-provided export. Do not estimate, invent, or derive these scores from unrelated metrics.
+Popularity and difficulty are not public App Store values and must come from an available ASO service, tool, Apple Ads Search Popularity input, or user-provided export. Do not estimate, invent, or derive these scores from unrelated metrics. Strategic scoring requires complete statistics for every in-scope confirmed term unless the user explicitly accepts partial scoring.
 
 ## Before Starting
 
@@ -68,7 +68,7 @@ If no usable source is available, recommend:
 
 Then stop and ask the user to provide a usable statistics source, a compatible export, compatible manual values, or to pause the workflow.
 
-If a source is available but authentication, subscription, quota, or network access fails, report the blocker and ask the user whether to fix access, provide compatible values manually, try another available statistics source, or pause the workflow.
+If a source is available but authentication, subscription, quota, network access, or execution fails, report the blocker and use that tool's skill, CLI help, or documentation to diagnose the source. Ask the user whether to fix access, provide compatible values manually, try another available statistics source, or pause the workflow when the blocker remains.
 
 ## Stats Freshness
 
@@ -80,7 +80,11 @@ Before fetching, identify confirmed terms with:
 - missing `Stats updated`
 - `Stats updated` more than one month old
 
-When a statistics source is available, fetch or refresh these values without treating this as a normal user review gate. If any requested statistics remain missing, pending, stale, incompatible, or unusable after the fetch attempt, stop and ask the user how to proceed before continuing to strategic scoring. Required options are: provide compatible values manually, try another available statistics source, remove or skip incomplete terms for scoring, or pause until statistics can be fetched.
+When a statistics source is available, fetch or refresh these values without treating this as a normal user review gate. Continue to strategic scoring only when every in-scope confirmed term has complete, fresh, valid `Popularity` and `Difficulty`.
+
+If any requested statistics remain missing, pending, stale, incompatible, or unusable after the fetch attempt, stop and ask the user how to proceed before continuing to strategic scoring. Required options are: retry through the statistics source, try another available statistics source, provide compatible values manually, remove terms from the scoring scope, explicitly proceed with partial data, or pause until statistics can be fetched.
+
+If the user explicitly chooses partial data, warn that incomplete terms will not receive `Strategic score`, will not contribute to `## Word Value Scores`, and may be omitted or underweighted during metadata generation.
 
 If outdated statistics are refreshed, clear `Strategic score` for rows where `Popularity` or `Difficulty` changes, is removed, remains missing after an attempted refresh, or is reattempted after being stale.
 
@@ -101,24 +105,15 @@ Use these rules:
 - If a value is below `0`, above `100`, or not clearly documented as a popularity or difficulty score on an accepted scale, leave the field blank.
 - When values are not usable as `0`-`100` scores, record the blocker in `Notes` and ask the user how to deal with those values before continuing.
 
-## Fetching With ASO Suite
+## Fetching With A Statistics Source
 
-When using ASO Suite:
+When using any statistics source:
 
-- Use JSON output.
-- Use the selected tool country or region parameter.
-- Derive the value for ASO Suite's `--region` flag from the resolved Apple country or region ISO code.
-- Use the app URL or app ID from context when available.
-- Map the requested platform or search surface to the tool's supported platform parameter at call time using `references/platforms.md`.
-- For iOS statistics or rankings, use iPhone when the tool requires an iPhone/iPad distinction and no `Search surface preference` is set.
-- If the user explicitly requests iPad, save `**Search surface preference:** iPad` in `.agents/aso/context.md` and use iPad for later statistics and ranking calls until the user changes it.
-- Fetch at most 50 keywords per request.
-
-Command shape:
-
-```bash
-asosuite keywords --json --region <COUNTRY_OR_REGION> --platform <TOOL_PLATFORM> [--app <APP_ID_OR_URL>] <keyword...>
-```
+- Use the source according to its own skill, CLI help, API documentation, or user-provided export format.
+- Prefer structured output when the source supports it.
+- Use the resolved Apple country or region for the run, and derive any tool-specific country or region parameter only at tool-call time.
+- Map the requested platform or search surface to tool-specific parameters only at tool-call time using `references/platforms.md`, the tool's skill, CLI help, or documentation.
+- Use the app URL or app ID from context when the source supports app-bound statistics, but do not require app-bound data when the user only needs keyword-level popularity and difficulty.
 
 Use the returned keyword metrics according to `## Metric Validation`. Store the resolved Apple country or region ISO code in `Stats country or region`, the source in `Stats source`, the date in `Stats updated`, and compact notes when a value could not be used. Record unresolved tool-parameter derivation, search-surface preference, or mismatch notes in `Notes`.
 
@@ -155,6 +150,7 @@ When updating the table:
 - Update only confirmed terms unless the user explicitly asks to fetch candidate or rejected terms.
 - Preserve rejected terms without assigning popularity or difficulty.
 - Preserve existing `Search term`, `Source` when present, `Meaning` when present, `Status`, `Relevance`, and unrelated columns.
+- Do not change a term from `confirmed` to `candidate` only because statistics are missing, pending, stale, incompatible, or unusable. Preserve review status and record the metric gap in `Notes`.
 - Clear `Strategic score` for rows where `Popularity` or `Difficulty` is added, changed, removed, or left missing after a fetch attempt; preserve it for unchanged rows.
 - Fill `Popularity`, `Difficulty`, `Stats country or region`, `Stats source`, and `Stats updated` only for terms with obtained or attempted statistics.
 - For localized work, if an imported value was fetched for a different country or region than the resolved country or region, leave popularity and difficulty blank and record the mismatch in `Notes`.
@@ -164,9 +160,9 @@ When updating the table:
 - Append compact statistics notes to `Notes` only when needed; do not erase existing notes.
 - Update `*Last updated:*` in the active context or locale workspace file.
 
-After saving, summarize how many terms were updated, how many had pending or missing values, whether any values were unusable because they were outside the accepted scale, whether any stale statistics were kept, the primary locale or localized workspace used, the resolved country or region, any derived ASO tool country or region parameter, any explicit search-surface preference, and the source used.
+After saving, summarize how many terms were updated, how many had pending or missing values, whether any values were unusable because they were outside the accepted scale, whether any stale statistics were kept, the primary locale or localized workspace used, the resolved country or region, any derived source country or region parameter, any explicit search-surface preference, and the source used.
 
-If all requested statistics are present, validated, and fresh enough for the run, proceed to strategic scoring. If any requested statistic is missing, pending, stale, incompatible, or unusable, stop after the summary and ask the user how to proceed before strategic scoring. Required options are: provide compatible values manually, try another available statistics source, remove or skip incomplete terms for scoring, or pause until statistics can be fetched.
+If all requested statistics are present, validated, and fresh enough for the run, proceed to strategic scoring. If any requested statistic is missing, pending, stale, incompatible, or unusable, stop after the summary and ask the user how to proceed before strategic scoring. Required options are: retry through the statistics source, try another available statistics source, provide compatible values manually, remove terms from the scoring scope, explicitly proceed with partial data, or pause until statistics can be fetched. If the user chooses partial data, summarize the skipped terms and warn that they will not influence strategic scoring, word value scoring, or generated metadata.
 
 ## Common Mistakes
 
@@ -179,9 +175,11 @@ If all requested statistics are present, validated, and fresh enough for the run
 - Inferring difficulty from Apple Ads Search Popularity.
 - Fetching rejected terms by default.
 - Dropping existing relevance scores, notes, statuses, strategic scores, or added backlog columns while adding statistics.
+- Changing `confirmed` terms to `candidate` because statistics are missing.
 - Leaving stale strategic scores after changing popularity or difficulty.
 - Continuing without warning when statistics are more than one month old.
 - Continuing to derived scoring when no statistics source is available.
+- Continuing to derived scoring with partial statistics unless the user explicitly approved partial data.
 
 ## Related Skills
 

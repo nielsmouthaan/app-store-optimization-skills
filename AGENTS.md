@@ -133,6 +133,7 @@ description: Research App Store keyword candidates with popularity and difficult
 - When instructing agents to stop for ASO user review, briefly state why the review matters, what the user should check, examples of useful corrections, and what will be saved or used after approval.
 - Never allow an agent to write to App Store Connect through `asc`, the Helm CLI (`helm-asc`), the App Store Connect API, or another tool unless the user has explicitly reviewed and approved that write.
 - Keep skill-development guidance in `AGENTS.md` and skill-execution behavior in `SKILL.md`. For example, do not hardcode exact App Store Connect tool command parameters in ASO skills; instruct agents to use the current tool-specific skill, CLI help, or command discovery instead. Useful CLI examples include `asc` and the Helm CLI (`helm-asc`), but skills should remain open to user-provided or future App Store Connect-capable tools.
+- Keep ASO skills tool-agnostic. They may suggest example tools, but must not include tool-specific batching, retry, timeout, fallback, or command-shape instructions.
 - Use an `aso-*` prefix for ASO-specific skills so installed skills remain clearly namespaced.
 - Use workflow skills, such as `aso-metadata-workflow` and `aso-localized-metadata-workflow`, as the primary entrypoint for workflows.
 - Workflow skills should not duplicate specialist skill instructions. They should point to the relevant skill for each phase and pass along the required context or artifacts.
