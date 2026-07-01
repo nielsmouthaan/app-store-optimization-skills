@@ -1,10 +1,16 @@
 # App Store Optimization Skills
 
-This suite contains agent skills for App Store Optimization (ASO). It helps you and your AI agents run structured, evidence-based ASO workflows instead of manually stitching together keyword research, scoring, metadata drafting, localization, and ranking checks across separate tools.
+This suite contains agent skills for App Store Optimization (ASO). It helps you and your AI agents run structured, evidence-based ASO workflows.
 
 The suite is maintained by Niels Mouthaan, the original founder of [ASO Suite](https://nielsmouthaan.dev/asosuite), a Mac-native ASO tool that was sold.
 
-The current skills focus mainly on generating ranking-affecting App Store metadata: app name, subtitle, and keywords. The workflow follows a methodology based on the [Advanced App Store Optimization Book](https://www.asoebook.com): identify a broad set of plausible search terms, collect popularity and difficulty statistics, calculate strategic scores, calculate per-word value, and draft metadata that aims to cover as many strategically useful search terms as possible.
+The current skills focus mainly on generating data-backed, ranking-affecting App Store metadata: app name, subtitle, and keywords. The workflow follows a methodology based on the [Advanced App Store Optimization Book](https://www.asoebook.com): identify a broad set of plausible search terms, collect popularity and difficulty statistics, calculate strategic scores, calculate per-word value, and draft metadata that aims to cover as many strategically useful search terms as possible.
+
+For example, for a receipt-scanning app, the suite could generate metadata like:
+
+- **Name:** Taxxy - Tax Receipt Scanner
+- **Subtitle:** Invoices & Expense OCR
+- **Keywords (iOS):** bookkeeping,deductions,vat,bills,records,audit,refunds,accountant,reimbursements,filing,claims
 
 This suite is free to use. If you want to support ongoing maintenance, consider buying me a figurative coffee; thanks!
 
@@ -20,28 +26,29 @@ This repository contains two workflow skills and several specialist skills used 
 
 ### `aso-metadata-workflow`
 
-Runs the full ASO metadata optimization workflow for the app's primary or source metadata language. It coordinates these specialist phases:
+Runs the full ASO metadata optimization workflow for the app's primary or source metadata language. It coordinates a numbered five-phase flow:
 
-1. `aso-search-terms-identification` identifies a broad backlog of plausible App Store search-term candidates and assigns relevance scores based on App Store search intent and how well the app satisfies that intent.
-2. `aso-search-terms-statistics` fetches external popularity and difficulty statistics for confirmed search terms. This requires an ASO tool such as [ASO Suite](https://nielsmouthaan.dev/asosuite) or [Astro](https://nielsmouthaan.dev/astro).
-3. `aso-search-terms-scoring` calculates derived `Strategic score` values for confirmed search terms and per-word value scores from those strategic scores.
-4. `aso-metadata-generation` generates recommended metadata drafts for the shared app name, shared subtitle, and platform-specific keyword fields.
+1. `aso-context` establishes reusable source app context.
+2. `aso-search-terms-identification` identifies a broad backlog of plausible App Store search-term candidates and assigns relevance scores based on App Store search intent and how well the app satisfies that intent.
+3. `aso-search-terms-statistics` fetches external popularity and difficulty statistics for confirmed search terms. This requires an ASO tool such as [ASO Suite](https://nielsmouthaan.dev/asosuite) or [Astro](https://nielsmouthaan.dev/astro).
+4. `aso-search-terms-scoring` calculates a strategic score for confirmed search terms and per-word value scores from those strategic scores.
+5. `aso-metadata-generation` generates recommended metadata drafts for the shared app name, shared subtitle, and platform-specific keyword fields.
 
 Use this workflow for the primary locale of the app.
 
 ### `aso-localized-metadata-workflow`
 
-Use this workflow when you want to introduce or improve localized App Store metadata for another language, locale, country, region, or storefront. It is the localized counterpart to `aso-metadata-workflow`, intended for metadata that should read naturally for local users instead of as a direct translation of the primary metadata.
+Use this workflow when you want to introduce or improve localized App Store metadata for another locale. It follows an explicit seven-phase flow for global context, locale validation, workspace setup, localized search-term identification, statistics, scoring, and metadata generation. It is the localized counterpart to `aso-metadata-workflow`, intended for metadata that should read naturally for local users instead of as a direct translation of the primary metadata.
 
 ### `aso-search-terms-rankings`
 
-Tracks keyword rankings and ranking trends for confirmed search terms, including the current App Store version for each saved ranking run. This is useful after metadata changes go live, and it works well as a scheduled check.
+Tracks keyword rankings and ranking trends for confirmed search terms. This is useful after metadata changes go live, and it works well as a scheduled check.
 
 The skill attempts to use ASO tools such as [ASO Suite](https://nielsmouthaan.dev/asosuite) or [Astro](https://nielsmouthaan.dev/astro) when available. If no supported tool is available, it can fall back to the less accurate iTunes Search API.
 
 The suite also includes `aso-context` as an internal foundation skill for reusable app context. Users normally do not call it directly.
 
-## Requirements & Limitations
+## Limitations
 
 Most useful ASO data is not publicly available. Existing keyword fields, keyword popularity, difficulty, and accurate rankings usually require access to external systems.
 
@@ -76,9 +83,9 @@ App Store optimization goes beyond organic-search metadata. Future skill-suite e
 - Full product page analysis and localization, including screenshots and app previews
 - Search Ads campaign analysis and recommendations
 
-## Issue Reporting & Contribution
+## Contribution
 
-If you run into issues or have suggestions, open an issue. Pull requests are welcome when they follow `AGENTS.md`, stay within the scope of this skill suite, and keep skills independently installable.
+If you run into issues or have suggestions, open an issue. Pull requests are welcome when they follow `AGENTS.md` and stay within the scope of this skill suite.
 
 ## Acknowledgements
 
