@@ -100,6 +100,8 @@ It is inspired by the following MIT-licensed projects:
 
 Thanks to the maintainers and builders of community tools, including [ASO Suite](https://nielsmouthaan.dev/asosuite), [Astro](https://nielsmouthaan.dev/astro), [`asc`](https://github.com/rorkai/App-Store-Connect-CLI), and [Helm](https://helm-app.com).
 
+Some links in this README or the skill implementations may be affiliate links.
+
 ## Copyright
 
 See [LICENSE](LICENSE) for copyright and license information.
