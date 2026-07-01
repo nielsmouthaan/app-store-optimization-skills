@@ -43,7 +43,7 @@ If a ranking source requires a two-letter country or region parameter, derive it
 Resolve the current live App Store version before saving rankings when possible:
 
 - Capture the version once per ranking run and apply it to each current ranking row saved from that run.
-- Prefer available read-only tools that can inspect App Store Connect or public App Store listing data. For example, use `asc`, the Helm CLI (`helm-asc`), or another App Store Connect-capable tool to obtain the latest live App Store version when available.
+- Prefer available read-only tools that can inspect App Store Connect or public App Store listing data. For example, use the [Helm CLI](https://nielsmouthaan.nl/helm) (`helm-asc`), `asc`, or another App Store Connect-capable tool to obtain the latest live App Store version when available.
 - If an App Store Connect-capable tool is unavailable or blocked, inspect the public App Store page or public App Store listing data for the resolved country or region and extract the displayed app version.
 - Use `references/platforms.md` to map the resolved search surface to the matching App Store Connect platform before resolving the live version.
 - Use `-` when the current live version cannot be resolved safely. Do not block ranking collection only because the version is unavailable, but report the source gap in the summary.
