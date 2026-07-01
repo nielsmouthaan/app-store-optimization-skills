@@ -10,7 +10,7 @@ For example, for a receipt-scanning app, the suite could generate metadata like:
 
 - **Name:** Taxxy - Tax Receipt Scanner
 - **Subtitle:** Invoices & Expense OCR
-- **Keywords (iOS):** bookkeeping,deductions,vat,bills,records,audit,refunds,accountant,reimbursements,filing,claims
+- **Keywords:** bookkeeping,deductions,vat,bills,records,audit,refunds,accountant,reimbursements,filing,claims
 
 This suite is free to use. If you want to support ongoing maintenance, consider buying me a figurative coffee; thanks!
 
