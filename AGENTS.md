@@ -156,6 +156,8 @@ The README should stay user-facing and include only what is true for the current
 - workflow overview once workflow skills exist
 - acknowledgements and license notes
 
+As a guardrail, keep `README.md` user-facing. Avoid adding implementation details of the skills, such as context storage, data-passing mechanics, schemas, or how skills store and update internal state. If implementation details are already present in the README, keep them accurate when the underlying skill implementation changes. Include or edit those details when the user explicitly asks for them.
+
 ## Git Workflow
 
 ### Commit Messages
