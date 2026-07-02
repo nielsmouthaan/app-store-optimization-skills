@@ -136,7 +136,7 @@ Use this artifact structure exactly:
 
 ## Overview
 
-| Search term | Country or region | Search surface | Current | App version | Previous | Change | Highest | Lowest | Source | Last checked |
+| Search term | Country or region | Search surface | Current | App version | Previous | Change | Best | Worst | Source | Last checked |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 ## History
@@ -150,15 +150,25 @@ When updating:
 - Add new rows to `## History` for each fetched or imported term.
 - If a row for the same `Date`, `Search term`, `Country or region`, `Search surface`, `App version`, and `Source` already exists, update it instead of duplicating it.
 - Rebuild `## Overview` from `## History`.
-- Set `Current` to the newest row for the search term, country or region, and search surface.
+- Build overview rows by `Search term`, `Country or region`, `Search surface`, and `Source` so movement is not calculated across different ranking sources.
+- Set `Current` to the newest row for the search term, country or region, search surface, and source.
 - Set `App version` to the app version from the newest row used for `Current`.
-- Set `Previous` to the row immediately before `Current` for the same search term, country or region, and search surface.
+- Set `Previous` to the row immediately before `Current` for the same search term, country or region, search surface, and source.
 - Use `-` for missing, unknown, or not-found ranks.
 - Use `-` for unknown app versions.
 - Calculate `Change` only when both current and previous ranks are numeric. A better rank is positive: moving from `12` to `8` is `+4`.
-- Set `Highest` to the best numeric rank observed for the search term, country or region, and search surface.
-- Set `Lowest` to the worst numeric rank observed for the search term, country or region, and search surface.
+- Set `Best` to the best numeric rank observed for the search term, country or region, search surface, and source.
+- Set `Worst` to the worst numeric rank observed for the search term, country or region, search surface, and source.
 - Preserve all existing history rows unless the user explicitly asks to correct or remove them.
+
+After writing the artifact, validate it before summarizing:
+
+- The `## Overview` table uses the exact expected columns.
+- Every new fetched or imported row has a matching `## History` row.
+- History keys are unique by `Date`, `Search term`, `Country or region`, `Search surface`, `App version`, and `Source`.
+- Every `Rank`, `Current`, `Previous`, `Best`, and `Worst` value is numeric or `-`.
+- Each overview row is derived from history rows with the same `Search term`, `Country or region`, `Search surface`, and `Source`.
+- `Current`, `Previous`, `Change`, `Best`, `Worst`, `App version`, and `Last checked` match the derived history rows.
 
 ## Summary
 
@@ -172,6 +182,7 @@ After saving, summarize:
 - the number of terms checked or imported
 - how many terms were found and how many were `-`
 - any defaulted search surface
+- whether ranking artifact validation passed
 - any ASO tool blocker or fallback warning
 - the most important improvements or declines when previous data exists
 
@@ -183,6 +194,8 @@ After saving, summarize:
 - Dropping existing ranking history while updating the overview.
 - Replacing popularity/difficulty statistics with ranking data.
 - Treating lower rank numbers as worse; rank `1` is best.
+- Calculating movement across different ranking sources.
+- Skipping artifact validation after writing rankings.
 
 ## Related Skills
 

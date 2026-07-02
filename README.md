@@ -42,7 +42,7 @@ Use this workflow when you want to introduce or improve localized App Store meta
 
 ### `aso-search-terms-rankings`
 
-Tracks keyword rankings and ranking trends for confirmed search terms. This is useful after metadata changes go live, and it works well as a scheduled check.
+Tracks keyword rankings and ranking trends for confirmed search terms. This is useful after metadata changes go live, and it works well as a scheduled check. It saves a validated ranking overview and history artifact with clear best/worst rank semantics.
 
 The skill attempts to use ASO tools such as [ASO Suite](https://nielsmouthaan.dev/asosuite) or [Astro](https://nielsmouthaan.dev/astro) when available. If no supported tool is available, it can fall back to the less accurate iTunes Search API.
 
