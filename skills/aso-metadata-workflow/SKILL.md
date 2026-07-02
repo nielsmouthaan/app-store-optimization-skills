@@ -20,6 +20,8 @@ This workflow coordinates the specialist ASO skills. It owns sequencing, prerequ
 - Stop for user review before saving user-judgment inputs: app context, search-term backlog, relevance scores, and final metadata choices.
 - Do not estimate popularity or difficulty. They must come from an external ASO statistics source.
 - Do not generate metadata drafts until confirmed terms have strategic scores and word value scores.
+- Use `aso-search-terms-statistics` to choose platform/statistics scope before fetching statistics, and carry that scope into metadata generation.
+- Use `aso-context` to label the current metadata baseline, and carry that internal provenance into metadata generation.
 - Do not publish, update, or otherwise write to App Store Connect through the [Helm CLI](https://nielsmouthaan.nl/helm) (`helm-asc`), `asc`, the App Store Connect API, or another tool unless the user explicitly reviews and approves that action.
 
 ## Workflow Overview
@@ -28,7 +30,7 @@ Run phases in this order:
 
 1. Establish app context with `aso-context`.
 2. Identify search terms and assign and validate relevance with `aso-search-terms-identification`.
-3. Fetch statistics with `aso-search-terms-statistics`.
+3. Fetch statistics with `aso-search-terms-statistics`, including platform/statistics scope.
 4. Calculate search term scores with `aso-search-terms-scoring`.
 5. Generate metadata drafts with `aso-metadata-generation`.
 
@@ -41,7 +43,7 @@ After every phase, summarize:
 
 At each user review gate, briefly explain why the review matters, what to check, examples of useful corrections, and what will be saved or used after approval.
 
-## Phase 0: Establish Context
+## Phase 1: Establish Context
 
 Use `aso-context` when `.agents/aso/context.md` is missing, stale, incomplete, or contradicted by new source material.
 
@@ -58,7 +60,7 @@ Private App Store Connect metadata collection and source-gap handling belong to 
 
 Stop after drafting or updating the context. Ask the user to confirm what is incorrect, missing, or misleading before treating the context as ready for search-term work. If no approved context exists yet, keep the draft in the response until approval.
 
-## Phase 1: Identify Search Terms And Assign And Validate Relevance
+## Phase 2: Identify Search Terms And Assign And Validate Relevance
 
 Use `aso-search-terms-identification` to create or expand the search-term backlog and assign user-reviewed `1`-`5` relevance scores.
 
@@ -68,11 +70,11 @@ Stop after presenting proposed terms grouped by relevance. Let the user accept, 
 
 After approved terms and relevance scores are saved, continue only with confirmed terms.
 
-## Phase 2: Fetch Statistics
+## Phase 3: Fetch Statistics
 
-Use `aso-search-terms-statistics` to fetch popularity and difficulty for confirmed terms. User-provided Apple Ads Search Popularity on a `1`-`5` scale may be normalized for `Popularity`, but it must not be used as `Difficulty`.
+Use `aso-search-terms-statistics` to choose platform/statistics scope and fetch popularity and difficulty for confirmed terms. User-provided Apple Ads Search Popularity on a `1`-`5` scale may be normalized for `Popularity`, but it must not be used as `Difficulty`.
 
-Use the primary locale from context, or let the statistics skill derive or ask for it according to its locale-selection rules.
+Use the primary locale from context, or let the statistics skill derive or ask for it according to its locale-selection rules. Carry the chosen platform/statistics scope and any platform evidence reuse warnings into `aso-metadata-generation`.
 
 When all requested statistics are fetched, validated, and fresh enough for the run, continue to search term scoring without a user review gate. If any requested statistic is missing, pending, stale, incompatible, or unusable after the fetch attempt, require a user decision before continuing.
 
@@ -86,7 +88,7 @@ Stop and require user intervention if:
 
 Do not estimate or infer missing popularity or difficulty values beyond the statistics skill's explicit Apple Ads Search Popularity normalization. Report the blocker and the missing upstream requirement.
 
-## Phase 3: Calculate Search Term Scores
+## Phase 4: Calculate Search Term Scores
 
 Use `aso-search-terms-scoring` after confirmed terms have valid relevance, popularity, and difficulty values.
 
@@ -94,7 +96,7 @@ This phase is deterministic. It may save derived strategic scores and word value
 
 If no confirmed terms are eligible, stop and report which upstream input is missing.
 
-## Phase 4: Generate Recommended Metadata Draft
+## Phase 5: Generate Recommended Metadata Draft
 
 Use `aso-metadata-generation` after strategic scores and word value scores exist.
 
@@ -122,7 +124,7 @@ End the workflow with a compact report:
 
 - primary locale and platforms
 - number of backlog terms, confirmed terms, rejected terms, and scored terms
-- statistics source and update date
+- statistics source, update date, and platform/statistics scope
 - highest strategic terms and highest-value words
 - metadata draft recommended or saved, including whether a history entry was appended or current metadata was updated
 - field counts and coverage summary

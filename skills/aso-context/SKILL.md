@@ -55,7 +55,7 @@ Ask once for missing high-value sources, then use whichever sources are availabl
 
 If an App Store URL or marketing URL is provided, inspect it before deriving ASO context from local files alone. If the current environment cannot access the URL, ask the user to paste relevant copy and note the access gap.
 
-For private App Store Connect metadata such as keyword fields, use available App Store Connect-capable tooling in a read-only way before asking the user to provide values manually. Useful options can include the [Helm CLI](https://nielsmouthaan.nl/helm) (`helm-asc`), `asc`, the official App Store Connect API, or user-provided tooling. Prefer the relevant tool-specific skill, CLI help, or command discovery instead of hardcoded commands. If a tool is available but fails with an unclear error and the environment may be sandboxed, retry outside the sandbox when applicable and permitted before treating the source as unavailable. For read-only App Store Connect metadata commands, treat ambiguous App Store Connect `-50` validation errors in sandboxed environments as retry candidates before concluding the request, credentials, or locale are invalid. If automated retrieval still fails, ask once for the private values manually and continue with a documented source gap when useful.
+For private App Store Connect metadata such as keyword fields, use available App Store Connect-capable tooling in a read-only way before asking the user to provide values manually. Useful options can include the [Helm CLI](https://nielsmouthaan.nl/helm) (`helm-asc`), `asc`, the official App Store Connect API, or user-provided tooling. Prefer the relevant tool-specific skill, CLI help, or command discovery instead of hardcoded commands. If automated retrieval fails, ask once for the private values manually and continue with a documented source gap when useful.
 
 Never write to App Store Connect through the [Helm CLI](https://nielsmouthaan.nl/helm) (`helm-asc`), `asc`, the App Store Connect API, or another tool unless the user explicitly reviews and approves that write.
 
@@ -71,7 +71,9 @@ When using an **App Store URL**, extract what is publicly available:
 
 After finding or receiving an App Store URL, try to capture the live App Store Connect keyword field terms for each relevant platform using available read-only App Store Connect-capable tooling, such as the [Helm CLI](https://nielsmouthaan.nl/helm) (`helm-asc`), `asc`, the App Store Connect API, or user-provided tooling. These terms are not public, but they are important source material for ASO search-term work. If they cannot be retrieved automatically or provided by the user, continue with available sources and note the gap.
 
-Use live App Store metadata as the default `## Metadata` > `### Current` baseline for app name, subtitle, and keyword fields. If App Store Connect also has staged metadata, do not store staged values as `### Current` unless the user explicitly asks to optimize the next release or approves generated metadata as current. When staged values differ and the difference matters for the current task, record one compact note in `## Source` or `### History`.
+Use live App Store metadata as the default `## Metadata` > `### Current` baseline for app name, subtitle, and keyword fields. If App Store Connect also has staged metadata, do not store staged values as `### Current` unless the user explicitly asks to optimize the next release or approves generated metadata as current.
+
+When current metadata exists, add one compact `**Baseline:**` line in `### Current` so downstream skills know what they are comparing against. Use simple labels: `live`, `staged`, `live and staged match`, `user-provided`, `user-reported current`, or `unknown`. If live and staged values differ, store the chosen baseline and record the difference compactly in `## Source`, `### Current`, or `### History`.
 
 When using a **marketing or landing page URL**, extract only ASO-useful context:
 
@@ -121,6 +123,7 @@ After review and adjustment, create or update `.agents/aso/context.md` using thi
 ## Metadata
 ### Current
 
+**Baseline:** live
 **Name:** Example App *(11/30)*
 **Subtitle:** Example subtitle *(16/30)*
 **Developer:** Example Studio
@@ -192,7 +195,8 @@ Omit unavailable sections when they add no value. For example, omit `## Reviews`
 - Store supported App Store Connect platforms in `**Platforms:**` using values from `references/platforms.md`, such as `iOS`, `macOS`, `tvOS`, or `visionOS`.
 - Omit `**Search surface preference:**` unless the user explicitly asks to use a non-default search surface for statistics or rankings, such as iPad instead of iPhone for iOS.
 - Store current metadata under `## Metadata` > `### Current`.
-- Store live current keyword fields as platform-specific lines in `### Current`, such as `**Keywords (iOS):** term,term *(42/100 chars)*`. Omit platform keyword lines when they are unavailable. If the live fields cannot be retrieved and the user provides current values manually, store them in `### Current` and note the user-provided source compactly in `## Source`.
+- When current metadata exists, include `**Baseline:** <label>` as the first line in `### Current`. Use `live`, `staged`, `live and staged match`, `user-provided`, `user-reported current`, or `unknown`. Do not treat the baseline label as an App Store metadata field.
+- Store current keyword fields from the chosen baseline as platform-specific lines in `### Current`, such as `**Keywords (iOS):** term,term *(42/100 chars)*`. Omit platform keyword lines when they are unavailable. If live fields cannot be retrieved and the user provides current values manually, store them in `### Current` with a `user-provided` or `user-reported current` baseline and note the source compactly in `## Source`.
 - Treat text inside `*(...)*` on metadata lines as an annotation. The stored metadata value is the text before the annotation.
 - For localized metadata workspaces, put field meanings inside the same annotation when useful, such as `**Subtitle:** Rechnungen scannen *(18/30, scan invoices)*`.
 - Store saved metadata iterations under `## Metadata` > `### History` only when the user explicitly saves a generated draft, provides an edited variant, approves current metadata, or publishes metadata. Do not store unsaved generated variants. When the user approves generated or edited metadata as current, update `### Current` through the metadata save flow rather than treating it as a fresh live ASC read.

@@ -69,6 +69,7 @@ Apply these rules:
 
 - Count app name, subtitle, and each platform keyword section as characters.
 - Count commas in platform keyword sections.
+- Before presenting, saving, or applying a generated draft, run `scripts/count_metadata_chars.py` or an equivalent deterministic counter on the exact final app name, subtitle, and keyword strings. If any string changes after user feedback, rerun the count before responding.
 - Keep each keyword entry greater than two characters unless the user explicitly accepts a shorter exception.
 - Do not repeat normalized words across app name, subtitle, and each generated keyword section. Use field priority order: app name, then subtitle, then platform keywords.
 - Treat primary category as Apple-documented indexed metadata; treat secondary category as indexed but with less clearly documented relative importance. Treat primary and secondary category tokens as already covered for keyword-field planning.
@@ -93,6 +94,7 @@ Use `.agents/aso/context.md` as the canonical source for:
 
 - App name, brand, developer, primary category, secondary category, current description, features, use cases, and competitors.
 - `## Metadata` `### Current`, including current app name, subtitle, and platform keyword lines such as `**Keywords (iOS):**`.
+- Current metadata baseline label from `## Metadata` `### Current` or `## Source`.
 - Recent saved `## Metadata` `### History` entries, especially current, published, and user-edited entries with `Guidance:` notes.
 - Confirmed search terms with numeric `Strategic score`.
 - Word value rows with numeric `Value`.
@@ -108,6 +110,7 @@ For localized work, use the locale workspace as the canonical source for:
 - Localized word value rows with numeric `Value`
 - Localized rejected rows and notes that indicate exclusions or uncertainty
 - Localized `## Metadata` `### Current` and `### History` entries, including field meanings in metadata annotations when present
+- Localized current metadata baseline label
 - Localized keyword ranking history from `.agents/aso/locales/<Locale>/keyword-rankings.md` when it exists
 - Saved cross-locale or source-language strategy notes, such as whether English/source-language queries should be handled by another locale instead of the active localized keyword field
 
@@ -117,7 +120,9 @@ Read current and saved metadata from the active workspace's `## Metadata` sectio
 
 - Treat `### Current` as the active metadata snapshot.
 - Treat `### History` as saved metadata memory for generated drafts, user-edited drafts, current approvals, and published snapshots.
+- Treat `**Baseline:**` in `### Current` as source provenance, not as an App Store metadata field.
 - Treat text inside `*(...)*` on metadata lines as an annotation. The metadata value is the text before the annotation.
+- If the current baseline is `staged`, `user-provided`, `user-reported current`, or `unknown`, treat current-metadata displacement checks as lower confidence. Do not report the baseline label to the user unless it materially changes the recommendation.
 - For localized metadata, use meanings in annotations as audit context, such as `*(18/30, scan invoices)`.
 - Apply reusable guidance from recent history entries when it is compatible with the current request and scored search-term evidence.
 - Prefer explicit current-run user instructions over older history guidance. If two saved guidance notes conflict and the current user request does not resolve them, choose the newest relevant guidance and report the tradeoff.
@@ -152,11 +157,16 @@ For compound-heavy languages such as Dutch and German:
 - Do not assume separated components cover the exact compound, or that an exact compound covers separated variants, unless target-language evidence or ranking evidence supports that decision.
 - When exact compounds and spaced/component variants are both confirmed, mention the relationship in notes as a planning aid. Mark component-based coverage as `Unresolved` when evidence is unclear.
 
-For non-whitespace or segmentation-sensitive languages such as Chinese, Japanese, Korean, and Thai:
-- Use saved search terms and word-value tokens as provided.
-- Do not invent tokenization, split characters into smaller roots, or pad keyword fields toward 100 characters with weak terms.
+For Chinese, Japanese, Thai, and other languages without reliable whitespace word boundaries:
+- Use saved search terms, word-value tokens, and scoring tokenization notes as provided.
+- Do not invent tokenization, split characters into smaller roots, or assume a split token covers the exact full term unless target-language evidence, statistics, or ranking evidence supports that decision.
+- Preserve exact high-value terms when segmentation is uncertain, even if that produces fewer keyword-field characters.
 - Prefer shorter keyword fields when all high-value, non-duplicative, truthful local terms are already covered.
-- If segmentation is uncertain, preserve exact high-value terms and add a compact tokenization warning.
+- Add a compact tokenization warning when coverage depends on an uncertain split.
+
+For Korean:
+- Use whitespace-separated terms by default.
+- Do not split Hangul syllables, particles, or endings into smaller roots unless Korean-aware tokenization, native evidence, statistics, or ranking evidence supports the split.
 
 ## Singular And Plural Handling
 
@@ -195,6 +205,7 @@ Separate inputs into:
 - **Current covered words:** normalized words already present in `## Metadata` `### Current`, if available.
 - **Saved metadata guidance:** compact `Guidance:` notes and user-edit rationale from recent `## Metadata` `### History` entries.
 - **Strategy guidance:** saved platform-reuse, localization, and source-language keyword coverage decisions that affect whether words should be reused, omitted, or delegated to another locale.
+- **Platform/statistics scope:** the latest scope from `aso-search-terms-statistics`, such as `target-platform-only`, `all-metadata-platforms`, or `primary-platform-reuse`, plus any platform evidence reuse warnings. If no explicit scope exists, infer it from saved platform evidence and guidance, then report the assumption.
 
 If no eligible search terms or eligible words exist, stop after explaining which upstream step is missing.
 
@@ -225,18 +236,20 @@ For the recommended draft:
 
 1. Draft the app name within 30 characters.
 2. Draft the subtitle within 30 characters without repeating app name words.
-3. For each platform listed in `.agents/aso/context.md` `Platforms`, decide whether platform-specific keyword evidence exists and whether saved guidance explicitly says to reuse or mirror keyword fields across platforms.
+3. For each platform listed in `.agents/aso/context.md` `Platforms`, use the saved platform/statistics scope, platform-specific evidence, and saved guidance to decide whether to generate, reuse, or omit each platform keyword section.
 4. For localized work, check saved source-language or cross-locale strategy before putting pure source-language roots into hidden keywords. If another locale is expected to carry that query coverage, omit those roots unless the user explicitly asks for an exception or current evidence makes omission risky.
 5. Fill generated platform keyword sections with comma-separated individual roots by default, no spaces after commas, up to 100 characters.
-6. If a platform lacks specific evidence and no compatible saved guidance says to reuse another platform's keywords, include a `Keywords (<platform>)` section with `Not generated.` and a compact note.
-7. If saved guidance explicitly says to mirror or reuse keyword fields across platforms, generate the reused section, label the evidence source, and warn that platform-specific validation is still missing.
-8. Remove lower-weight duplicates when a word appears in a higher-weight field.
-9. Recheck stop words, function words, category/free words, platform/device words, generic app/store words, competitor/protected terms, singular/plural decisions, compound decisions, and tokenization caveats.
-10. Audit each selected hidden keyword root for standalone ASO value. Flag roots that only came from splitting a phrase, broad UI nouns, platform/device words, or generic app/store words. Keep them only when they are worth the character cost as standalone tokens or preserved phrases.
-11. Apply compatible saved metadata guidance, such as preserving the brand in the app name, avoiding a wording pattern the user corrected, mirroring platform keywords for now, delegating source-language coverage to another locale, or preferring a known natural localized phrase.
-12. Check whether the draft displaces words from current metadata that have saved history guidance or available strong ranking evidence.
-13. Verify that visible metadata is natural enough for users to see in search results, and for localized drafts that it reads naturally in the target language.
-14. Write compact field notes; for localized metadata, also produce field-level `Meaning` values.
+6. If the platform/statistics scope is `target-platform-only`, generate the target platform keyword section and include `Not generated.` for other platforms unless compatible saved guidance says to reuse the target-platform keywords.
+7. If the platform/statistics scope is `all-metadata-platforms`, generate platform keyword sections only where compatible platform evidence exists; include `Not generated.` for platforms still missing evidence.
+8. If the platform/statistics scope is `primary-platform-reuse` or saved guidance explicitly says to mirror or reuse keyword fields across platforms, generate the reused section, label the evidence source, and warn that platform-specific validation is still missing.
+9. Remove lower-weight duplicates when a word appears in a higher-weight field.
+10. Recheck stop words, function words, category/free words, platform/device words, generic app/store words, competitor/protected terms, singular/plural decisions, compound decisions, and tokenization caveats.
+11. Audit each selected hidden keyword root for standalone ASO value. Flag roots that only came from splitting a phrase, broad UI nouns, platform/device words, or generic app/store words. Keep them only when they are worth the character cost as standalone tokens or preserved phrases.
+12. Apply compatible saved metadata guidance, such as preserving the brand in the app name, avoiding a wording pattern the user corrected, mirroring platform keywords for now, delegating source-language coverage to another locale, or preferring a known natural localized phrase.
+13. Check whether the draft displaces words from current metadata that have saved history guidance or available strong ranking evidence.
+14. Verify that visible metadata is natural enough for users to see in search results, and for localized drafts that it reads naturally in the target language.
+15. Run an exact field-count check on the final draft strings.
+16. Write compact field notes; for localized metadata, also produce field-level `Meaning` values.
 
 ### 4. Calculate Coverage
 
@@ -370,7 +383,7 @@ In `### Recommendation Rationale`, explain why the recommended draft fits the cu
 - Risk level from competitor/protected terms, category terms, or awkward copy.
 - Guardrail-word decisions, especially high-scoring function, generic, platform, device, or app/store words.
 - Localized compound, tokenization, or source-language coverage caveats.
-- Platform keyword reuse or `Not generated.` decisions.
+- Platform/statistics scope, keyword reuse, platform validation gaps, or `Not generated.` decisions.
 - Evidence label for any practitioner-supported or unresolved placement assumption.
 - Any current metadata words or phrases that may be displaced despite saved history or ranking evidence.
 
@@ -386,6 +399,8 @@ Advise the user not to change too many metadata variables at once when they want
 Before saving generated metadata, ask the user to review the human-facing quality of the draft: readability, brand awareness, clarity, natural wording, trust, and conversion-hurting issues such as obvious keyword stuffing. The app name and subtitle should remain readable and trustworthy for real App Store users.
 
 Save generated metadata only after the user explicitly approves a draft, asks to save a specific draft, or provides an edited version of a generated draft. Ask the user to choose whether approval means a draft history save, current context metadata update, or App Store Connect publish. Save into the active workspace: `.agents/aso/context.md` for source-locale work or `.agents/aso/locales/<Locale>/context.md` for localized work.
+
+Before any save or publish, rerun the exact field-count check on the approved strings. If any field exceeds its limit, stop and make or request a compliant revision before saving or publishing.
 
 Use three save modes:
 
@@ -474,11 +489,13 @@ After saving or publishing, summarize which draft was saved, whether App Store C
 - Filling keywords with phrases by default instead of individual combinable words.
 - Counting keywords as bytes instead of characters.
 - Counting keywords without including commas.
+- Reporting field counts without checking the exact final strings, especially after follow-up edits.
 - Leaving spaces after commas in keywords.
 - Using stop words or category terms as if they were normal high-value keywords.
 - Using high-scoring function words, platform/device words, or generic app/store words as hidden keywords without a caveated rationale.
 - Assuming compound components, source-language roots, or non-whitespace tokens provide coverage without target-language or ranking evidence.
 - Ignoring saved guidance that intentionally mirrors platform keyword fields or delegates source-language query coverage to another locale.
+- Silently reusing one platform's keyword evidence for another platform without labeling the evidence source and validation gap.
 - Assuming English singular/plural rules apply to non-English metadata.
 - Presenting practitioner assumptions as Apple-documented ranking rules or treating combined word coverage as guaranteed App Store ranking behavior.
 - Keyword-stuffing the app name or subtitle in a way that hurts conversion.

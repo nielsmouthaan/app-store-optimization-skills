@@ -12,15 +12,73 @@ Apple separates two concepts:
 | --- | --- |
 | Metadata locale | The Apple-supported app information language/locale label, such as `Dutch`, `Spanish (Mexico)`, or `Chinese (Simplified)`. Use this as the locale identity and workspace folder name. |
 | Country or region ISO code | The storefront/territory code from Apple's table, such as `NLD`, `MEX`, or `USA`. Use this only when statistics, rankings, App Analytics, App Store URLs, or user instructions require a country or region. |
+| App Store Connect locale code | The API localization code, such as `nl-NL`, `es-ES`, or `zh-Hant`. Use this only when App Store Connect metadata tooling requires a locale code. |
 | Tool country or region parameter | A tool-specific value, often a two-letter country code such as `NL`, `MX`, or `US`. Derive it at call time; do not store it as locale identity. |
 
 ## Supported Metadata Locales
 
 Apple lists these supported app information languages and locales:
 
-`Arabic`, `Bangla`, `Catalan`, `Chinese (Simplified)`, `Chinese (Traditional)`, `Croatian`, `Czech`, `Danish`, `Dutch`, `English (Australia)`, `English (Canada)`, `English (U.K.)`, `English (U.S.)`, `Finnish`, `French`, `French (Canada)`, `German`, `Greek`, `Gujarati`, `Hebrew`, `Hindi`, `Hungarian`, `Indonesian`, `Italian`, `Japanese`, `Kannada`, `Korean`, `Malay`, `Malayalam`, `Marathi`, `Norwegian`, `Odia`, `Polish`, `Portuguese (Brazil)`, `Portuguese (Portugal)`, `Punjabi`, `Romanian`, `Russian`, `Slovak`, `Slovenia`, `Spanish (Mexico)`, `Spanish (Spain)`, `Swedish`, `Tamil`, `Telugu`, `Thai`, `Turkish`, `Ukrainian`, `Urdu`, `Vietnamese`.
+`Arabic`, `Bangla`, `Catalan`, `Chinese (Simplified)`, `Chinese (Traditional)`, `Croatian`, `Czech`, `Danish`, `Dutch`, `English (Australia)`, `English (Canada)`, `English (U.K.)`, `English (U.S.)`, `Finnish`, `French`, `French (Canada)`, `German`, `Greek`, `Gujarati`, `Hebrew`, `Hindi`, `Hungarian`, `Indonesian`, `Italian`, `Japanese`, `Kannada`, `Korean`, `Malay`, `Malayalam`, `Marathi`, `Norwegian`, `Odia`, `Polish`, `Portuguese (Brazil)`, `Portuguese (Portugal)`, `Punjabi`, `Romanian`, `Russian`, `Slovak`, `Slovenian`, `Spanish (Mexico)`, `Spanish (Spain)`, `Swedish`, `Tamil`, `Telugu`, `Thai`, `Turkish`, `Ukrainian`, `Urdu`, `Vietnamese`.
 
 Use exact Apple locale labels for locale identity and folder names. If Apple's country or region table uses a shortened label such as `English (US)` or `Simplified Chinese`, normalize it to the supported metadata locale label above, such as `English (U.S.)` or `Chinese (Simplified)`.
+
+## App Store Connect Locale Codes
+
+Use these codes only when App Store Connect metadata tooling asks for a locale code. They were cross-checked against an App Store Connect locale catalog on 2026-07-02. If a tool rejects a code, verify against the current tool or App Store Connect response before changing the workspace locale label.
+
+| Metadata locale | App Store Connect locale code |
+| --- | --- |
+| Arabic | `ar-SA` |
+| Bangla | `bn-BD` |
+| Catalan | `ca` |
+| Chinese (Simplified) | `zh-Hans` |
+| Chinese (Traditional) | `zh-Hant` |
+| Croatian | `hr` |
+| Czech | `cs` |
+| Danish | `da` |
+| Dutch | `nl-NL` |
+| English (Australia) | `en-AU` |
+| English (Canada) | `en-CA` |
+| English (U.K.) | `en-GB` |
+| English (U.S.) | `en-US` |
+| Finnish | `fi` |
+| French | `fr-FR` |
+| French (Canada) | `fr-CA` |
+| German | `de-DE` |
+| Greek | `el` |
+| Gujarati | `gu-IN` |
+| Hebrew | `he` |
+| Hindi | `hi` |
+| Hungarian | `hu` |
+| Indonesian | `id` |
+| Italian | `it` |
+| Japanese | `ja` |
+| Kannada | `kn-IN` |
+| Korean | `ko` |
+| Malay | `ms` |
+| Malayalam | `ml-IN` |
+| Marathi | `mr-IN` |
+| Norwegian | `no` |
+| Odia | `or-IN` |
+| Polish | `pl` |
+| Portuguese (Brazil) | `pt-BR` |
+| Portuguese (Portugal) | `pt-PT` |
+| Punjabi | `pa-IN` |
+| Romanian | `ro` |
+| Russian | `ru` |
+| Slovak | `sk` |
+| Slovenian | `sl-SI` |
+| Spanish (Mexico) | `es-MX` |
+| Spanish (Spain) | `es-ES` |
+| Swedish | `sv` |
+| Tamil | `ta-IN` |
+| Telugu | `te-IN` |
+| Thai | `th` |
+| Turkish | `tr` |
+| Ukrainian | `uk` |
+| Urdu | `ur-PK` |
+| Vietnamese | `vi` |
 
 ## Workspace Naming
 
@@ -120,7 +178,7 @@ This table is for ASO skill defaults, not App Store Connect's `Default language`
 | Romanian | ROU |  |
 | Russian | RUS | UKR, USA |
 | Slovak | SVK |  |
-| Slovenia | SVN |  |
+| Slovenian | SVN |  |
 | Spanish (Mexico) | MEX | ARG, BLZ, BOL, CHL, COL, CRI, DOM, ECU, SLV, GTM, HND, NIC, PAN, PRY, PER, USA, URY, VEN |
 | Spanish (Spain) | ESP |  |
 | Swedish | SWE |  |

@@ -115,7 +115,9 @@ Normalize words before calculating:
 - Lowercase words for matching and display.
 - Trim leading and trailing punctuation.
 - Split search terms on whitespace and punctuation that separates words, such as commas, slashes, pipes, parentheses, and hyphens.
-- For languages without reliable whitespace word boundaries, use a language-aware tokenizer when available. If none is available, use conservative whole-term or obvious-segment tokens, record the tokenizer choice in the summary, and do not pretend the word value scores are directly comparable to whitespace-segmented locales.
+- For Chinese, Japanese, Thai, and other languages without reliable whitespace word boundaries, use a language-aware tokenizer when available. If none is available, use conservative whole-term tokens or obvious evidence-backed segments, record the tokenizer choice in the summary, and do not pretend the word value scores are directly comparable to whitespace-segmented locales.
+- For Korean, use whitespace-separated terms by default. Do not split Hangul syllables, particles, or endings into smaller roots unless a Korean-aware tokenizer, native evidence, ASO statistics, or ranking evidence supports the split.
+- When tokenization materially affects word values for Chinese, Japanese, Korean, Thai, or another segmentation-sensitive locale, include compact tokenization notes in the summary, such as `工時紀錄 -> 工時, 紀錄` or `工時紀錄 -> kept whole`.
 - Do not stem, singularize, pluralize, translate, or merge related forms. Treat `edit`, `editing`, and `editor` as separate words.
 - Do not transliterate or remove accents. Count the written characters in the normalized word.
 - Count a word only once per search term, even if the same word appears more than once in that term.

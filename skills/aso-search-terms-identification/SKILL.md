@@ -59,7 +59,7 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 - For localized work, use the workspace locale. Do not mix search terms from multiple metadata locales in one workspace.
 - Do not generate translated terms from source material in another language unless the user explicitly changes the source primary locale or is running the localized workflow.
 - In localized workflow, use source terms as intent seeds, not as strings to translate literally.
-- For localized terms, store a concise `Meaning` so users who do not know the target language can audit the term.
+- For localized terms, store a concise, natural `Meaning` so users who do not know the target language can audit the term.
 - Prefer compact search phrases that sound like App Store queries.
 - Avoid full-sentence descriptions, web or SEO-style phrases, UI commands, implementation terms, technical capability terms, or product-internal wording unless clear App Store, Apple Search Ads, autocomplete, user, review, or competitor evidence shows users search that way.
 - Ask for clarification when a user-provided term looks like an accidental grammar or spelling mistake.
@@ -150,7 +150,11 @@ Explain that approved terms will later be used to fetch popularity and difficult
 
 Do not save the backlog or source-locale relevance scores until the user has had a clear chance to review and adjust the proposed terms and relevance groups.
 
-For localized work, use agent-led relevance review by default. Present proposed scores with `Meaning` values, then save them when the mapping is clear and confidence is adequate. Ask the user or request native-speaker review before saving only for localized terms whose meaning, idiom, or App Store intent is materially ambiguous.
+For localized work, use agent-led relevance review by default. Do the best possible review on behalf of the user, because the user may not understand the target language. Present proposed scores with `Meaning` values next to the localized terms, using natural reviewer-facing translations or explanations rather than only literal glosses.
+
+Decide each localized term without user approval whenever reasonable: save it as `confirmed` when it appears to make sense as a target-locale App Store search for this app, save it as `candidate` when it is plausible but still uncertain, or save it as `rejected` when it is clearly unsuitable. Ask the user or request native-speaker review only when, after best-effort analysis, it remains genuinely unclear whether the term makes sense and that uncertainty would materially affect downstream statistics, scoring, or metadata placement.
+
+Use `Notes` to mark review provenance with one of `review: agent-led`, `review: user-approved`, `review: native-approved`, or `review: needs native review`.
 
 ### 5. Save Results
 
@@ -169,26 +173,28 @@ Use this canonical table for localized work:
 ```markdown
 | Search term | Meaning | Status | Relevance | Popularity | Difficulty | Stats country or region | Stats source | Stats updated | Notes | Strategic score |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| quittung scanner | receipt scanner | confirmed | 5 |  |  |  |  |  | same intent as source core term |  |
+| quittung scanner | receipt scanner | confirmed | 5 |  |  |  |  |  | review: agent-led; same intent as source core term |  |
 ```
 
 Use these status values:
 
 | Status | Meaning |
 | --- | --- |
-| `candidate` | Suggested or imported, not yet reviewed by the user. |
-| `confirmed` | User accepted the term into the usable ASO backlog. This does not mean it has high relevance. |
-| `rejected` | User said the term is misleading, irrelevant, or something they do not want to use. |
+| `candidate` | Suggested, imported, or awaiting review before it belongs in the usable ASO backlog. |
+| `confirmed` | Accepted into the usable ASO backlog. Source-locale confirmation requires user approval; localized confirmation may be user-approved, native-approved, or agent-led when the localized confidence rules pass. This does not mean the term has high relevance. |
+| `rejected` | Rejected as misleading, irrelevant, or intentionally excluded. |
 
 When updating the table, follow these rules:
 
 - Add a `Relevance` column if it is missing.
 - Append new terms rather than replacing existing work.
-- Save user-accepted terms as `confirmed` with approved integer `Relevance` scores from `1` to `5`, user-rejected terms as `rejected` with blank relevance, and leave explicitly unreviewed suggestions or imports as `candidate` with blank relevance.
+- For source-locale work, save user-accepted terms as `confirmed` with approved integer `Relevance` scores from `1` to `5`, user-rejected terms as `rejected` with blank relevance, and leave explicitly unreviewed suggestions or imports as `candidate` with blank relevance.
+- For localized work, decide terms without user approval whenever reasonable. Save agent-accepted terms as `confirmed` with `review: agent-led`, uncertain-but-plausible terms as `candidate`, user-rejected or clearly unsuitable terms as `rejected`, and ask for user or native-speaker review only when best-effort analysis cannot determine whether the term makes sense.
 - Leave `Popularity`, `Difficulty`, `Stats country or region`, `Stats source`, `Stats updated`, and `Strategic score` blank for new terms. Preserve existing statistics and any additional columns.
 - Clear `Strategic score` for rows where `Relevance` is added or changed; preserve it for unchanged rows.
 - Do not overwrite user-confirmed relevance scores unless the user approves the change.
-- For localized terms, fill `Meaning` with a compact back-translation or explanation in a language the user understands.
+- For localized terms, fill `Meaning` with a compact, natural back-translation or explanation in a language the user understands.
+- For localized terms, include one review marker in `Notes`: `review: agent-led`, `review: user-approved`, `review: native-approved`, or `review: needs native review`.
 - Normalize obvious duplicates, but keep meaningful variants, including singular/plural forms, word-order variants, generic and/or reserved terms like "app", developer names, and category terms when they make sense.
 - Use `Notes` for compact context that helps later skills interpret the term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, localization uncertainty, or user verification details.
 - For review-mined terms, note when evidence is isolated, noisy, recurring, or corroborated.
@@ -295,6 +301,7 @@ When researching competitors:
 - Giving terms high scores only because they already appear in prominent app metadata.
 - Giving semantically equivalent terms different scores because of word order, suffixes, or minor modifiers.
 - Treating relevance `1` or `2` as automatic rejection after the user has confirmed the term.
+- Treating localized `confirmed` as user-approved when its `Notes` marker says `review: agent-led`.
 - Generating translated terms from non-active-language source material.
 - Correcting realistic misspellings or grammar mistakes without checking whether they were intentional.
 - Treating web search volume as App Store demand without caveats.

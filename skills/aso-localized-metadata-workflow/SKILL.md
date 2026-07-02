@@ -18,7 +18,10 @@ If the user has not chosen a target locale, ask them to choose the language, loc
 - Do not duplicate the full source search-term backlog into localized workspaces.
 - Use source terms as intent inspiration, not as strings to translate literally.
 - Treat localized metadata as research-led, not translation-led. Localized terms must come from target-locale search behavior, native vocabulary, or clear local evidence.
-- Store a concise `Meaning` for each localized term so users who do not know the language can audit it.
+- Store a concise, natural `Meaning` for each localized term so users who do not know the language can audit it.
+- Record localized review provenance in `Notes` so `confirmed` terms do not imply user approval unless the user actually approved them.
+- Label localized current metadata baseline when current localized metadata exists; do not treat staged, user-provided, user-reported current, or unknown metadata as live.
+- Choose a platform/statistics scope before fetching localized statistics; do not silently reuse evidence from one platform for another.
 - Fetch popularity and difficulty only for exact localized terms in the target App Store country or region.
 - Derive the country or region from the explicit request, saved `Country or region preference`, or locale default in `references/app-store-localizations.md`. Store a preference only when the default is overridden.
 - Derive any tool country or region parameter at tool-call time; do not store the derived tool parameter as workspace state.
@@ -67,6 +70,7 @@ Create or update one localized workspace per Apple metadata locale. Keep the wor
 
 ### Current
 
+**Baseline:** live
 **Name:** Belege für Steuern *(18/30, receipts for taxes)*
 **Subtitle:** Rechnungen scannen *(18/30, scan invoices)*
 **Keywords (iOS):** belege,steuern,scanner *(23/100 chars, receipts, taxes, scanner)*
@@ -108,7 +112,7 @@ Run phases in this order:
 2. Choose and validate target metadata locale and optional country or region preference.
 3. Create or update the localized workspace.
 4. Identify localized search terms and assign and validate localized relevance with `aso-search-terms-identification`.
-5. Fetch target country or region statistics with `aso-search-terms-statistics`.
+5. Fetch target country or region statistics with `aso-search-terms-statistics`, including platform/statistics scope.
 6. Calculate localized scores with `aso-search-terms-scoring`.
 7. Generate localized metadata drafts with `aso-metadata-generation`.
 
@@ -116,13 +120,37 @@ After every phase, summarize the target locale, localized workspace path, resolv
 
 ## Phase Guidance
 
-### 1. Establish Global Context
+### Phase 1: Establish Global Context
 
 Read `.agents/aso/context.md` first.
 
 The global context should contain source app facts, primary locale, platforms, source metadata under `## Metadata` `### Current`, saved source metadata history, source search terms, source relevance, and original App Store Connect keyword field terms by platform when available.
 
-### 2. Identify Localized Search Terms And Assign And Validate Relevance
+### Phase 2: Choose And Validate Target Metadata Locale
+
+Use `references/app-store-localizations.md` to validate the Apple metadata `Locale`, such as `German`, `French`, or `Spanish (Mexico)`.
+
+If the user names only a country or region, choose Apple's default metadata locale for that country or region and mention additional supported locales when useful. If the user names a language or language group, choose the matching Apple metadata locale.
+
+Resolve a country or region only when the user names one, saved context has a `Country or region preference`, source evidence requires one, or the next storefront-specific step needs statistics or rankings. Store `Country or region preference` only when the user or clear source evidence overrides the default country or region for that locale.
+
+### Phase 3: Create Or Update The Localized Workspace
+
+Verify that `.agents/aso/locales/<Locale>/context.md` exists before treating a locale as ready for localized work. If the workspace is missing, create it using `## Workspace Schema`.
+
+If dedicated localized App Store metadata exists, store it under `## Metadata` `### Current` with a compact `**Baseline:**` label and meaning annotations when useful. Prefer live metadata unless the user explicitly targets staged or next-release metadata. If live and staged values differ, record the chosen baseline and the difference compactly.
+
+If no dedicated localized metadata exists yet, store a clear current-baseline note such as:
+
+```markdown
+### Current
+
+No dedicated English (U.K.) metadata exists. Source English (U.S.) metadata may provide fallback coverage.
+```
+
+Add or update the global `## Locales` row only after the workspace file exists, or mark planned locales as `planned; workspace not created` in `Notes`.
+
+### Phase 4: Identify Localized Search Terms And Assign And Validate Relevance
 
 Use `aso-search-terms-identification` and pass these localization constraints. Use local search behavior as the primary target-locale evidence:
 
@@ -136,23 +164,29 @@ Do not translate the source backlog mechanically. A localized term is useful onl
 
 If the localized run is part of a cross-localization strategy, keep the workspace focused on that locale and record duplicate-avoidance or intentional-overlap decisions in `Notes`.
 
-For every localized term, store `Meaning` as a concise back-translation or explanation in a language the user understands.
+For every localized term, store `Meaning` as a concise, natural back-translation or explanation in a language the user understands.
 
 Project relevance from source terms only when the localized term preserves the same App Store search intent. If the localized phrase has a different nuance, broader category, different user expectation, or uncertain idiom, score conservatively and add a compact note.
 
-Agent-led review is the default. Ask the user only when ambiguity could materially change relevance, metadata placement, or whether a term should remain confirmed.
+Agent-led review is the default. Do the best possible review on behalf of the user, because the user may not understand the target language. Decide each localized term without user approval whenever reasonable: save it as `confirmed` when it appears to make sense as a target-locale App Store search for this app, save it as `candidate` when it is plausible but still uncertain, or save it as `rejected` when it is clearly unsuitable.
 
-### 3. Fetch Localized Statistics
+Ask the user or request native-speaker review only when, after best-effort analysis, it remains genuinely unclear whether the term makes sense and that uncertainty would materially affect downstream statistics, scoring, or metadata placement. Use `Notes` to mark review provenance with one of `review: agent-led`, `review: user-approved`, `review: native-approved`, or `review: needs native review`. When user or native-speaker approval is needed, show each localized term together with its `Meaning` and the reason it needs review.
 
-Use `aso-search-terms-statistics` and pass these localization constraints. Use the active locale's resolved country or region, not the source context's country or region, when fetching statistics. Resolve it from the explicit request, saved `Country or region preference`, or locale default in `references/app-store-localizations.md`. If the ASO tool requires a two-letter country or region parameter, derive it from the resolved country or region ISO code using `references/app-store-localizations.md` or a standard ISO 3166 lookup.
+### Phase 5: Fetch Localized Statistics
+
+Use `aso-search-terms-statistics` to choose and summarize the platform/statistics scope before fetching statistics. Carry that scope and any platform evidence reuse warnings into `aso-metadata-generation`.
+
+Use the active locale's resolved country or region, not the source context's country or region, when fetching statistics. Resolve it from the explicit request, saved `Country or region preference`, or locale default in `references/app-store-localizations.md`. If the ASO tool requires a two-letter country or region parameter, derive it from the resolved country or region ISO code using `references/app-store-localizations.md` or a standard ISO 3166 lookup.
 
 Fetch exact localized search terms. Do not translate terms during statistics fetching. Do not reuse popularity or difficulty values from another locale or country or region. User-provided Apple Ads Search Popularity on a `1`-`5` scale may be normalized for `Popularity`, but it must not be used as `Difficulty`.
 
 If imported statistics were fetched for a different country or region than the resolved country or region, treat them as incompatible unless the user explicitly wants exploratory comparison data outside the localized workflow.
 
-### 4. Score And Generate Metadata
+### Phase 6: Calculate Localized Scores
 
 Use `aso-search-terms-scoring` to calculate localized strategic scores and word value scores inside the active localized workspace.
+
+### Phase 7: Generate Localized Metadata
 
 Generate app name, subtitle, and platform keyword sections for the target locale. Visible fields must read naturally for the target language. Each generated keyword section must fit this suite's 100-character App Store keyword limit. Use portfolio balance so localized drafts do not overfit to only broad head terms or only long-tail terms.
 
@@ -168,7 +202,9 @@ End the workflow with:
 
 - locale and resolved or preferred country or region when relevant
 - localized workspace path
+- platform/statistics scope and any platform evidence reuse warnings
 - number of localized candidate, confirmed, rejected, and scored terms
+- localized review provenance mix and any terms still needing native review
 - statistics source and update date
 - highest strategic localized terms and highest-value localized words
 - metadata draft recommended or saved, including localized `Meaning` values or warnings when relevant

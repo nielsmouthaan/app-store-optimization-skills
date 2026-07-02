@@ -50,6 +50,18 @@ Validate the resolved country or region against Apple's supported App Store loca
 
 If a statistics source requires a two-letter country or region parameter, derive it from the resolved Apple country or region ISO code using `references/app-store-localizations.md` or a standard ISO 3166 lookup. Do not store the derived tool parameter in the workspace.
 
+## Platform And Statistics Scope
+
+Choose a platform/statistics scope before fetching when multiple App Store Connect metadata platforms exist, a target platform is saved, or the user asks about platform-specific keyword fields. Keep `Platforms` as App Store Connect metadata platforms, and derive any search surface or tool parameter only at tool-call time from `references/platforms.md`, the tool's skill, CLI help, or documentation.
+
+Use one of these scope labels in the run summary:
+
+- `target-platform-only`: Fetch statistics for the requested or saved target platform/search surface. Record that only target-platform evidence is available for downstream metadata generation.
+- `all-metadata-platforms`: Fetch or collect compatible evidence for every metadata platform that needs its own keyword field. If the active backlog has only one `Popularity` and `Difficulty` column, choose one primary scoring platform for saved values and record secondary platform checks in `Notes` or a separate artifact instead of mixing platform values in one row.
+- `primary-platform-reuse`: Fetch statistics for the primary platform only because saved guidance says to mirror or reuse keyword fields across platforms, or one platform is clearly primary. Mark the run summary as primary-platform evidence intended for reuse and warn that platform-specific validation is still missing.
+
+If no platform scope is explicit and only one metadata platform exists, use that platform. If multiple metadata platforms exist and no saved guidance identifies a target or reuse strategy, choose the most relevant platform from the current user request or ask only when the choice would materially change the metadata recommendation.
+
 ## Tool Discovery
 
 Before fetching, check whether a statistics source is available in the current environment.
@@ -162,6 +174,8 @@ When updating the table:
 
 After saving, summarize how many terms were updated, how many had pending or missing values, whether any values were unusable because they were outside the accepted scale, whether any stale statistics were kept, the primary locale or localized workspace used, the resolved country or region, any derived source country or region parameter, any explicit search-surface preference, and the source used.
 
+Also summarize the platform/statistics scope, the primary scoring platform or search surface when relevant, and whether any platform evidence is being reused or left unvalidated for metadata generation.
+
 If all requested statistics are present, validated, and fresh enough for the run, proceed to strategic scoring. If any requested statistic is missing, pending, stale, incompatible, or unusable, stop after the summary and ask the user how to proceed before strategic scoring. Required options are: retry through the statistics source, try another available statistics source, provide compatible values manually, remove terms from the scoring scope, explicitly proceed with partial data, or pause until statistics can be fetched. If the user chooses partial data, summarize the skipped terms and warn that they will not influence strategic scoring, word value scoring, or generated metadata.
 
 ## Common Mistakes
@@ -170,6 +184,7 @@ If all requested statistics are present, validated, and fresh enough for the run
 - Using the US store for every language.
 - Mixing values from different countries or regions without recording the country or region per term.
 - Treating an iPad search-surface preference as a metadata platform choice.
+- Silently reusing one platform's statistics for another platform's keyword field.
 - Using values that are neither documented `0`-`100` scores nor explicitly accepted Apple Ads `1`-`5` Search Popularity.
 - Storing Apple Ads `1`-`5` Search Popularity without normalizing it first.
 - Inferring difficulty from Apple Ads Search Popularity.
