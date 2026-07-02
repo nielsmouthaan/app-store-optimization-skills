@@ -37,6 +37,7 @@ If confirmed search terms are missing numeric `Strategic score` values:
 
 - Use `aso-search-terms-scoring` first.
 - Do not estimate strategic scores or prioritize terms from relevance, popularity, or difficulty directly.
+- If scoring cannot complete because in-scope confirmed terms are missing complete, fresh, valid popularity or difficulty statistics, stop metadata generation. Continue only when the user explicitly approved partial scoring or explicitly asks for a manual draft despite incomplete statistics.
 
 If `## Word Value Scores` is missing or empty:
 

@@ -109,6 +109,21 @@ Do not wait for every source to be available after the user has had a chance to 
 
 When evidence conflicts, prefer app truth and user/searcher language first, Apple-native App Store or Apple Search Ads signals second, local competitor and local-language evidence third, and third-party or web/SEO evidence as lower-confidence expansion material.
 
+When search-result or competitor evidence is available, extract only the useful ASO signals unless the user asked for deeper competitor analysis:
+
+- app names and subtitles
+- repeated visible title or subtitle words across relevant results
+- category fit and whether top results satisfy the same search intent
+- obvious generic, non-brand phrases from visible metadata, screenshots, reviews, or descriptions
+- competitor/protected brand names to exclude or warn about
+- one compact evidence note per useful cluster
+
+Example:
+
+```text
+Search result evidence for `suivi du temps`: repeated visible phrases include `heures`, `pointage`, and `feuille de temps`; competitor app names excluded.
+```
+
 ### 3. Filter For App Store Search Plausibility
 
 Keep a candidate when a user might plausibly type it in the App Store while looking for an app like this.
@@ -317,6 +332,7 @@ When researching competitors:
 - Correcting realistic misspellings or grammar mistakes without checking whether they were intentional.
 - Treating web search volume as App Store demand without caveats.
 - Treating one-off review phrases as priority search terms without recurrence, corroboration, or user review.
+- Overreading large search-result or competitor exports instead of extracting compact app names, subtitles, repeated visible terms, category fit, and non-brand phrases.
 - Forgetting long-tail terms with clearer intent.
 - Treating seasonal terms as evergreen without noting the timing window.
 - Assuming visible competitor metadata reveals the full iOS keyword strategy.

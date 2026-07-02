@@ -86,6 +86,14 @@ When presenting strategic scores, sort terms by `Strategic score` from highest t
 | example term | 5 | 50 | 40 | 34.5 |
 ```
 
+After sorting, flag low-relevance outliers. If a confirmed term with `Relevance` `1` or `2` appears in the top 10 strategic scores, add a compact warning before metadata generation. Do not change the formula or the saved score; the warning is a portfolio-quality signal.
+
+Example:
+
+```text
+Portfolio warning: `productivity tool` has Relevance 2 but appears in the top 10 strategic scores. Treat it as a broad opportunity, not a primary metadata target.
+```
+
 When inferable from terms, sources, or `Notes`, mention obvious portfolio patterns or imbalances that later metadata generation should consider, such as overreliance on broad head terms, long-tail terms, seasonal terms, or questionable terms. Do not save a separate portfolio section or add portfolio columns.
 
 ## Word Value Score
@@ -160,7 +168,7 @@ For `## Word Value Scores`:
 
 Use `YYYY-MM-DD` for `*Last updated:*`.
 
-After saving, summarize how many terms received strategic scores, how many terms were skipped, how many unique words were scored, whether stale statistics were used, the workspace updated, the highest-scoring terms and words, and any obvious portfolio imbalance when useful.
+After saving, summarize how many terms received strategic scores, how many terms were skipped, how many unique words were scored, whether stale statistics were used, the workspace updated, the highest-scoring terms and words, any low-relevance top-score warnings, and any obvious portfolio imbalance when useful.
 
 ## Common Mistakes
 
@@ -170,6 +178,7 @@ After saving, summarize how many terms received strategic scores, how many terms
 - Treating relevance `1` or `2` as rejected or unscorable after the user confirmed the term.
 - Ignoring stale-statistics warnings when `Stats updated` is more than one month old.
 - Using popularity alone as the priority order.
+- Letting low-relevance, high-popularity terms drive metadata planning without a portfolio warning.
 - Treating one sorted strategic-score list as the final metadata portfolio.
 - Treating strategic scores or word value scores as subjective user inputs instead of derived data.
 - Leaving stale strategic scores after relevance, popularity, difficulty, or status changes.

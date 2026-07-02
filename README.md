@@ -29,9 +29,9 @@ This repository contains two workflow skills and several specialist skills used 
 Runs the full ASO metadata optimization workflow for the app's primary or source metadata language. It coordinates a numbered five-phase flow:
 
 1. `aso-context` establishes reusable source app context.
-2. `aso-search-terms-identification` identifies a broad backlog of plausible App Store search-term candidates and assigns relevance scores based on App Store search intent and how well the app satisfies that intent.
+2. `aso-search-terms-identification` identifies a broad backlog of plausible App Store search-term candidates, extracts compact search-result evidence, and assigns relevance scores based on App Store search intent and how well the app satisfies that intent.
 3. `aso-search-terms-statistics` fetches external popularity and difficulty statistics for confirmed search terms, with one primary scoring country or region and optional secondary-region validation when a locale spans important markets. This requires an ASO tool such as [ASO Suite](https://nielsmouthaan.dev/asosuite) or [Astro](https://nielsmouthaan.dev/astro).
-4. `aso-search-terms-scoring` calculates a strategic score for confirmed search terms and per-word value scores from those strategic scores.
+4. `aso-search-terms-scoring` calculates a strategic score for confirmed search terms, flags low-relevance high-score outliers, and calculates per-word value scores from those strategic scores.
 5. `aso-metadata-generation` generates recommended metadata drafts for the shared app name, shared subtitle, and platform-specific keyword fields, with current-metadata linting and deterministic field-count checks.
 
 Use this workflow for the primary locale of the app.
