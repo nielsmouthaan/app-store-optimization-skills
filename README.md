@@ -100,6 +100,8 @@ Then reference skills from `.agents/app-store-optimization-skills/skills/`.
 
 AI assistants usually discover and invoke skills from the prompt you provide. For best results, run these prompts in your app's repository so the agent can inspect the app's code, metadata files, and any existing ASO artifacts. You can also run the workflows elsewhere, but you will need to provide more context manually.
 
+The ASO workflows save reusable state and generated artifacts in `.agents/aso/` in the repository where you run them.
+
 Example prompts:
 
 - Use `aso-metadata-workflow` to optimize the App Store metadata of this app with the aim of increasing organic search discoverability in the primary region.
