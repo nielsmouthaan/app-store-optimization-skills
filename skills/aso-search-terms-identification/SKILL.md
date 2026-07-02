@@ -154,7 +154,17 @@ For localized work, use agent-led relevance review by default. Do the best possi
 
 Decide each localized term without user approval whenever reasonable: save it as `confirmed` when it appears to make sense as a target-locale App Store search for this app, save it as `candidate` when it is plausible but still uncertain, or save it as `rejected` when it is clearly unsuitable. Ask the user or request native-speaker review only when, after best-effort analysis, it remains genuinely unclear whether the term makes sense and that uncertainty would materially affect downstream statistics, scoring, or metadata placement.
 
-Use `Notes` to mark review provenance with one of `review: agent-led`, `review: user-approved`, `review: native-approved`, or `review: needs native review`.
+Use `Notes` to mark review provenance with one of `review: agent-led`, `review: user-approved`, `review: native-approved`, or `review: needs native review`. For localized terms, also add a simple confidence marker: `confidence: high`, `confidence: medium`, or `confidence: low`.
+
+Use localized confidence to keep agent-led review automatic but honest:
+
+| Confidence | Use when | Typical action |
+| --- | --- | --- |
+| `high` | The term is natural in the target locale, matches the app's search intent, and is supported by local evidence such as autocomplete, ASO statistics, competitor language, reviews, native wording, or strong source-backed vocabulary. | Save as `confirmed` when relevance is clear. |
+| `medium` | The term is plausible and understandable, but evidence is thinner, regional nuance is not fully checked, or it mainly comes from source-intent projection. | Save as `confirmed` only when app fit is clear and downside is low; otherwise keep as `candidate`. |
+| `low` | Meaning, idiom, segmentation, spelling, grammar, or regional usage is unclear enough to affect statistics, scoring, or metadata placement. | Keep as `candidate`, mark `review: needs native review` when it matters, or reject if clearly unsuitable. |
+
+Do not treat spelling or grammar warnings as automatic rejection. App Store users may search with misspellings, informal grammar, accents omitted, or local shorthand. Keep a misspelled or ungrammatical variant only when it is user-provided, source-backed, or search-evidence-backed; otherwise ask only when the ambiguity materially affects downstream work.
 
 ### 5. Save Results
 
@@ -173,7 +183,7 @@ Use this canonical table for localized work:
 ```markdown
 | Search term | Meaning | Status | Relevance | Popularity | Difficulty | Stats country or region | Stats source | Stats updated | Notes | Strategic score |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| quittung scanner | receipt scanner | confirmed | 5 |  |  |  |  |  | review: agent-led; same intent as source core term |  |
+| quittung scanner | receipt scanner | confirmed | 5 |  |  |  |  |  | review: agent-led; confidence: high; same intent as source core term |  |
 ```
 
 Use these status values:
@@ -189,12 +199,12 @@ When updating the table, follow these rules:
 - Add a `Relevance` column if it is missing.
 - Append new terms rather than replacing existing work.
 - For source-locale work, save user-accepted terms as `confirmed` with approved integer `Relevance` scores from `1` to `5`, user-rejected terms as `rejected` with blank relevance, and leave explicitly unreviewed suggestions or imports as `candidate` with blank relevance.
-- For localized work, decide terms without user approval whenever reasonable. Save agent-accepted terms as `confirmed` with `review: agent-led`, uncertain-but-plausible terms as `candidate`, user-rejected or clearly unsuitable terms as `rejected`, and ask for user or native-speaker review only when best-effort analysis cannot determine whether the term makes sense.
+- For localized work, decide terms without user approval whenever reasonable. Save agent-accepted terms as `confirmed` with `review: agent-led` and a confidence marker, uncertain-but-plausible terms as `candidate`, user-rejected or clearly unsuitable terms as `rejected`, and ask for user or native-speaker review only when best-effort analysis cannot determine whether the term makes sense.
 - Leave `Popularity`, `Difficulty`, `Stats country or region`, `Stats source`, `Stats updated`, and `Strategic score` blank for new terms. Preserve existing statistics and any additional columns.
 - Clear `Strategic score` for rows where `Relevance` is added or changed; preserve it for unchanged rows.
 - Do not overwrite user-confirmed relevance scores unless the user approves the change.
 - For localized terms, fill `Meaning` with a compact, natural back-translation or explanation in a language the user understands.
-- For localized terms, include one review marker in `Notes`: `review: agent-led`, `review: user-approved`, `review: native-approved`, or `review: needs native review`.
+- For localized terms, include one review marker in `Notes`: `review: agent-led`, `review: user-approved`, `review: native-approved`, or `review: needs native review`. Also include one confidence marker: `confidence: high`, `confidence: medium`, or `confidence: low`.
 - Normalize obvious duplicates, but keep meaningful variants, including singular/plural forms, word-order variants, generic and/or reserved terms like "app", developer names, and category terms when they make sense.
 - Use `Notes` for compact context that helps later skills interpret the term, such as source nuance, brand or competitor warnings, intentional spelling or grammar mistakes, long-tail variants, review language, questionable relevance, localization uncertainty, or user verification details.
 - For review-mined terms, note when evidence is isolated, noisy, recurring, or corroborated.
@@ -302,6 +312,7 @@ When researching competitors:
 - Giving semantically equivalent terms different scores because of word order, suffixes, or minor modifiers.
 - Treating relevance `1` or `2` as automatic rejection after the user has confirmed the term.
 - Treating localized `confirmed` as user-approved when its `Notes` marker says `review: agent-led`.
+- Omitting localized confidence markers, especially for terms approved by the agent without user or native-speaker review.
 - Generating translated terms from non-active-language source material.
 - Correcting realistic misspellings or grammar mistakes without checking whether they were intentional.
 - Treating web search volume as App Store demand without caveats.

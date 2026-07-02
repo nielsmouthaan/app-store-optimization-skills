@@ -74,7 +74,7 @@ After approved terms and relevance scores are saved, continue only with confirme
 
 Use `aso-search-terms-statistics` to choose platform/statistics scope and fetch popularity and difficulty for confirmed terms. User-provided Apple Ads Search Popularity on a `1`-`5` scale may be normalized for `Popularity`, but it must not be used as `Difficulty`.
 
-Use the primary locale from context, or let the statistics skill derive or ask for it according to its locale-selection rules. Carry the chosen platform/statistics scope and any platform evidence reuse warnings into `aso-metadata-generation`.
+Use the primary locale from context, or let the statistics skill derive or ask for it according to its locale-selection rules. Carry the chosen platform/statistics scope, primary country or region, any secondary-region validation notes, and any platform evidence reuse warnings into `aso-metadata-generation`.
 
 When all requested statistics are fetched, validated, and fresh enough for the run, continue to search term scoring without a user review gate. If any requested statistic is missing, pending, stale, incompatible, or unusable after the fetch attempt, require a user decision before continuing.
 
@@ -125,6 +125,7 @@ End the workflow with a compact report:
 - primary locale and platforms
 - number of backlog terms, confirmed terms, rejected terms, and scored terms
 - statistics source, update date, and platform/statistics scope
+- primary scoring country or region and any important secondary-region validation notes
 - highest strategic terms and highest-value words
 - metadata draft recommended or saved, including whether a history entry was appended or current metadata was updated
 - field counts and coverage summary

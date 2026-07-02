@@ -101,6 +101,7 @@ Use `.agents/aso/context.md` as the canonical source for:
 - Rejected rows, notes, and competitor warnings that indicate exclusions.
 - Keyword ranking history from `.agents/aso/keyword-rankings.md` when it exists, especially current high-ranking terms that overlap current metadata.
 - Saved strategy guidance from `## Metadata` `### History`, `## Locales`, and compact notes, especially platform keyword reuse guidance or source-language keyword coverage decisions.
+- Statistics country or region scope, including primary scoring country and any secondary-region validation notes that should affect the recommendation.
 
 For localized work, use the locale workspace as the canonical source for:
 
@@ -113,6 +114,7 @@ For localized work, use the locale workspace as the canonical source for:
 - Localized current metadata baseline label
 - Localized keyword ranking history from `.agents/aso/locales/<Locale>/keyword-rankings.md` when it exists
 - Saved cross-locale or source-language strategy notes, such as whether English/source-language queries should be handled by another locale instead of the active localized keyword field
+- Localized statistics country or region scope, including primary scoring country and any secondary-region validation notes that should affect the recommendation
 
 ## Metadata Current And History
 
@@ -127,6 +129,20 @@ Read current and saved metadata from the active workspace's `## Metadata` sectio
 - Apply reusable guidance from recent history entries when it is compatible with the current request and scored search-term evidence.
 - Prefer explicit current-run user instructions over older history guidance. If two saved guidance notes conflict and the current user request does not resolve them, choose the newest relevant guidance and report the tradeoff.
 - Do not store or rely on unsaved generated drafts as history.
+
+## Current Metadata Lint
+
+Before using current metadata as baseline source material, run a quick lint on `### Current` app name, subtitle, and keyword lines. Use lint results to avoid preserving weak current terms by accident. Do not rewrite current metadata unless the user explicitly approves a save, current update, or publish.
+
+Check for:
+
+- keyword separators other than ASCII commas, including full-width commas or list punctuation
+- spaces after keyword commas, duplicate keyword entries, duplicate normalized words across fields, and exact field-count issues
+- likely competitor, protected, app/developer, platform/device, generic app/store, category/free, broad UI, or low-standalone-value terms
+- malformed annotations, invisible whitespace, unnecessary punctuation, or phrase-split roots that look useful only inside a longer phrase
+- spelling, grammar, accent, or casing oddities that could be accidental or intentional ASO variants
+
+Treat spelling warnings carefully. A misspelling, omitted accent, informal grammar form, or local shorthand can be a valid App Store search strategy when user input, source evidence, search evidence, ranking evidence, or saved guidance supports it. If evidence supports the variant, preserve it as an intentional variant and note the rationale. If evidence is missing, do not carry it forward only because it appears in current metadata; ask only when the decision would materially affect the recommendation.
 
 ## Metadata Section Format
 
@@ -206,6 +222,8 @@ Separate inputs into:
 - **Saved metadata guidance:** compact `Guidance:` notes and user-edit rationale from recent `## Metadata` `### History` entries.
 - **Strategy guidance:** saved platform-reuse, localization, and source-language keyword coverage decisions that affect whether words should be reused, omitted, or delegated to another locale.
 - **Platform/statistics scope:** the latest scope from `aso-search-terms-statistics`, such as `target-platform-only`, `all-metadata-platforms`, or `primary-platform-reuse`, plus any platform evidence reuse warnings. If no explicit scope exists, infer it from saved platform evidence and guidance, then report the assumption.
+- **Country or region scope:** primary scoring country or region and any secondary-region validation notes. Do not mix secondary-country validation into primary scoring; use it only as a warning or tie-breaker.
+- **Current metadata lint warnings:** current-field formatting, duplicate, protected-term, generic-term, low-value-root, and spelling/grammar warnings that should affect preservation decisions.
 
 If no eligible search terms or eligible words exist, stop after explaining which upstream step is missing.
 
@@ -383,6 +401,8 @@ In `### Recommendation Rationale`, explain why the recommended draft fits the cu
 - Risk level from competitor/protected terms, category terms, or awkward copy.
 - Guardrail-word decisions, especially high-scoring function, generic, platform, device, or app/store words.
 - Localized compound, tokenization, or source-language coverage caveats.
+- Current metadata lint findings that affected what was preserved, changed, or dropped.
+- Primary country or region fit and any secondary-region validation conflicts.
 - Platform/statistics scope, keyword reuse, platform validation gaps, or `Not generated.` decisions.
 - Evidence label for any practitioner-supported or unresolved placement assumption.
 - Any current metadata words or phrases that may be displaced despite saved history or ranking evidence.
@@ -491,6 +511,8 @@ After saving or publishing, summarize which draft was saved, whether App Store C
 - Counting keywords without including commas.
 - Reporting field counts without checking the exact final strings, especially after follow-up edits.
 - Leaving spaces after commas in keywords.
+- Preserving malformed current keyword formatting, generic current terms, or weak phrase-split roots only because they already exist.
+- Treating misspellings or grammar variants as always wrong, or always valuable, instead of checking whether they are intentional source-backed search behavior.
 - Using stop words or category terms as if they were normal high-value keywords.
 - Using high-scoring function words, platform/device words, or generic app/store words as hidden keywords without a caveated rationale.
 - Assuming compound components, source-language roots, or non-whitespace tokens provide coverage without target-language or ranking evidence.

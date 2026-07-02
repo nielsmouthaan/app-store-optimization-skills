@@ -24,6 +24,7 @@ If the user has not chosen a target locale, ask them to choose the language, loc
 - Choose a platform/statistics scope before fetching localized statistics; do not silently reuse evidence from one platform for another.
 - Fetch popularity and difficulty only for exact localized terms in the target App Store country or region.
 - Derive the country or region from the explicit request, saved `Country or region preference`, or locale default in `references/app-store-localizations.md`. Store a preference only when the default is overridden.
+- For multi-region localized work, let `aso-search-terms-statistics` choose one primary scoring country or region and keep any secondary-region validation separate.
 - Derive any tool country or region parameter at tool-call time; do not store the derived tool parameter as workspace state.
 - Count App Store keyword fields by characters, not bytes.
 - Do not publish or update App Store Connect metadata unless the user explicitly asks for that action.
@@ -178,6 +179,8 @@ Use `aso-search-terms-statistics` to choose and summarize the platform/statistic
 
 Use the active locale's resolved country or region, not the source context's country or region, when fetching statistics. Resolve it from the explicit request, saved `Country or region preference`, or locale default in `references/app-store-localizations.md`. If the ASO tool requires a two-letter country or region parameter, derive it from the resolved country or region ISO code using `references/app-store-localizations.md` or a standard ISO 3166 lookup.
 
+For locales that matter across multiple countries or regions, use the statistics skill to keep one primary scoring country or region and any secondary validation separate. Carry important secondary-region conflicts forward as notes; do not mix secondary values into primary scoring.
+
 Fetch exact localized search terms. Do not translate terms during statistics fetching. Do not reuse popularity or difficulty values from another locale or country or region. User-provided Apple Ads Search Popularity on a `1`-`5` scale may be normalized for `Popularity`, but it must not be used as `Difficulty`.
 
 If imported statistics were fetched for a different country or region than the resolved country or region, treat them as incompatible unless the user explicitly wants exploratory comparison data outside the localized workflow.
@@ -203,6 +206,7 @@ End the workflow with:
 - locale and resolved or preferred country or region when relevant
 - localized workspace path
 - platform/statistics scope and any platform evidence reuse warnings
+- primary scoring country or region and any important secondary-region validation notes
 - number of localized candidate, confirmed, rejected, and scored terms
 - localized review provenance mix and any terms still needing native review
 - statistics source and update date

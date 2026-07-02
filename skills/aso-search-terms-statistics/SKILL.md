@@ -44,11 +44,28 @@ Resolve the App Store country or region before fetching statistics.
 3. Derive the default country or region for the active `Primary locale` or localized workspace `Locale` from `references/app-store-localizations.md`.
 4. Ask the user if no safe default exists.
 
-Use one country or region per run unless the user explicitly asks for statistics across multiple countries or regions.
+Use one primary country or region per run for saved `Popularity` and `Difficulty` values. If the user explicitly asks for multiple countries or regions, or the active locale clearly targets multiple important storefronts, choose one primary scoring country or region and treat the others as secondary validation.
 
 Validate the resolved country or region against Apple's supported App Store localizations when localized work is active. If the resolved country or region does not support the active locale, stop before fetching statistics unless the user explicitly wants exploratory comparison data outside the localized workflow.
 
 If a statistics source requires a two-letter country or region parameter, derive it from the resolved Apple country or region ISO code using `references/app-store-localizations.md` or a standard ISO 3166 lookup. Do not store the derived tool parameter in the workspace.
+
+## Multi-Region Validation
+
+Use multi-region validation only when it can materially improve the recommendation, such as a locale used across several target markets or a user request for broader regional growth.
+
+Keep it simple:
+
+- Save primary-country statistics in the backlog's `Popularity`, `Difficulty`, `Stats country or region`, `Stats source`, and `Stats updated` columns.
+- Keep secondary-country checks out of the primary scoring columns. Record them in `Notes`, a run summary, or a separate comparison artifact when needed.
+- Do not average, merge, or substitute secondary-country values into the primary scoring values.
+- Run secondary checks for the most important terms only when full multi-country collection is not needed for the current decision.
+- Ask the user only when the primary country choice or a secondary-country conflict would materially change metadata recommendations.
+
+Examples:
+
+- For German metadata targeting DACH, use `DEU` as the primary scoring country unless the user specifies otherwise, and optionally validate important terms against `AUT` or `CHE`.
+- For Spanish (Mexico) metadata with U.S. Spanish relevance, use `MEX` as the primary scoring country unless the user specifies otherwise, and optionally validate important terms against `USA`.
 
 ## Platform And Statistics Scope
 
@@ -172,7 +189,7 @@ When updating the table:
 - Append compact statistics notes to `Notes` only when needed; do not erase existing notes.
 - Update `*Last updated:*` in the active context or locale workspace file.
 
-After saving, summarize how many terms were updated, how many had pending or missing values, whether any values were unusable because they were outside the accepted scale, whether any stale statistics were kept, the primary locale or localized workspace used, the resolved country or region, any derived source country or region parameter, any explicit search-surface preference, and the source used.
+After saving, summarize how many terms were updated, how many had pending or missing values, whether any values were unusable because they were outside the accepted scale, whether any stale statistics were kept, the primary locale or localized workspace used, the primary scoring country or region, any secondary-region validation notes, any derived source country or region parameter, any explicit search-surface preference, and the source used.
 
 Also summarize the platform/statistics scope, the primary scoring platform or search surface when relevant, and whether any platform evidence is being reused or left unvalidated for metadata generation.
 
@@ -185,6 +202,7 @@ If all requested statistics are present, validated, and fresh enough for the run
 - Mixing values from different countries or regions without recording the country or region per term.
 - Treating an iPad search-surface preference as a metadata platform choice.
 - Silently reusing one platform's statistics for another platform's keyword field.
+- Mixing primary and secondary country or region statistics in the same scoring columns.
 - Using values that are neither documented `0`-`100` scores nor explicitly accepted Apple Ads `1`-`5` Search Popularity.
 - Storing Apple Ads `1`-`5` Search Popularity without normalizing it first.
 - Inferring difficulty from Apple Ads Search Popularity.

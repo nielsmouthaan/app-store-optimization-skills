@@ -30,15 +30,15 @@ Runs the full ASO metadata optimization workflow for the app's primary or source
 
 1. `aso-context` establishes reusable source app context.
 2. `aso-search-terms-identification` identifies a broad backlog of plausible App Store search-term candidates and assigns relevance scores based on App Store search intent and how well the app satisfies that intent.
-3. `aso-search-terms-statistics` fetches external popularity and difficulty statistics for confirmed search terms. This requires an ASO tool such as [ASO Suite](https://nielsmouthaan.dev/asosuite) or [Astro](https://nielsmouthaan.dev/astro).
+3. `aso-search-terms-statistics` fetches external popularity and difficulty statistics for confirmed search terms, with one primary scoring country or region and optional secondary-region validation when a locale spans important markets. This requires an ASO tool such as [ASO Suite](https://nielsmouthaan.dev/asosuite) or [Astro](https://nielsmouthaan.dev/astro).
 4. `aso-search-terms-scoring` calculates a strategic score for confirmed search terms and per-word value scores from those strategic scores.
-5. `aso-metadata-generation` generates recommended metadata drafts for the shared app name, shared subtitle, and platform-specific keyword fields, with deterministic field-count checks.
+5. `aso-metadata-generation` generates recommended metadata drafts for the shared app name, shared subtitle, and platform-specific keyword fields, with current-metadata linting and deterministic field-count checks.
 
 Use this workflow for the primary locale of the app.
 
 ### `aso-localized-metadata-workflow`
 
-Use this workflow when you want to introduce or improve localized App Store metadata for another locale. It follows an explicit seven-phase flow for global context, locale validation, workspace setup, localized search-term identification, statistics, scoring, and metadata generation. It is the localized counterpart to `aso-metadata-workflow`, intended for metadata that should read naturally for local users instead of as a direct translation of the primary metadata. It uses agent-led localized term decisions by default while keeping reviewer-facing meanings, review provenance, and platform/statistics scope clear.
+Use this workflow when you want to introduce or improve localized App Store metadata for another locale. It follows an explicit seven-phase flow for global context, locale validation, workspace setup, localized search-term identification, statistics, scoring, and metadata generation. It is the localized counterpart to `aso-metadata-workflow`, intended for metadata that should read naturally for local users instead of as a direct translation of the primary metadata. It uses agent-led localized term decisions by default while keeping reviewer-facing meanings, confidence, review provenance, region scope, and platform/statistics scope clear.
 
 ### `aso-search-terms-rankings`
 
