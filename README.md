@@ -60,7 +60,41 @@ This suite works best with:
 
 ## Installation
 
-Installation instructions will be updated later.
+Run installation commands from the repository where you want your agent to use these skills.
+
+### Option 1: CLI Install
+
+Availability and instructions for installing with `npx skills` are coming soon.
+
+### Option 2: Claude Code Plugin
+
+Availability and instructions for installing as a Claude Code plugin are coming soon.
+
+### Option 3: Clone and Copy
+
+Clone this repository and copy the skills into your project's `.agents/skills/` directory:
+
+```bash
+git clone https://github.com/nielsmouthaan/app-store-optimization-skills.git
+mkdir -p .agents/skills
+cp -r app-store-optimization-skills/skills/* .agents/skills/
+```
+
+### Option 4: Git Submodule
+
+Add this repository as a submodule when you want to keep it versioned with your project:
+
+```bash
+git submodule add https://github.com/nielsmouthaan/app-store-optimization-skills.git .agents/app-store-optimization-skills
+```
+
+Then reference skills from `.agents/app-store-optimization-skills/skills/`.
+
+### Option 5: Fork and Customize
+
+1. Fork this repository.
+2. Customize the skills for your app, category, or workflow.
+3. Clone your fork into your projects.
 
 ## Usage
 
