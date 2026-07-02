@@ -22,7 +22,7 @@ This workflow coordinates the specialist ASO skills. It owns sequencing, prerequ
 - Do not generate metadata drafts until confirmed terms have strategic scores and word value scores.
 - Use `aso-search-terms-statistics` to choose platform/statistics scope before fetching statistics, and carry that scope into metadata generation.
 - Use `aso-context` to label the current metadata baseline, and carry that internal provenance into metadata generation.
-- Do not publish, update, or otherwise write to App Store Connect through the [Helm CLI](https://nielsmouthaan.nl/helm) (`helm-asc`), `asc`, the App Store Connect API, or another tool unless the user explicitly reviews and approves that action.
+- Do not publish, update, or otherwise write to App Store Connect through the [Helm CLI](https://nielsmouthaan.dev/helm) (`helm-asc`), `asc`, the App Store Connect API, or another tool unless the user explicitly reviews and approves that action.
 
 ## Workflow Overview
 

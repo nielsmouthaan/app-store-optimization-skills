@@ -54,7 +54,7 @@ Most useful ASO data is not publicly available. Existing keyword fields, keyword
 
 This suite works best with:
 
-- App Store Connect access, typically through agent-accessible tools such as the CLI included with [Helm](https://nielsmouthaan.nl/helm) or [App-Store-Connect-CLI](https://github.com/rorkai/App-Store-Connect-CLI).
+- App Store Connect access, typically through agent-accessible tools such as the CLI included with [Helm](https://nielsmouthaan.dev/helm) or [App-Store-Connect-CLI](https://github.com/rorkai/App-Store-Connect-CLI).
 - ASO statistics and ranking tools, preferably [ASO Suite](https://nielsmouthaan.dev/asosuite) or [Astro](https://nielsmouthaan.dev/astro).
 - A capable AI model with strong reasoning.
 
@@ -134,7 +134,7 @@ It is inspired by the following MIT-licensed projects:
 - Antoine van der Lee's [Xcode Build Optimization Agent Skill](https://github.com/AvdLee/Xcode-Build-Optimization-Agent-Skill)  
   Copyright (c) 2026 Antoine van der Lee
 
-Thanks to the maintainers and builders of community tools, including [ASO Suite](https://nielsmouthaan.dev/asosuite), [Astro](https://nielsmouthaan.dev/astro), [Helm](https://nielsmouthaan.nl/helm), and [App-Store-Connect-CLI](https://github.com/rorkai/App-Store-Connect-CLI).
+Thanks to the maintainers and builders of community tools, including [ASO Suite](https://nielsmouthaan.dev/asosuite), [Astro](https://nielsmouthaan.dev/astro), [Helm](https://nielsmouthaan.dev/helm), and [App-Store-Connect-CLI](https://github.com/rorkai/App-Store-Connect-CLI).
 
 Some links in this README or the skill implementations may be affiliate links.
 
