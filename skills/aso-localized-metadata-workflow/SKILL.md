@@ -69,7 +69,6 @@ Create or update one localized workspace per Apple metadata locale. Keep the wor
 
 ## Source
 **Locale:** German
-**Country or region preference:**
 
 ## Metadata
 
