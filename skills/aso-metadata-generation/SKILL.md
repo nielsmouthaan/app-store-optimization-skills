@@ -101,7 +101,7 @@ Use `.agents/aso/context.md` as the canonical source for:
 - Word value rows with numeric `Value`.
 - Rejected rows, notes, and competitor warnings that indicate exclusions.
 - Keyword ranking history from `.agents/aso/keyword-rankings.md` when it exists, especially current high-ranking terms that overlap current metadata.
-- Saved strategy guidance from `## Metadata` `### History`, `## Locales`, and compact notes, especially platform keyword reuse guidance or source-language keyword coverage decisions.
+- Saved strategy guidance from `## Metadata` `### History`, `## Locales`, and compact notes, especially platform keyword reuse guidance, locale fallback decisions, or source-language keyword coverage decisions.
 - Statistics country or region scope, including primary scoring country and any secondary-region validation notes that should affect the recommendation.
 
 For localized work, use the locale workspace as the canonical source for:
@@ -114,7 +114,7 @@ For localized work, use the locale workspace as the canonical source for:
 - Localized `## Metadata` `### Current` and `### History` entries, including field meanings in metadata annotations when present
 - Localized current metadata baseline label
 - Localized keyword ranking history from `.agents/aso/locales/<Locale>/keyword-rankings.md` when it exists
-- Saved cross-locale or source-language strategy notes, such as whether English/source-language queries should be handled by another locale instead of the active localized keyword field
+- Saved cross-locale, locale fallback, or source-language strategy notes, such as whether English/source-language queries should be handled by another locale instead of the active localized keyword field
 - Localized statistics country or region scope, including primary scoring country and any secondary-region validation notes that should affect the recommendation
 
 ## Metadata Current And History
@@ -130,6 +130,14 @@ Read current and saved metadata from the active workspace's `## Metadata` sectio
 - Apply reusable guidance from recent history entries when it is compatible with the current request and scored search-term evidence.
 - Prefer explicit current-run user instructions over older history guidance. If two saved guidance notes conflict and the current user request does not resolve them, choose the newest relevant guidance and report the tradeoff.
 - Do not store or rely on unsaved generated drafts as history.
+
+## Localized Source-Language Fallback
+
+For localized metadata, avoid adding source-language roots to target-locale hidden keywords only to preserve source-language query coverage. Use saved cross-locale or fallback guidance first. If no saved guidance exists and the target storefront is known, use this suite assumption: storefront default metadata locale, then additional supported locale(s), then the app primary/default locale when storefront-specific metadata is missing.
+
+Treat this as an ASO planning assumption, not an Apple-documented ranking guarantee. Duplicate source-language roots in the active target-locale keyword field only when the user asks, target-locale evidence shows local users search that source-language term, or ranking/history evidence shows fallback coverage is weak.
+
+Example: for German metadata targeting Germany with source English (U.S.), use German roots such as `arbeitszeit` and `zeiterfassung` in the German keyword field. Keep English roots such as `time`, `tracking`, or `timesheet` for English (U.K.) metadata or English (U.S.) fallback unless evidence shows those English roots deserve German-locale keyword budget.
 
 ## Current Metadata Lint
 
@@ -221,7 +229,7 @@ Separate inputs into:
 - **Guardrail words:** stop words, function words, primary/secondary category tokens, category/free words, platform/device words, generic app/store words, brand/developer words, competitor words, protected words, rejected terms, and context-specific exclusions.
 - **Current covered words:** normalized words already present in `## Metadata` `### Current`, if available.
 - **Saved metadata guidance:** compact `Guidance:` notes and user-edit rationale from recent `## Metadata` `### History` entries.
-- **Strategy guidance:** saved platform-reuse, localization, and source-language keyword coverage decisions that affect whether words should be reused, omitted, or delegated to another locale.
+- **Strategy guidance:** saved platform-reuse, localization, locale fallback, and source-language keyword coverage decisions that affect whether words should be reused, omitted, or delegated to another locale.
 - **Platform/statistics scope:** the latest scope from `aso-search-terms-statistics`, such as `target-platform-only`, `all-metadata-platforms`, or `primary-platform-reuse`, plus any platform evidence reuse warnings. If no explicit scope exists, infer it from saved platform evidence and guidance, then report the assumption.
 - **Country or region scope:** primary scoring country or region and any secondary-region validation notes. Do not mix secondary-country validation into primary scoring; use it only as a warning or tie-breaker.
 - **Current metadata lint warnings:** current-field formatting, duplicate, protected-term, generic-term, low-value-root, and spelling/grammar warnings that should affect preservation decisions.
@@ -256,7 +264,7 @@ For the recommended draft:
 1. Draft the app name within 30 characters.
 2. Draft the subtitle within 30 characters without repeating app name words.
 3. For each platform listed in `.agents/aso/context.md` `Platforms`, use the saved platform/statistics scope, platform-specific evidence, and saved guidance to decide whether to generate, reuse, or omit each platform keyword section.
-4. For localized work, check saved source-language or cross-locale strategy before putting pure source-language roots into hidden keywords. If another locale is expected to carry that query coverage, omit those roots unless the user explicitly asks for an exception or current evidence makes omission risky.
+4. For localized work, check saved source-language, cross-locale, or locale fallback strategy before putting pure source-language roots into hidden keywords. If another locale or the app primary/default fallback is expected to carry that query coverage, omit those roots unless the user explicitly asks for an exception or current evidence makes omission risky.
 5. Fill generated platform keyword sections with comma-separated individual roots by default, no spaces after commas, up to 100 characters.
 6. If the platform/statistics scope is `target-platform-only`, generate the target platform keyword section and include `Not generated.` for other platforms unless compatible saved guidance says to reuse the target-platform keywords.
 7. If the platform/statistics scope is `all-metadata-platforms`, generate platform keyword sections only where compatible platform evidence exists; include `Not generated.` for platforms still missing evidence.
@@ -518,6 +526,7 @@ After saving or publishing, summarize which draft was saved, whether App Store C
 - Using high-scoring function words, platform/device words, or generic app/store words as hidden keywords without a caveated rationale.
 - Assuming compound components, source-language roots, or non-whitespace tokens provide coverage without target-language or ranking evidence.
 - Ignoring saved guidance that intentionally mirrors platform keyword fields or delegates source-language query coverage to another locale.
+- Duplicating source-language roots in a target-locale keyword field when supported secondary or app primary/default locale coverage is expected to handle those queries.
 - Silently reusing one platform's keyword evidence for another platform without labeling the evidence source and validation gap.
 - Assuming English singular/plural rules apply to non-English metadata.
 - Presenting practitioner assumptions as Apple-documented ranking rules or treating combined word coverage as guaranteed App Store ranking behavior.

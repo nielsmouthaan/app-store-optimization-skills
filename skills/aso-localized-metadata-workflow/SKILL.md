@@ -53,7 +53,11 @@ Validate that the locale is supported by Apple before generating metadata. Befor
 
 Cross-localization is optional advanced work. Use an additional Apple-supported locale for a territory only when the shared localization reference confirms support and local search evidence justifies the extra workspace.
 
+When source-language query coverage matters, use the fallback assumption from `references/app-store-localizations.md`: storefront default metadata locale, then storefront additional supported locale(s), then the app primary/default locale when storefront-specific metadata is missing. Save a compact strategy note only when it affects keyword duplication or omission decisions.
+
 By default, avoid duplicating keyword terms across locale workspaces for the same territory. If a term is repeated because the user wants a specific phrase or local evidence supports it, mark the reason in `Notes`. Treat exact phrase-combination behavior across locales as `Unresolved`; do not promise that words in different locale fields combine for ranking.
+
+Example: for Germany, German terms belong in the German workspace. English terms usually belong in English (U.K.) if that workspace exists, or may be covered by the app primary/default locale such as English (U.S.) if no Germany-specific English metadata exists. Put English roots in German hidden keywords only when the user asks or evidence shows those English roots need German-locale keyword budget.
 
 ## Workspace Schema
 
@@ -134,6 +138,8 @@ Use `references/app-store-localizations.md` to validate the Apple metadata `Loca
 If the user names only a country or region, choose Apple's default metadata locale for that country or region and mention additional supported locales when useful. If the user names a language or language group, choose the matching Apple metadata locale.
 
 Resolve a country or region only when the user names one, saved context has a `Country or region preference`, source evidence requires one, or the next storefront-specific step needs statistics or rankings. Store `Country or region preference` only when the user or clear source evidence overrides the default country or region for that locale.
+
+If the target country or region has additional supported locales that affect source-language query coverage, record a compact fallback strategy note in the localized workspace or global `## Locales` row. Do not create extra locale workspaces unless the user wants that locale or evidence justifies it.
 
 ### Phase 3: Create Or Update The Localized Workspace
 

@@ -226,6 +226,22 @@ Common rows used by these skills:
 | SWE | Swedish | English (U.K.) |
 | USA | English (U.S.) | Arabic, Chinese (Simplified), Chinese (Traditional), French, Korean, Portuguese (Brazil), Russian, Spanish (Mexico), Vietnamese |
 
+## Storefront Locale Fallback Assumption
+
+Use this ASO planning assumption when deciding whether source-language keywords need to be duplicated in a localized metadata workspace:
+
+1. Prefer the storefront's default metadata locale.
+2. Then use additional metadata locales Apple supports for that storefront.
+3. Then assume the app's primary/default metadata locale can provide fallback coverage when storefront-specific metadata is missing.
+
+This is a practical planning model based on Apple's supported storefront locales and app primary-language behavior, not an Apple-documented guarantee that search terms rank in this exact order or combine across locale fields. Validate important assumptions with ranking evidence when possible.
+
+Examples:
+
+- Germany (`DEU`): plan German first, English (U.K.) as supported secondary English coverage, then the app primary/default locale such as English (U.S.) if German or English (U.K.) metadata is missing.
+- Netherlands (`NLD`): plan Dutch first, English (U.K.) as supported secondary English coverage, then the app primary/default locale if needed.
+- Japan (`JPN`): plan Japanese first, English (U.S.) as supported secondary English coverage, then the app primary/default locale if different.
+
 ## Tool Country Or Region Derivation
 
 Some ASO tools use two-letter country or region parameters while Apple lists three-letter ISO codes on the localization page. Derive the tool parameter when needed; do not store it as workspace state.

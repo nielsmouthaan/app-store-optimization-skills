@@ -38,7 +38,7 @@ Use this workflow for the primary locale of the app.
 
 ### `aso-localized-metadata-workflow`
 
-Use this workflow when you want to introduce or improve localized App Store metadata for another locale. It follows an explicit seven-phase flow for global context, locale validation, workspace setup, localized search-term identification, statistics, scoring, and metadata generation. It is the localized counterpart to `aso-metadata-workflow`, intended for metadata that should read naturally for local users instead of as a direct translation of the primary metadata. It uses agent-led localized term decisions by default while keeping reviewer-facing meanings, confidence, review provenance, region scope, and platform/statistics scope clear.
+Use this workflow when you want to introduce or improve localized App Store metadata for another locale. It follows an explicit seven-phase flow for global context, locale validation, workspace setup, localized search-term identification, statistics, scoring, and metadata generation. It is the localized counterpart to `aso-metadata-workflow`, intended for metadata that should read naturally for local users instead of as a direct translation of the primary metadata. It uses agent-led localized term decisions by default while keeping reviewer-facing meanings, confidence, review provenance, region scope, platform/statistics scope, and simple storefront locale fallback decisions clear.
 
 ### `aso-search-terms-rankings`
 
