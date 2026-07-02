@@ -4,7 +4,7 @@ This suite contains agent skills for App Store Optimization (ASO). It helps you 
 
 The suite is maintained by Niels Mouthaan, the original founder of [ASO Suite](https://nielsmouthaan.dev/asosuite), a Mac-native ASO tool that was sold.
 
-The current skills focus mainly on generating data-backed, ranking-affecting App Store metadata: app name, subtitle, and keywords. The workflow follows a methodology based on the [Advanced App Store Optimization Book](https://www.asoebook.com): identify a broad set of plausible search terms, collect popularity and difficulty statistics, calculate strategic scores, calculate per-word value, and draft metadata that aims to cover as many strategically useful search terms as possible.
+The current skills focus mainly on generating data-backed, ranking-affecting App Store metadata: app name, subtitle, and keywords. The workflow follows a methodology based on the [Advanced App Store Optimization Book](https://www.asoebook.com): identify a broad set of plausible search terms, collect popularity and difficulty statistics, score search terms and words, and draft metadata that helps the app rank for as many relevant keywords as possible while balancing search volume and ranking difficulty.
 
 For example, for a receipt-scanning app, the suite could generate metadata like:
 
@@ -107,7 +107,7 @@ Example prompts:
 - Use `aso-metadata-workflow` to optimize the App Store metadata of this app with the aim of increasing organic search discoverability in the primary region.
 - Use `aso-localized-metadata-workflow` to optimize my App Store metadata for Spanish (Spain), with the aim of increasing organic search discoverability in regions where Spanish (Spain) is applicable.
 - Use `aso-search-terms-rankings` to track current App Store keyword rankings for my confirmed search terms in the primary region on iPhone.
-- Use `aso-search-terms-rankings` to determine whether updated metadata has resulted in better rankings for strategical keywords.
+- Use `aso-search-terms-rankings` to determine whether updated metadata has resulted in better rankings for strategic keywords.
 
 ## Roadmap
 
