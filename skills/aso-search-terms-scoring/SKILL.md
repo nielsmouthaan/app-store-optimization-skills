@@ -1,6 +1,6 @@
 ---
 name: aso-search-terms-scoring
-description: Calculates strategic scores and per-word value scores for confirmed App Store search terms. Use after search terms have relevance scores and popularity/difficulty statistics when prioritizing keywords for App Store optimization metadata planning, keyword focus, character-limited metadata fields, or metadata generation.
+description: Calculates strategic scores and per-word value scores for confirmed App Store search terms. Use after search terms have relevance scores and popularity/difficulty statistics when prioritizing search terms for App Store optimization metadata planning, search term focus, character-limited metadata fields, or metadata generation.
 ---
 
 # ASO Search Terms Scoring
@@ -17,7 +17,7 @@ If the user is working on a localized workspace, also read the relevant `.agents
 
 If it exists:
 
-- Summarize the search-term backlog inputs that matter for scoring.
+- Summarize the search term backlog inputs that matter for scoring.
 - Show confirmed terms in `## Search Terms Backlog` with `Relevance`, `Popularity`, `Difficulty`, `Stats updated`, and existing `Strategic score`.
 - Show existing `## Word Value Scores` when present.
 - Preserve existing statuses, sources, relevance scores, statistics, notes, and any additional backlog columns unless the user corrects them.
@@ -64,7 +64,7 @@ Calculate strategic scores only for rows where:
 
 Do not exclude a confirmed term only because its relevance is `1` or `2`. Low relevance can still be useful as a planning signal when the user confirmed the term and statistics are valid; the formula discounts it strongly.
 
-Use this skill suite's derived prioritization formula exactly. Apple does not publish a strategic keyword scoring formula; this model is a planning aid that combines relevance, popularity, difficulty, and reachability for later metadata decisions.
+Use this skill suite's derived prioritization formula exactly. Apple does not publish a strategic search term scoring formula; this model is a planning aid that combines relevance, popularity, difficulty, and reachability for later metadata decisions.
 
 ```text
 Strategic score = 100 * (Popularity / 100)^0.8 * ((101 - Difficulty) / 100) * (Relevance / 5)^1.5
@@ -98,7 +98,7 @@ When inferable from terms, sources, or `Notes`, mention obvious portfolio patter
 
 ## Word Value Score
 
-Calculate word value scores only from search-term rows where:
+Calculate word value scores only from search term rows where:
 
 - `Status` is exactly `confirmed`.
 - `Strategic score` is numeric.
@@ -130,7 +130,7 @@ Normalize words before calculating:
 - Do not transliterate or remove accents. Count the written characters in the normalized word.
 - Count a word only once per search term, even if the same word appears more than once in that term.
 
-If duplicate normalized search-term rows exist:
+If duplicate normalized search term rows exist:
 
 - If duplicates have the same `Strategic score`, count the search term once.
 - If duplicates have conflicting `Strategic score` values, stop and ask the user to resolve the duplicate rows before calculating.
@@ -163,7 +163,7 @@ For `## Word Value Scores`:
 - Add the section after `## Search Terms Backlog` when it is missing.
 - Replace only the `## Word Value Scores` table when the section already exists.
 - Update only `## Word Value Scores` and `*Last updated:*`.
-- Preserve all search-term backlog rows and columns.
+- Preserve all search term backlog rows and columns.
 - Sort saved rows with the same order used for presentation.
 
 Use `YYYY-MM-DD` for `*Last updated:*`.
@@ -193,6 +193,6 @@ After saving, summarize how many terms received strategic scores, how many terms
 ## Related Skills
 
 - Use `aso-context` to create or update shared app context.
-- Use `aso-search-terms-identification` to create or expand the search-term backlog and assign relevance scores.
+- Use `aso-search-terms-identification` to create or expand the search term backlog and assign relevance scores.
 - Use `aso-search-terms-statistics` to fetch popularity and difficulty before scoring.
 - Use `aso-metadata-generation` after scoring to generate metadata drafts from strategic scores and word value scores.

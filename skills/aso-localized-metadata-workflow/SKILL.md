@@ -1,6 +1,6 @@
 ---
 name: aso-localized-metadata-workflow
-description: Runs the localized App Store optimization workflow for a chosen non-source language, locale, country or region, storefront, or Apple country or region ISO code. Use when a prompt names a target language, locale, country or region, translated keywords, localized search terms, or per-market app name, subtitle, and keywords. For primary/source metadata, use aso-metadata-workflow.
+description: Runs the localized App Store optimization workflow for a chosen non-source language, locale, country or region, storefront, or Apple country or region ISO code. Use when a prompt names a target language, locale, country or region, translated `Keywords` field values, localized search terms, or per-market app name, subtitle, and `Keywords` fields. For primary/source metadata, use aso-metadata-workflow.
 ---
 
 # ASO Localized Metadata Workflow
@@ -15,7 +15,7 @@ If the user has not chosen a target locale, ask them to choose the language, loc
 
 - Use `.agents/aso/context.md` for global app context and source-locale search terms.
 - Use `.agents/aso/locales/<Locale>/context.md` for localized metadata work.
-- Do not duplicate the full source search-term backlog into localized workspaces.
+- Do not duplicate the full source search term backlog into localized workspaces.
 - Use source terms as intent inspiration, not as strings to translate literally.
 - Treat localized metadata as research-led, not translation-led. Localized terms must come from target-locale search behavior, native vocabulary, or clear local evidence.
 - Store a concise, natural `Meaning` for each localized term so users who do not know the language can audit it.
@@ -26,7 +26,7 @@ If the user has not chosen a target locale, ask them to choose the language, loc
 - Derive the country or region from the explicit request, saved `Country or region preference`, or locale default in `references/app-store-localizations.md`. Store a preference only when the default is overridden.
 - For multi-region localized work, let `aso-search-terms-statistics` choose one primary scoring country or region and keep any secondary-region validation separate.
 - Derive any tool country or region parameter at tool-call time; do not store the derived tool parameter as workspace state.
-- Count App Store keyword fields by characters, not bytes.
+- Count App Store `Keywords` fields by characters, not bytes.
 - Do not publish or update App Store Connect metadata unless the user explicitly asks for that action.
 
 ## Locale And Country Or Region Setup
@@ -53,11 +53,11 @@ Validate that the locale is supported by Apple before generating metadata. Befor
 
 Cross-localization is optional advanced work. Use an additional Apple-supported locale for a territory only when the shared localization reference confirms support and local search evidence justifies the extra workspace.
 
-When source-language query coverage matters, use the fallback assumption from `references/app-store-localizations.md`: storefront default metadata locale, then storefront additional supported locale(s), then the app primary/default locale when storefront-specific metadata is missing. Save a compact strategy note only when it affects keyword duplication or omission decisions.
+When source-language search term coverage matters, use the fallback assumption from `references/app-store-localizations.md`: storefront default metadata locale, then storefront additional supported locale(s), then the app primary/default locale when storefront-specific metadata is missing. Save a compact strategy note only when it affects `Keywords` field duplication or omission decisions.
 
-By default, avoid duplicating keyword terms across locale workspaces for the same territory. If a term is repeated because the user wants a specific phrase or local evidence supports it, mark the reason in `Notes`. Treat exact phrase-combination behavior across locales as `Unresolved`; do not promise that words in different locale fields combine for ranking.
+By default, avoid duplicating `Keywords` field values across locale workspaces for the same territory. If a value is repeated because the user wants a specific phrase or local evidence supports it, mark the reason in `Notes`. Treat exact phrase-combination behavior across locales as `Unresolved`; do not promise that words in different locale fields combine for ranking.
 
-Example: for Germany, German terms belong in the German workspace. English terms usually belong in English (U.K.) if that workspace exists, or may be covered by the app primary/default locale such as English (U.S.) if no Germany-specific English metadata exists. Put English roots in German hidden keywords only when the user asks or evidence shows those English roots need German-locale keyword budget.
+Example: for Germany, German terms belong in the German workspace. English terms usually belong in English (U.K.) if that workspace exists, or may be covered by the app primary/default locale such as English (U.S.) if no Germany-specific English metadata exists. Put English roots in German hidden `Keywords` fields only when the user asks or evidence shows those English roots need German-locale `Keywords` field budget.
 
 ## Workspace Schema
 
@@ -128,7 +128,7 @@ After every phase, summarize the target locale, localized workspace path, resolv
 
 Read `.agents/aso/context.md` first.
 
-The global context should contain source app facts, primary locale, platforms, source metadata under `## Metadata` `### Current`, saved source metadata history, source search terms, source relevance, and original App Store Connect keyword field terms by platform when available.
+The global context should contain source app facts, primary locale, platforms, source metadata under `## Metadata` `### Current`, saved source metadata history, source search terms, source relevance, and original App Store Connect `Keywords` field values by platform when available.
 
 ### Phase 2: Choose And Validate Target Metadata Locale
 
@@ -196,13 +196,13 @@ Use `aso-search-terms-scoring` to calculate localized strategic scores and word 
 
 ### Phase 7: Generate Localized Metadata
 
-Generate app name, subtitle, and platform keyword sections for the target locale. Visible fields must read naturally for the target language. Each generated keyword section must fit this suite's 100-character App Store keyword limit. Use portfolio balance so localized drafts do not overfit to only broad head terms or only long-tail terms.
+Generate app name, subtitle, and platform `Keywords` field sections for the target locale. Visible fields must read naturally for the target language. Each generated `Keywords` field section must fit this suite's 100-character App Store `Keywords` field limit. Use portfolio balance so localized drafts do not overfit to only broad head terms or only long-tail terms.
 
 Use `aso-metadata-generation` for one recommended localized draft. It uses the same grouped draft structure as source-locale drafts. When saved, localized metadata uses compact field annotations for counts and meanings, such as `*(18/30, scan invoices)`.
 
 For non-English locales, do not apply English plural, stemming, stop-word, or category-term assumptions unless target-language evidence supports the decision.
 
-After localized metadata goes live, recommend checking keyword rankings periodically with `aso-search-terms-rankings`.
+After localized metadata goes live, recommend checking search term rankings periodically with `aso-search-terms-rankings`.
 
 ## Completion Report
 
@@ -225,7 +225,7 @@ If metadata was only saved as a draft, state that App Store Connect was not upda
 ## Related Skills
 
 - Use `aso-context` to create or update global app context.
-- Use `aso-search-terms-identification` for localized search-term discovery and relevance assignment.
+- Use `aso-search-terms-identification` for localized search term discovery and relevance assignment.
 - Use `aso-search-terms-statistics` for target country or region popularity and difficulty.
 - Use `aso-search-terms-scoring` for localized strategic and word value scores.
 - Use `aso-metadata-generation` for localized metadata drafts.

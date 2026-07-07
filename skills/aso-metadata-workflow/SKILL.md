@@ -1,6 +1,6 @@
 ---
 name: aso-metadata-workflow
-description: Runs the end-to-end App Store optimization workflow for the app's primary or source metadata language. Use for full primary listing optimization, organic search metadata work, or coordinating context, search-term identification, relevance assignment and validation, statistics, strategic scoring, and metadata drafts. For other languages, countries or regions, use aso-localized-metadata-workflow.
+description: Runs the end-to-end App Store optimization workflow for the app's primary or source metadata language. Use for full primary listing optimization, organic search metadata work, or coordinating context, search term identification, relevance assignment and validation, statistics, strategic scoring, and metadata drafts. For other languages, countries or regions, use aso-localized-metadata-workflow.
 ---
 
 # ASO Metadata Workflow
@@ -17,7 +17,7 @@ This workflow coordinates the specialist ASO skills. It owns sequencing, prerequ
 - Keep localized work in `.agents/aso/locales/<Locale>/context.md` through `aso-localized-metadata-workflow`; do not run multi-locale work inside this source workflow.
 - Read the relevant specialist skill before executing each phase, then follow that skill's workflow.
 - Do not duplicate formulas, scoring rubrics, metadata field rules, or table schemas from specialist skills.
-- Stop for user review before saving user-judgment inputs: app context, search-term backlog, relevance scores, and final metadata choices.
+- Stop for user review before saving user-judgment inputs: app context, search term backlog, relevance scores, and final metadata choices.
 - Do not estimate popularity or difficulty. They must come from an external ASO statistics source.
 - Do not generate metadata drafts until confirmed terms have strategic scores and word value scores.
 - Use `aso-search-terms-statistics` to choose platform/statistics scope before fetching statistics, and carry that scope into metadata generation.
@@ -53,16 +53,16 @@ The context must identify, when available:
 - App Store Connect platforms
 - App Store URL
 - marketing URL
-- App Store Connect keyword field terms by platform
+- App Store Connect `Keywords` field values by platform
 - app metadata under `## Metadata` `### Current`, compact saved metadata `### History`, primary category, secondary category, use cases, features, reviews, and competitors
 
 Private App Store Connect metadata collection and source-gap handling belong to `aso-context`; follow that skill instead of duplicating retrieval steps here.
 
-Stop after drafting or updating the context. Ask the user to confirm what is incorrect, missing, or misleading before treating the context as ready for search-term work. If no approved context exists yet, keep the draft in the response until approval.
+Stop after drafting or updating the context. Ask the user to confirm what is incorrect, missing, or misleading before treating the context as ready for search term work. If no approved context exists yet, keep the draft in the response until approval.
 
 ## Phase 2: Identify Search Terms And Assign And Validate Relevance
 
-Use `aso-search-terms-identification` to create or expand the search-term backlog and assign user-reviewed `1`-`5` relevance scores.
+Use `aso-search-terms-identification` to create or expand the search term backlog and assign user-reviewed `1`-`5` relevance scores.
 
 Before proceeding, confirm that the backlog is broad enough for later scoring, includes plausible App Store search phrases, source notes, useful variants, and approved relevance groups.
 
@@ -104,7 +104,7 @@ Generate one recommended metadata draft and coverage analysis for the active sou
 
 Save a draft, update current context metadata, or publish to App Store Connect only when the user explicitly approves the relevant save or publish action. Saved drafts, user-edited drafts, current approvals, and published snapshots are recorded under `## Metadata` `### History`; only explicit current approvals or successful publishes update `## Metadata` `### Current`.
 
-After metadata goes live, recommend checking keyword rankings periodically with `aso-search-terms-rankings`.
+After metadata goes live, recommend checking search term rankings periodically with `aso-search-terms-rankings`.
 
 ## Review Gates
 
@@ -112,7 +112,7 @@ Use these gates to decide whether the workflow can continue:
 
 | Gate | Required user or tool confirmation | Next phase |
 | --- | --- | --- |
-| Context approved | User confirms app context and source gaps are acceptable | Search-term identification plus relevance assignment and validation |
+| Context approved | User confirms app context and source gaps are acceptable | Search term identification plus relevance assignment and validation |
 | Search terms and relevance approved | User accepts, rejects, corrects, adds, or moves proposed terms between relevance groups; accepted terms are saved as `confirmed` with `Relevance` | Statistics fetching |
 | Statistics available | External source provides complete validated popularity and difficulty for the target country or region, with Apple Ads normalization allowed for popularity only; incomplete statistics require a user decision before continuing | Search term scoring |
 | Search term scores saved | Eligible confirmed terms have derived strategic scores and word value scores are saved in context | Metadata generation |
@@ -136,7 +136,7 @@ If metadata was only saved as a draft, state that App Store Connect was not upda
 ## Related Skills
 
 - Use `aso-context` to create or update shared app context.
-- Use `aso-search-terms-identification` to create or expand the search-term backlog and assign user-reviewed relevance scores.
+- Use `aso-search-terms-identification` to create or expand the search term backlog and assign user-reviewed relevance scores.
 - Use `aso-search-terms-statistics` to fetch popularity and difficulty.
 - Use `aso-search-terms-scoring` to calculate derived strategic scores and per-word value scores.
 - Use `aso-metadata-generation` to generate a recommended metadata draft and save approved drafts, edits, current choices, or published snapshots.

@@ -1,6 +1,6 @@
 ---
 name: aso-search-terms-statistics
-description: Fetches App Store search-term popularity and difficulty statistics from App Store optimization tools, normalized Apple Ads Search Popularity, or user-provided exports. Use after search terms have been identified and relevance-scored, when refreshing stale keyword metrics, or when the user asks for exploratory statistics on candidate or rejected terms.
+description: Fetches App Store search term popularity and difficulty statistics from App Store optimization tools, normalized Apple Ads Search Popularity, or user-provided exports. Use after search terms have been identified and relevance-scored, when refreshing stale search term metrics, or when the user asks for exploratory statistics on candidate or rejected terms.
 ---
 
 # ASO Search Terms Statistics
@@ -69,13 +69,13 @@ Examples:
 
 ## Platform And Statistics Scope
 
-Choose a platform/statistics scope before fetching when multiple App Store Connect metadata platforms exist, a target platform is saved, or the user asks about platform-specific keyword fields. Keep `Platforms` as App Store Connect metadata platforms, and derive any search surface or tool parameter only at tool-call time from `references/platforms.md`, the tool's skill, CLI help, or documentation.
+Choose a platform/statistics scope before fetching when multiple App Store Connect metadata platforms exist, a target platform is saved, or the user asks about platform-specific `Keywords` fields. Keep `Platforms` as App Store Connect metadata platforms, and derive any search surface or tool parameter only at tool-call time from `references/platforms.md`, the tool's skill, CLI help, or documentation.
 
 Use one of these scope labels in the run summary:
 
 - `target-platform-only`: Fetch statistics for the requested or saved target platform/search surface. Record that only target-platform evidence is available for downstream metadata generation.
-- `all-metadata-platforms`: Fetch or collect compatible evidence for every metadata platform that needs its own keyword field. If the active backlog has only one `Popularity` and `Difficulty` column, choose one primary scoring platform for saved values and record secondary platform checks in `Notes` or a separate artifact instead of mixing platform values in one row.
-- `primary-platform-reuse`: Fetch statistics for the primary platform only because saved guidance says to mirror or reuse keyword fields across platforms, or one platform is clearly primary. Mark the run summary as primary-platform evidence intended for reuse and warn that platform-specific validation is still missing.
+- `all-metadata-platforms`: Fetch or collect compatible evidence for every metadata platform that needs its own `Keywords` field. If the active backlog has only one `Popularity` and `Difficulty` column, choose one primary scoring platform for saved values and record secondary platform checks in `Notes` or a separate artifact instead of mixing platform values in one row.
+- `primary-platform-reuse`: Fetch statistics for the primary platform only because saved guidance says to mirror or reuse `Keywords` fields across platforms, or one platform is clearly primary. Mark the run summary as primary-platform evidence intended for reuse and warn that platform-specific validation is still missing.
 
 If no platform scope is explicit and only one metadata platform exists, use that platform. If multiple metadata platforms exist and no saved guidance identifies a target or reuse strategy, choose the most relevant platform from the current user request or ask only when the choice would materially change the metadata recommendation.
 
@@ -86,7 +86,7 @@ Before fetching, check whether a statistics source is available in the current e
 Prefer sources in this order:
 
 1. **ASO Suite CLI or skill** when `asosuite` is available.
-2. **Astro MCP** when relevant Astro tools are exposed and can return keyword popularity and difficulty for the target country or region.
+2. **Astro MCP** when relevant Astro tools are exposed and can return search term popularity and difficulty for the target country or region.
 3. **User-provided Apple Ads Search Popularity** on a `1`-`5` scale for popularity only, when it matches the target country or region and platform or no conflict is present.
 4. Another user-provided ASO export or tool that clearly provides App Store popularity and difficulty values for the same country or region.
 
@@ -142,9 +142,9 @@ When using any statistics source:
 - Prefer structured output when the source supports it.
 - Use the resolved Apple country or region for the run, and derive any tool-specific country or region parameter only at tool-call time.
 - Map the requested platform or search surface to tool-specific parameters only at tool-call time using `references/platforms.md`, the tool's skill, CLI help, or documentation.
-- Use the app URL or app ID from context when the source supports app-bound statistics, but do not require app-bound data when the user only needs keyword-level popularity and difficulty.
+- Use the app URL or app ID from context when the source supports app-bound statistics, but do not require app-bound data when the user only needs per-search term popularity and difficulty.
 
-Use the returned keyword metrics according to `## Metric Validation`. Store the resolved Apple country or region ISO code in `Stats country or region`, the source in `Stats source`, the date in `Stats updated`, and compact notes when a value could not be used. Record unresolved tool-parameter derivation, search-surface preference, or mismatch notes in `Notes`.
+Use the returned search term metrics according to `## Metric Validation`. Store the resolved Apple country or region ISO code in `Stats country or region`, the source in `Stats source`, the date in `Stats updated`, and compact notes when a value could not be used. Record unresolved tool-parameter derivation, search-surface preference, or mismatch notes in `Notes`.
 
 If a value is pending or missing:
 
@@ -201,7 +201,7 @@ If all requested statistics are present, validated, and fresh enough for the run
 - Using the US store for every language.
 - Mixing values from different countries or regions without recording the country or region per term.
 - Treating an iPad search-surface preference as a metadata platform choice.
-- Silently reusing one platform's statistics for another platform's keyword field.
+- Silently reusing one platform's statistics for another platform's `Keywords` field.
 - Mixing primary and secondary country or region statistics in the same scoring columns.
 - Using values that are neither documented `0`-`100` scores nor explicitly accepted Apple Ads `1`-`5` Search Popularity.
 - Storing Apple Ads `1`-`5` Search Popularity without normalizing it first.
@@ -217,5 +217,5 @@ If all requested statistics are present, validated, and fresh enough for the run
 ## Related Skills
 
 - Use `aso-context` to create or update shared app context.
-- Use `aso-search-terms-identification` to create or expand the search-term backlog and assign relevance scores before prioritization.
+- Use `aso-search-terms-identification` to create or expand the search term backlog and assign relevance scores before prioritization.
 - Use `aso-search-terms-scoring` to calculate derived priority scores after popularity and difficulty are saved.

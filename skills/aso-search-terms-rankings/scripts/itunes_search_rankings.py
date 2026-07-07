@@ -21,7 +21,7 @@ SOURCE = "iTunes Search API"
 WARNING = (
     "iTunes Search API rankings are somewhat unreliable search result positions "
     "that can differ from reality, but may still be representative of "
-    "search-term performance."
+    "search term performance."
 )
 ENTITY_BY_PLATFORM = {
     "iphone": "software",

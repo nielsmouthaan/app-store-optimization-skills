@@ -17,7 +17,7 @@ Apple-documented indexed or searchable inputs for core app metadata:
 
 - App name/title
 - Subtitle
-- Keyword field
+- `Keywords` field
 - Primary category
 - Company/developer name for branded findability
 
@@ -25,7 +25,7 @@ Apple also says primary and optional secondary categories are indexed, but Apple
 
 ## Conversion-Oriented Fields
 
-These fields can affect whether a search impression becomes a tap or install, but Apple does not document them as core keyword-ranking fields:
+These fields can affect whether a search impression becomes a tap or install, but Apple does not document them as core search term ranking fields:
 
 - Promotional text
 - Description
@@ -33,7 +33,7 @@ These fields can affect whether a search impression becomes a tap or install, bu
 - Screenshots
 - App previews
 
-Use these fields as context for product language, clarity, and conversion. Do not use them as keyword buckets for App Store search metadata generation.
+Use these fields as context for product language, clarity, and conversion. Do not use them as `Keywords` fields for App Store search metadata generation.
 
 ## Statistics Handling
 
@@ -45,14 +45,14 @@ Use these fields as context for product language, clarity, and conversion. Do no
 
 ## Practitioner-Supported Drafting Rules
 
-- Use app name, subtitle, then keyword field as a priority order for placement, but label this as practitioner-supported rather than Apple-documented.
+- Use app name, subtitle, then `Keywords` field as a priority order for placement, but label this as practitioner-supported rather than Apple-documented.
 - Avoid duplicate words across indexed fields; Apple discourages duplicates and practitioner evidence strongly supports avoiding them.
-- Use the keyword field for unique remaining terms and efficient roots by default.
+- Use the `Keywords` field for unique remaining terms and efficient roots by default.
 - Preserve phrases only when splitting would change meaning or when a confirmed high-value term justifies the character cost.
 
 ## Unresolved Claims
 
-- Apple does not publish exact relative weights for app name, subtitle, keyword field, and category.
-- Apple documentation and ASO sources may use mixed character/byte wording for keyword limits; this skill suite uses 100 characters for implementation.
+- Apple does not publish exact relative weights for app name, subtitle, `Keywords` field, and category.
+- Apple documentation and ASO sources may use mixed character/byte wording for `Keywords` field limits; this skill suite uses 100 characters for implementation.
 - Exact phrase-combination mechanics, especially across localizations, are not Apple-documented.
 - Screenshot text and description semantics are not documented as direct App Store search text-relevance inputs.

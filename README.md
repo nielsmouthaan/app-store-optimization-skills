@@ -4,7 +4,7 @@ This suite contains agent skills for App Store Optimization (ASO). It helps you 
 
 The suite is maintained by Niels Mouthaan, the original founder of [ASO Suite](https://nielsmouthaan.dev/asosuite), a Mac-native ASO tool that was sold.
 
-The current skills focus mainly on generating data-backed, ranking-affecting App Store metadata: app name, subtitle, and keywords. The workflow follows a methodology based on the [Advanced App Store Optimization Book](https://www.asoebook.com): identify a broad set of plausible search terms, collect popularity and difficulty statistics, score search terms and words, and draft metadata that helps the app rank for as many relevant keywords as possible while balancing search volume and ranking difficulty.
+The current skills focus mainly on generating data-backed, ranking-affecting App Store metadata: app name, subtitle, and App Store Connect `Keywords` fields. The workflow follows a methodology based on the [Advanced App Store Optimization Book](https://www.asoebook.com): identify a broad set of plausible search terms, collect popularity and difficulty statistics, score search terms and words, and draft metadata that helps the app rank for as many relevant search terms as possible while balancing search volume and ranking difficulty.
 
 For example, for a receipt-scanning app, the suite could generate metadata like:
 
@@ -29,20 +29,20 @@ This repository contains two workflow skills and several specialist skills used 
 Runs the full ASO metadata optimization workflow for the app's primary or source metadata language. It coordinates a numbered five-phase flow:
 
 1. `aso-context` establishes reusable source app context.
-2. `aso-search-terms-identification` identifies a broad backlog of plausible App Store search-term candidates, extracts compact search-result evidence, and assigns relevance scores based on App Store search intent and how well the app satisfies that intent.
+2. `aso-search-terms-identification` identifies a broad backlog of plausible App Store search term candidates, extracts compact search-result evidence, and assigns relevance scores based on App Store search intent and how well the app satisfies that intent.
 3. `aso-search-terms-statistics` fetches external popularity and difficulty statistics for confirmed search terms, with one primary scoring country or region and optional secondary-region validation when a locale spans important markets. This requires an ASO tool such as [ASO Suite](https://nielsmouthaan.dev/asosuite) or [Astro](https://nielsmouthaan.dev/astro).
 4. `aso-search-terms-scoring` calculates a strategic score for confirmed search terms, flags low-relevance high-score outliers, and calculates per-word value scores from those strategic scores.
-5. `aso-metadata-generation` generates recommended metadata drafts for the shared app name, shared subtitle, and platform-specific keyword fields, with current-metadata linting and deterministic field-count checks.
+5. `aso-metadata-generation` generates recommended metadata drafts for the shared app name, shared subtitle, and platform-specific `Keywords` fields, with current-metadata linting and deterministic field-count checks.
 
 Use this workflow for the primary locale of the app.
 
 ### `aso-localized-metadata-workflow`
 
-Use this workflow when you want to introduce or improve localized App Store metadata for another locale. It follows an explicit seven-phase flow for global context, locale validation, workspace setup, localized search-term identification, statistics, scoring, and metadata generation. It is the localized counterpart to `aso-metadata-workflow`, intended for metadata that should read naturally for local users instead of as a direct translation of the primary metadata. It uses agent-led localized term decisions by default while keeping reviewer-facing meanings, confidence, review provenance, region scope, platform/statistics scope, and simple storefront locale fallback decisions clear.
+Use this workflow when you want to introduce or improve localized App Store metadata for another locale. It follows an explicit seven-phase flow for global context, locale validation, workspace setup, localized search term identification, statistics, scoring, and metadata generation. It is the localized counterpart to `aso-metadata-workflow`, intended for metadata that should read naturally for local users instead of as a direct translation of the primary metadata. It uses agent-led localized term decisions by default while keeping reviewer-facing meanings, confidence, review provenance, region scope, platform/statistics scope, and simple storefront locale fallback decisions clear.
 
 ### `aso-search-terms-rankings`
 
-Tracks keyword rankings and ranking trends for confirmed search terms. This is useful after metadata changes go live, and it works well as a scheduled check. It saves a validated ranking overview and history artifact with clear best/worst rank semantics.
+Tracks search term rankings and ranking trends for confirmed search terms. This is useful after metadata changes go live, and it works well as a scheduled check. It saves a validated ranking overview and history artifact with clear best/worst rank semantics.
 
 The skill attempts to use ASO tools such as [ASO Suite](https://nielsmouthaan.dev/asosuite) or [Astro](https://nielsmouthaan.dev/astro) when available. If no supported tool is available, it can fall back to the less accurate iTunes Search API.
 
@@ -50,7 +50,7 @@ The suite also includes `aso-context` as an internal foundation skill for reusab
 
 ## Limitations
 
-Most useful ASO data is not publicly available. Existing keyword fields, keyword popularity, difficulty, and accurate rankings usually require access to external systems.
+Most useful ASO data is not publicly available. Existing `Keywords` fields, search term popularity, difficulty, and accurate search term rankings usually require access to external systems.
 
 This suite works best with:
 
@@ -106,14 +106,14 @@ Example prompts:
 
 - Use `aso-metadata-workflow` to optimize the App Store metadata of this app with the aim of increasing organic search discoverability in the primary region.
 - Use `aso-localized-metadata-workflow` to optimize my App Store metadata for Spanish (Spain), with the aim of increasing organic search discoverability in regions where Spanish (Spain) is applicable.
-- Use `aso-search-terms-rankings` to track current App Store keyword rankings for my confirmed search terms in the primary region on iPhone.
-- Use `aso-search-terms-rankings` to determine whether updated metadata has resulted in better rankings for strategic keywords.
+- Use `aso-search-terms-rankings` to track current App Store search term rankings for my confirmed search terms in the primary region on iPhone.
+- Use `aso-search-terms-rankings` to determine whether updated metadata has resulted in better rankings for strategic search terms.
 
 ## Roadmap
 
 App Store optimization goes beyond organic-search metadata. Future skill-suite extensions may cover:
 
-- Removing dependencies on ASO tools for obtaining search-term statistics, with the goal of making agentic ASO entirely free
+- Removing dependencies on ASO tools for obtaining search term statistics, with the goal of making agentic ASO entirely free
 - Suggesting locales for metadata optimization based on evidence
 - Metadata optimization for custom product pages
 - Full product page analysis and localization, including screenshots and app previews

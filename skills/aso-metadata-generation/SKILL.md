@@ -1,6 +1,6 @@
 ---
 name: aso-metadata-generation
-description: Generates one recommended App Store metadata draft and coverage analysis from scored search terms. Use after search-term scoring to create app name, subtitle, keyword field drafts, keyword placement recommendations, or source-locale and localized metadata drafts.
+description: Generates one recommended App Store metadata draft and coverage analysis from scored search terms. Use after search term scoring to create app name, subtitle, `Keywords` field drafts, `Keywords` field placement recommendations, or source-locale and localized metadata drafts.
 ---
 
 # ASO Metadata Generation
@@ -20,7 +20,7 @@ If it exists:
 - Summarize the app context that matters for metadata generation.
 - Identify the source `Primary locale`, optional `Country or region preference`, `Platforms`, and any `Search surface preference`.
 - For localized work, identify the source `Primary locale`, target `Locale`, optional `Country or region preference`, localized terms, and `Meaning` values.
-- Show `## Metadata` `### Current`, recent saved `### History` entries with useful guidance, confirmed rows in `## Search Terms Backlog` with `Strategic score`, saved `## Word Value Scores`, and keyword ranking artifacts when they exist.
+- Show `## Metadata` `### Current`, recent saved `### History` entries with useful guidance, confirmed rows in `## Search Terms Backlog` with `Strategic score`, saved `## Word Value Scores`, and search term ranking artifacts when they exist.
 - Preserve existing source context, backlog rows, statuses, scores, statistics, notes, metadata, and any additional columns unless the user explicitly corrects them.
 
 If it does not exist or lacks meaningful app context:
@@ -42,7 +42,7 @@ If confirmed search terms are missing numeric `Strategic score` values:
 If `## Word Value Scores` is missing or empty:
 
 - Use `aso-search-terms-scoring` first.
-- Do not calculate metadata from search-term rows alone unless the user explicitly asks for a manual draft without word value scoring.
+- Do not calculate metadata from search term rows alone unless the user explicitly asks for a manual draft without word value scoring.
 
 ## Reference Lists
 
@@ -52,9 +52,9 @@ Load reference lists only when they are needed for the current metadata run:
 - Use `references/app-store-category-terms.md` when evaluating English category/free words or comparing English metadata words against App Store category names.
 - Use `references/app-store-search-metadata-evidence.md` when a recommendation needs an evidence label or a documented-versus-practitioner distinction.
 
-The reference lists are guardrails, not absolute bans. English stop words and category terms are usually poor use of the 100-character keywords budget, but they may still belong in visible metadata when they make the app name or subtitle natural and conversion-safe. Do not apply English stop-word or category-term assumptions to non-English metadata unless target-language evidence supports the decision.
+The reference lists are guardrails, not absolute bans. English stop words and category terms are usually poor use of the 100-character `Keywords` field budget, but they may still belong in visible metadata when they make the app name or subtitle natural and conversion-safe. Do not apply English stop-word or category-term assumptions to non-English metadata unless target-language evidence supports the decision.
 
-For non-English metadata, treat obvious target-language function words such as articles, prepositions, conjunctions, particles, and contractions as guardrail words even when they score highly. Use them in visible metadata when needed for natural language, but put them in hidden keywords only when an exact high-value phrase justifies the character cost. Label that decision as caveated when evidence is not conclusive.
+For non-English metadata, treat obvious target-language function words such as articles, prepositions, conjunctions, particles, and contractions as guardrail words even when they score highly. Use them in visible metadata when needed for natural language, but put them in hidden `Keywords` fields only when an exact high-value phrase justifies the character cost. Label that decision as caveated when evidence is not conclusive.
 
 ## Field Rules
 
@@ -64,44 +64,44 @@ Generate App Store metadata only:
 | --- | --- | --- |
 | App name | 2-30 characters | Highest-priority visible search field. Relative field weight is practitioner-supported, not Apple-documented. Must be readable, distinctive, and not misleading. Brand may be kept when recognition matters. Use the limit efficiently, but do not force the full 30 characters when that makes the name weaker. |
 | Subtitle | Up to 30 characters | Visible under the app name. Use for a clear benefit, use case, or secondary high-value phrase. Do not repeat app name words. Use the limit efficiently, but do not force the full 30 characters when that makes the subtitle weaker. |
-| Platform keywords | 100 characters per platform | Hidden fields are saved as `**Keywords (<platform>):**` metadata lines. Use comma-separated entries with no spaces after commas. Default to individual roots for efficient practitioner-supported coverage; preserve a phrase with spaces only when splitting would change meaning or when a confirmed high-value term explicitly justifies it. |
+| Platform `Keywords` fields | 100 characters per platform | Hidden fields are saved as `**Keywords (<platform>):**` metadata lines. Use comma-separated entries with no spaces after commas. Default to individual roots for efficient practitioner-supported coverage; preserve a phrase with spaces only when splitting would change meaning or when a confirmed high-value term explicitly justifies it. |
 
 Apply these rules:
 
-- Count app name, subtitle, and each platform keyword section as characters.
-- Count commas in platform keyword sections.
-- Before presenting, saving, or applying a generated draft, run `scripts/count_metadata_chars.py` or an equivalent deterministic counter on the exact final app name, subtitle, and keyword strings. If any string changes after user feedback, rerun the count before responding.
-- Keep each keyword entry greater than two characters unless the user explicitly accepts a shorter exception.
-- Do not repeat normalized words across app name, subtitle, and each generated keyword section. Use field priority order: app name, then subtitle, then platform keywords.
-- Treat primary category as Apple-documented indexed metadata; treat secondary category as indexed but with less clearly documented relative importance. Treat primary and secondary category tokens as already covered for keyword-field planning.
+- Count app name, subtitle, and each platform `Keywords` field section as characters.
+- Count commas in platform `Keywords` field sections.
+- Before presenting, saving, or applying a generated draft, run `scripts/count_metadata_chars.py` or an equivalent deterministic counter on the exact final app name, subtitle, and `Keywords` field strings. If any string changes after user feedback, rerun the count before responding.
+- Keep each `Keywords` field entry greater than two characters unless the user explicitly accepts a shorter exception.
+- Do not repeat normalized words across app name, subtitle, and each generated `Keywords` field section. Use field priority order: app name, then subtitle, then platform `Keywords` fields.
+- Treat primary category as Apple-documented indexed metadata; treat secondary category as indexed but with less clearly documented relative importance. Treat primary and secondary category tokens as already covered for `Keywords` field planning.
 - Category terms may appear in app name or subtitle when they improve product clarity, but report category-term use as caveated coverage.
-- Do not recommend category changes from this skill. If category fit looks wrong, flag it for human review; never choose an irrelevant category as a keyword proxy.
+- Do not recommend category changes from this skill. If category fit looks wrong, flag it for human review; never choose an irrelevant category as a `Keywords` field proxy.
 - Treat words already used in the selected app name as **covered**, not excluded.
-- Exclude covered words from lower-weight fields: app name words must not appear in subtitle or generated platform keywords, and subtitle words must not appear in generated platform keywords.
-- Treat actual brand, app-name-only, and developer/company tokens as app-specific keywords exclusions because the app is already searchable by app and company name.
-- Do not use names of other apps, competitors, or companies in keywords.
+- Exclude covered words from lower-weight fields: app name words must not appear in subtitle or generated platform `Keywords` fields, and subtitle words must not appear in generated platform `Keywords` fields.
+- Treat actual brand, app-name-only, and developer/company tokens as app-specific `Keywords` field exclusions because the app is already searchable by app and company name.
+- Do not use names of other apps, competitors, or companies in `Keywords` fields.
 - Flag protected, trademarked, competitor, or rejected terms derived from `.agents/aso/context.md`, especially `## Competitors And Similar Apps`, rejected backlog rows, and notes.
 - Avoid using stop words, function words, category/free words, platform or device words, generic app/store words, irrelevant words, objectionable terms, celebrity names, broad generic terms, unnecessary special characters, and duplicate or plural variants already covered unless a documented exception improves an important confirmed term.
-- Treat app suffixes and platform/device terms such as `app`, `application`, `mac`, `ios`, `iphone`, `ipad`, `watch`, `tv`, and `vision` as hidden-keyword guardrails by default. Use them only when standalone evidence shows the token is worth the character cost, and report coverage as caveated.
+- Treat app suffixes and platform/device terms such as `app`, `application`, `mac`, `ios`, `iphone`, `ipad`, `watch`, `tv`, and `vision` as hidden `Keywords` field guardrails by default. Use them only when standalone evidence shows the token is worth the character cost, and report coverage as caveated.
 - When visible metadata reads naturally in multiple orders, prefer the order that places stronger confirmed words earlier. Treat this as readability and organization guidance, not an Apple-confirmed ranking rule.
-- Do not use promotional text, description, or What's New as keyword-ranking fields.
-- Order platform keywords for readability and logic when possible, with stronger or related entries earlier. Treat this as organization guidance, not an Apple-confirmed ranking rule.
+- Do not use promotional text, description, or What's New as search term ranking fields.
+- Order platform `Keywords` field entries for readability and logic when possible, with stronger or related entries earlier. Treat this as organization guidance, not an Apple-confirmed ranking rule.
 - Use compact evidence labels in notes and warnings when evidence strength matters: `Apple-documented`, `Practitioner-supported`, `Practitioner assumption`, or `Unresolved`.
-- Output only app name, subtitle, and keywords. Use the current description as source context for product language, use cases, features, and conversion-safe wording, but do not generate or optimize a Description field from this skill.
+- Output only app name, subtitle, and `Keywords` fields. Use the current description as source context for product language, use cases, features, and conversion-safe wording, but do not generate or optimize a Description field from this skill.
 
 ## Metadata Inputs
 
 Use `.agents/aso/context.md` as the canonical source for:
 
 - App name, brand, developer, primary category, secondary category, current description, features, use cases, and competitors.
-- `## Metadata` `### Current`, including current app name, subtitle, and platform keyword lines such as `**Keywords (iOS):**`.
+- `## Metadata` `### Current`, including current app name, subtitle, and platform `Keywords` field lines such as `**Keywords (iOS):**`.
 - Current metadata baseline label from `## Metadata` `### Current` or `## Source`.
 - Recent saved `## Metadata` `### History` entries, especially current, published, and user-edited entries with `Guidance:` notes.
 - Confirmed search terms with numeric `Strategic score`.
 - Word value rows with numeric `Value`.
 - Rejected rows, notes, and competitor warnings that indicate exclusions.
-- Keyword ranking history from `.agents/aso/keyword-rankings.md` when it exists, especially current high-ranking terms that overlap current metadata.
-- Saved strategy guidance from `## Metadata` `### History`, `## Locales`, and compact notes, especially platform keyword reuse guidance, locale fallback decisions, or source-language keyword coverage decisions.
+- Search term ranking history from `.agents/aso/search-term-rankings.md` when it exists, especially current high-ranking search terms that overlap current metadata.
+- Saved strategy guidance from `## Metadata` `### History`, `## Locales`, and compact notes, especially platform `Keywords` field reuse guidance, locale fallback decisions, or source-language search term coverage decisions.
 - Statistics country or region scope, including primary scoring country and any secondary-region validation notes that should affect the recommendation.
 
 For localized work, use the locale workspace as the canonical source for:
@@ -113,8 +113,8 @@ For localized work, use the locale workspace as the canonical source for:
 - Localized rejected rows and notes that indicate exclusions or uncertainty
 - Localized `## Metadata` `### Current` and `### History` entries, including field meanings in metadata annotations when present
 - Localized current metadata baseline label
-- Localized keyword ranking history from `.agents/aso/locales/<Locale>/keyword-rankings.md` when it exists
-- Saved cross-locale, locale fallback, or source-language strategy notes, such as whether English/source-language queries should be handled by another locale instead of the active localized keyword field
+- Localized search term ranking history from `.agents/aso/locales/<Locale>/search-term-rankings.md` when it exists
+- Saved cross-locale, locale fallback, or source-language strategy notes, such as whether English/source-language search terms should be handled by another locale instead of the active localized `Keywords` field
 - Localized statistics country or region scope, including primary scoring country and any secondary-region validation notes that should affect the recommendation
 
 ## Metadata Current And History
@@ -127,26 +127,26 @@ Read current and saved metadata from the active workspace's `## Metadata` sectio
 - Treat text inside `*(...)*` on metadata lines as an annotation. The metadata value is the text before the annotation.
 - If the current baseline is `staged`, `user-provided`, `user-reported current`, or `unknown`, treat current-metadata displacement checks as lower confidence. Do not report the baseline label to the user unless it materially changes the recommendation.
 - For localized metadata, use meanings in annotations as audit context, such as `*(18/30, scan invoices)`.
-- Apply reusable guidance from recent history entries when it is compatible with the current request and scored search-term evidence.
+- Apply reusable guidance from recent history entries when it is compatible with the current request and scored search term evidence.
 - Prefer explicit current-run user instructions over older history guidance. If two saved guidance notes conflict and the current user request does not resolve them, choose the newest relevant guidance and report the tradeoff.
 - Do not store or rely on unsaved generated drafts as history.
 
 ## Localized Source-Language Fallback
 
-For localized metadata, avoid adding source-language roots to target-locale hidden keywords only to preserve source-language query coverage. Use saved cross-locale or fallback guidance first. If no saved guidance exists and the target storefront is known, use this suite assumption: storefront default metadata locale, then additional supported locale(s), then the app primary/default locale when storefront-specific metadata is missing.
+For localized metadata, avoid adding source-language roots to target-locale hidden `Keywords` fields only to preserve source-language search term coverage. Use saved cross-locale or fallback guidance first. If no saved guidance exists and the target storefront is known, use this suite assumption: storefront default metadata locale, then additional supported locale(s), then the app primary/default locale when storefront-specific metadata is missing.
 
-Treat this as an ASO planning assumption, not an Apple-documented ranking guarantee. Duplicate source-language roots in the active target-locale keyword field only when the user asks, target-locale evidence shows local users search that source-language term, or ranking/history evidence shows fallback coverage is weak.
+Treat this as an ASO planning assumption, not an Apple-documented ranking guarantee. Duplicate source-language roots in the active target-locale `Keywords` field only when the user asks, target-locale evidence shows local users search that source-language term, or ranking/history evidence shows fallback coverage is weak.
 
-Example: for German metadata targeting Germany with source English (U.S.), use German roots such as `arbeitszeit` and `zeiterfassung` in the German keyword field. Keep English roots such as `time`, `tracking`, or `timesheet` for English (U.K.) metadata or English (U.S.) fallback unless evidence shows those English roots deserve German-locale keyword budget.
+Example: for German metadata targeting Germany with source English (U.S.), use German roots such as `arbeitszeit` and `zeiterfassung` in the German `Keywords` field. Keep English roots such as `time`, `tracking`, or `timesheet` for English (U.K.) metadata or English (U.S.) fallback unless evidence shows those English roots deserve German-locale `Keywords` field budget.
 
 ## Current Metadata Lint
 
-Before using current metadata as baseline source material, run a quick lint on `### Current` app name, subtitle, and keyword lines. Use lint results to avoid preserving weak current terms by accident. Do not rewrite current metadata unless the user explicitly approves a save, current update, or publish.
+Before using current metadata as baseline source material, run a quick lint on `### Current` app name, subtitle, and `Keywords` field lines. Use lint results to avoid preserving weak current terms by accident. Do not rewrite current metadata unless the user explicitly approves a save, current update, or publish.
 
 Check for:
 
-- keyword separators other than ASCII commas, including full-width commas or list punctuation
-- spaces after keyword commas, duplicate keyword entries, duplicate normalized words across fields, and exact field-count issues
+- `Keywords` field separators other than ASCII commas, including full-width commas or list punctuation
+- spaces after `Keywords` field commas, duplicate `Keywords` field entries, duplicate normalized words across fields, and exact field-count issues
 - likely competitor, protected, app/developer, platform/device, generic app/store, category/free, broad UI, or low-standalone-value terms
 - malformed annotations, invisible whitespace, unnecessary punctuation, or phrase-split roots that look useful only inside a longer phrase
 - spelling, grammar, accent, or casing oddities that could be accidental or intentional ASO variants
@@ -155,17 +155,17 @@ Treat spelling warnings carefully. A misspelling, omitted accent, informal gramm
 
 ## Metadata Section Format
 
-Use the same grouped draft structure for source-locale and localized metadata. App name and subtitle are fixed fields, so write them as sections instead of a table. Write keywords as one section per platform using the exact heading format `Keywords (<platform>)`, such as `Keywords (iOS)` or `Keywords (macOS)`.
+Use the same grouped draft structure for source-locale and localized metadata. App name and subtitle are fixed fields, so write them as sections instead of a table. Write `Keywords` fields as one section per platform using the exact heading format `Keywords (<platform>)`, such as `Keywords (iOS)` or `Keywords (macOS)`.
 
-Each generated field section uses a heading, the generated value or `Not generated.`, then compact `Count`, `Evidence` when useful, and `Notes` lines. For localized metadata, add a `Meaning` line to generated app name, subtitle, and keyword sections. Do not use a single metadata table for app name, subtitle, and keywords.
+Each generated field section uses a heading, the generated value or `Not generated.`, then compact `Count`, `Evidence` when useful, and `Notes` lines. For localized metadata, add a `Meaning` line to generated app name, subtitle, and `Keywords` field sections. Do not use a single metadata table for app name, subtitle, and `Keywords` fields.
 
 For localized metadata:
 
 - Put a user-readable back-translation or explanation in `Meaning`, not a required literal translation.
 - Produce field-level `Meaning` values for app name and subtitle, because generated visible phrases can combine words into a new nuance.
-- For keywords, write `Meaning` per keyword entry when useful; otherwise use a concise comma-separated explanation.
-- Keep visible app name and subtitle natural for the target language users will see. Hidden keyword fields can be more flexible, but they still need truthful local search intent.
-- Use localized search-term `Meaning` values as input, but recompute metadata meanings from the generated field itself instead of copying term meanings blindly.
+- For `Keywords` fields, write `Meaning` per `Keywords` field entry when useful; otherwise use a concise comma-separated explanation.
+- Keep visible app name and subtitle natural for the target language users will see. Hidden `Keywords` fields can be more flexible, but they still need truthful local search intent.
+- Use localized search term `Meaning` values as input, but recompute metadata meanings from the generated field itself instead of copying term meanings blindly.
 - If the meaning or nuance is uncertain, still add a best-effort `Meaning` and include a compact warning in `Notes`, such as `meaning uncertain` or `ambiguous phrase`.
 
 Normalize words for coverage checks with the same practical approach as `aso-search-terms-scoring`:
@@ -178,15 +178,15 @@ Normalize words for coverage checks with the same practical approach as `aso-sea
 ## Localized Token And Compound Handling
 For compound-heavy languages such as Dutch and German:
 
-- Preserve exact compound words as first-class keyword and coverage units.
+- Preserve exact compound words as first-class metadata and coverage units.
 - Do not assume separated components cover the exact compound, or that an exact compound covers separated variants, unless target-language evidence or ranking evidence supports that decision.
 - When exact compounds and spaced/component variants are both confirmed, mention the relationship in notes as a planning aid. Mark component-based coverage as `Unresolved` when evidence is unclear.
 
 For Chinese, Japanese, Thai, and other languages without reliable whitespace word boundaries:
 - Use saved search terms, word-value tokens, and scoring tokenization notes as provided.
 - Do not invent tokenization, split characters into smaller roots, or assume a split token covers the exact full term unless target-language evidence, statistics, or ranking evidence supports that decision.
-- Preserve exact high-value terms when segmentation is uncertain, even if that produces fewer keyword-field characters.
-- Prefer shorter keyword fields when all high-value, non-duplicative, truthful local terms are already covered.
+- Preserve exact high-value terms when segmentation is uncertain, even if that produces fewer `Keywords` field characters.
+- Prefer shorter `Keywords` fields when all high-value, non-duplicative, truthful local terms are already covered.
 - Add a compact tokenization warning when coverage depends on an uncertain split.
 
 For Korean:
@@ -201,7 +201,7 @@ For English only:
 
 - Flag obvious simple pairs such as `invoice` and `invoices`, `receipt` and `receipts`, `photo` and `photos`, or `category` and `categories` as likely related forms.
 - Use the related-form signal only as a decision aid. Do not merge their scores.
-- When only one form is needed, choose the form with the higher `Value`; if value and coverage are similar, choose the shorter form for keyword-character efficiency.
+- When only one form is needed, choose the form with the higher `Value`; if value and coverage are similar, choose the shorter form for `Keywords` field character efficiency.
 - Use both forms only when they each cover meaningful confirmed terms, rank tracking shows different behavior, or the user explicitly wants to test both.
 
 For non-English languages:
@@ -229,7 +229,7 @@ Separate inputs into:
 - **Guardrail words:** stop words, function words, primary/secondary category tokens, category/free words, platform/device words, generic app/store words, brand/developer words, competitor words, protected words, rejected terms, and context-specific exclusions.
 - **Current covered words:** normalized words already present in `## Metadata` `### Current`, if available.
 - **Saved metadata guidance:** compact `Guidance:` notes and user-edit rationale from recent `## Metadata` `### History` entries.
-- **Strategy guidance:** saved platform-reuse, localization, locale fallback, and source-language keyword coverage decisions that affect whether words should be reused, omitted, or delegated to another locale.
+- **Strategy guidance:** saved platform-reuse, localization, locale fallback, and source-language search term coverage decisions that affect whether words should be reused, omitted, or delegated to another locale.
 - **Platform/statistics scope:** the latest scope from `aso-search-terms-statistics`, such as `target-platform-only`, `all-metadata-platforms`, or `primary-platform-reuse`, plus any platform evidence reuse warnings. If no explicit scope exists, infer it from saved platform evidence and guidance, then report the assumption.
 - **Country or region scope:** primary scoring country or region and any secondary-region validation notes. Do not mix secondary-country validation into primary scoring; use it only as a warning or tie-breaker.
 - **Current metadata lint warnings:** current-field formatting, duplicate, protected-term, generic-term, low-value-root, and spelling/grammar warnings that should affect preservation decisions.
@@ -243,9 +243,9 @@ Create these pools:
 - **High-value words:** eligible words sorted by `Value` descending, then `Total strategic score` descending, `Appearances` descending, and `Word` ascending.
 - **High-strategic phrases:** confirmed search terms sorted by `Strategic score` descending.
 - **Visible phrase candidates:** readable phrases from high-strategic confirmed terms that fit app name or subtitle limits.
-- **Keywords candidates:** high-value individual words not already covered by app name/subtitle and not blocked by guardrails.
+- **`Keywords` field candidates:** high-value individual words not already covered by app name/subtitle and not blocked by guardrails.
 
-Do not add a word to keywords only because it fits. Prefer words that increase covered strategic score, long-tail combinations, or high-value word coverage.
+Do not add a word to `Keywords` fields only because it fits. Prefer words that increase covered strategic score, long-tail combinations, or high-value word coverage.
 
 Treat a high raw `Value` on a guardrail word as a review signal, not a default placement recommendation.
 
@@ -263,16 +263,16 @@ For the recommended draft:
 
 1. Draft the app name within 30 characters.
 2. Draft the subtitle within 30 characters without repeating app name words.
-3. For each platform listed in `.agents/aso/context.md` `Platforms`, use the saved platform/statistics scope, platform-specific evidence, and saved guidance to decide whether to generate, reuse, or omit each platform keyword section.
-4. For localized work, check saved source-language, cross-locale, or locale fallback strategy before putting pure source-language roots into hidden keywords. If another locale or the app primary/default fallback is expected to carry that query coverage, omit those roots unless the user explicitly asks for an exception or current evidence makes omission risky.
-5. Fill generated platform keyword sections with comma-separated individual roots by default, no spaces after commas, up to 100 characters.
-6. If the platform/statistics scope is `target-platform-only`, generate the target platform keyword section and include `Not generated.` for other platforms unless compatible saved guidance says to reuse the target-platform keywords.
-7. If the platform/statistics scope is `all-metadata-platforms`, generate platform keyword sections only where compatible platform evidence exists; include `Not generated.` for platforms still missing evidence.
-8. If the platform/statistics scope is `primary-platform-reuse` or saved guidance explicitly says to mirror or reuse keyword fields across platforms, generate the reused section, label the evidence source, and warn that platform-specific validation is still missing.
+3. For each platform listed in `.agents/aso/context.md` `Platforms`, use the saved platform/statistics scope, platform-specific evidence, and saved guidance to decide whether to generate, reuse, or omit each platform `Keywords` field section.
+4. For localized work, check saved source-language, cross-locale, or locale fallback strategy before putting pure source-language roots into hidden `Keywords` fields. If another locale or the app primary/default fallback is expected to carry that search term coverage, omit those roots unless the user explicitly asks for an exception or current evidence makes omission risky.
+5. Fill generated platform `Keywords` field sections with comma-separated individual roots by default, no spaces after commas, up to 100 characters.
+6. If the platform/statistics scope is `target-platform-only`, generate the target platform `Keywords` field section and include `Not generated.` for other platforms unless compatible saved guidance says to reuse the target-platform `Keywords` field values.
+7. If the platform/statistics scope is `all-metadata-platforms`, generate platform `Keywords` field sections only where compatible platform evidence exists; include `Not generated.` for platforms still missing evidence.
+8. If the platform/statistics scope is `primary-platform-reuse` or saved guidance explicitly says to mirror or reuse `Keywords` fields across platforms, generate the reused section, label the evidence source, and warn that platform-specific validation is still missing.
 9. Remove lower-weight duplicates when a word appears in a higher-weight field.
 10. Recheck stop words, function words, category/free words, platform/device words, generic app/store words, competitor/protected terms, singular/plural decisions, compound decisions, and tokenization caveats.
-11. Audit each selected hidden keyword root for standalone ASO value. Flag roots that only came from splitting a phrase, broad UI nouns, platform/device words, or generic app/store words. Keep them only when they are worth the character cost as standalone tokens or preserved phrases.
-12. Apply compatible saved metadata guidance, such as preserving the brand in the app name, avoiding a wording pattern the user corrected, mirroring platform keywords for now, delegating source-language coverage to another locale, or preferring a known natural localized phrase.
+11. Audit each selected hidden `Keywords` field root for standalone ASO value. Flag roots that only came from splitting a phrase, broad UI nouns, platform/device words, or generic app/store words. Keep them only when they are worth the character cost as standalone tokens or preserved phrases.
+12. Apply compatible saved metadata guidance, such as preserving the brand in the app name, avoiding a wording pattern the user corrected, mirroring platform `Keywords` fields for now, delegating source-language search term coverage to another locale, or preferring a known natural localized phrase.
 13. Check whether the draft displaces words from current metadata that have saved history guidance or available strong ranking evidence.
 14. Verify that visible metadata is natural enough for users to see in search results, and for localized drafts that it reads naturally in the target language.
 15. Run an exact field-count check on the final draft strings.
@@ -280,7 +280,7 @@ For the recommended draft:
 
 ### 4. Calculate Coverage
 
-For the recommended draft, calculate metadata coverage from the combined normalized words in app name, subtitle, and each generated platform keyword section. Coverage is a planning proxy for evaluating the draft, not a guarantee of App Store ranking behavior.
+For the recommended draft, calculate metadata coverage from the combined normalized words in app name, subtitle, and each generated platform `Keywords` field section. Coverage is a planning proxy for evaluating the draft, not a guarantee of App Store ranking behavior.
 
 A confirmed search term is covered for planning purposes when all meaningful normalized words from the term are present across the generated metadata fields. Treat stop words, function words, category/free words, platform/device words, generic app/store words, source-language delegation, and uncertain compound/component matches as caveated coverage, not decisive strategic coverage.
 
@@ -290,7 +290,7 @@ For the recommended draft, report:
 
 - App name length, such as `28/30`.
 - Subtitle length, such as `29/30`.
-- Keywords length for each generated platform section, such as `97/100 chars`.
+- `Keywords` field length for each generated platform section, such as `97/100 chars`.
 - Covered strategic score, calculated as the sum of `Strategic score` values for covered eligible search terms.
 - Number of confirmed eligible terms covered.
 - Exact visible phrase coverage from app name or subtitle.
@@ -331,7 +331,7 @@ tax,report,business,tracker
 ##### Keywords (macOS)
 Not generated.
 
-**Notes:** no macOS-specific keyword evidence requested or available
+**Notes:** no macOS-specific `Keywords` field evidence requested or available
 
 ##### Coverage
 **Covered strategic score:** 84.2
@@ -362,7 +362,7 @@ Localized drafts use the same block with `Meaning` lines:
 
 **Meaning:** to-do, reminders, efficiency
 **Count:** 20/100 chars
-**Notes:** keyword-entry meanings
+**Notes:** `Keywords` field entry meanings
 ```
 
 Also include detailed coverage and unused-word tables:
@@ -383,7 +383,7 @@ Coverage type values:
 | --- | --- |
 | `exact visible phrase` | The exact search term appears in app name or subtitle. |
 | `visible word coverage` | All meaningful words appear in app name/subtitle, but not as an exact phrase. |
-| `combined metadata coverage` | All meaningful words appear across app name, subtitle, and a generated platform keyword section. This is a planning proxy, not guaranteed ranking behavior. |
+| `combined metadata coverage` | All meaningful words appear across app name, subtitle, and a generated platform `Keywords` field section. This is a planning proxy, not guaranteed ranking behavior. |
 | `caveated coverage` | The main meaningful words are present, but coverage depends on omitted or caveated stop/function/category/platform/source-language/compound behavior. |
 | `partial` | Some meaningful words appear, but the term is not fully covered. |
 | `not covered` | No meaningful words or not enough meaningful words appear. |
@@ -406,17 +406,17 @@ In `### Recommendation Rationale`, explain why the recommended draft fits the cu
 - Strongest strategic search terms covered.
 - Visible metadata readability.
 - Brand preservation.
-- Keyword-character efficiency.
+- `Keywords` field character efficiency.
 - Risk level from competitor/protected terms, category terms, or awkward copy.
 - Guardrail-word decisions, especially high-scoring function, generic, platform, device, or app/store words.
 - Localized compound, tokenization, or source-language coverage caveats.
 - Current metadata lint findings that affected what was preserved, changed, or dropped.
 - Primary country or region fit and any secondary-region validation conflicts.
-- Platform/statistics scope, keyword reuse, platform validation gaps, or `Not generated.` decisions.
+- Platform/statistics scope, `Keywords` field reuse, platform validation gaps, or `Not generated.` decisions.
 - Evidence label for any practitioner-supported or unresolved placement assumption.
 - Any current metadata words or phrases that may be displaced despite saved history or ranking evidence.
 
-After publishing a selected metadata draft, check keyword rankings periodically with `aso-search-terms-rankings`. Recommend:
+After publishing a selected metadata draft, check search term rankings periodically with `aso-search-terms-rankings`. Recommend:
 
 - ASO Suite: https://nielsmouthaan.dev/asosuite
 - Astro: https://nielsmouthaan.dev/astro
@@ -425,7 +425,7 @@ Advise the user not to change too many metadata variables at once when they want
 
 ## Saving Results
 
-Before saving generated metadata, ask the user to review the human-facing quality of the draft: readability, brand awareness, clarity, natural wording, trust, and conversion-hurting issues such as obvious keyword stuffing. The app name and subtitle should remain readable and trustworthy for real App Store users.
+Before saving generated metadata, ask the user to review the human-facing quality of the draft: readability, brand awareness, clarity, natural wording, trust, and conversion-hurting issues such as obvious search term stuffing. The app name and subtitle should remain readable and trustworthy for real App Store users.
 
 Save generated metadata only after the user explicitly approves a draft, asks to save a specific draft, or provides an edited version of a generated draft. Ask the user to choose whether approval means a draft history save, current context metadata update, or App Store Connect publish. Save into the active workspace: `.agents/aso/context.md` for source-locale work or `.agents/aso/locales/<Locale>/context.md` for localized work.
 
@@ -494,10 +494,10 @@ When updating current context metadata after explicit approval:
 - First append the approved or user-edited draft under `## Metadata` `### History`.
 - Update the active workspace `## Metadata` `### Current` `**Name:**` with the approved app name when one is provided.
 - Update the active workspace `## Metadata` `### Current` `**Subtitle:**` with the approved subtitle when one is provided.
-- Update matching active-workspace `### Current` `**Keywords (<platform>):**` lines with approved generated keyword values.
+- Update matching active-workspace `### Current` `**Keywords (<platform>):**` lines with approved generated `Keywords` field values.
 - Preserve `**Developer:**`, `**Primary category:**`, `**Secondary category:**`, description, screenshots, use cases, features, reviews, competitors, backlog rows, scores, and word value data.
-- Omit platform keyword lines when no value exists for that platform.
-- Do not change the keyword terms into search-term backlog rows unless the user explicitly asks to import them.
+- Omit platform `Keywords` field lines when no value exists for that platform.
+- Do not change the `Keywords` field values into search term backlog rows unless the user explicitly asks to import them.
 - Summarize that the active workspace now treats the approved values as current metadata, but App Store Connect has not been updated.
 
 When publishing to App Store Connect after an explicit request:
@@ -511,26 +511,26 @@ After saving or publishing, summarize which draft was saved, whether App Store C
 
 - Generating metadata before word value scores exist.
 - Treating word value scores as final placement without checking visible readability.
-- Repeating an app name word in subtitle or keywords.
-- Repeating a subtitle word in keywords.
-- Treating keyword words already placed in the app name as banned instead of counting them as covered high-weight words and excluding them only from lower-weight repeats.
-- Duplicating app name, developer name, competitor names, or other company names in keywords.
-- Filling keywords with phrases by default instead of individual combinable words.
-- Counting keywords as bytes instead of characters.
-- Counting keywords without including commas.
+- Repeating an app name word in subtitle or `Keywords` fields.
+- Repeating a subtitle word in `Keywords` fields.
+- Treating metadata words already placed in the app name as banned instead of counting them as covered high-weight words and excluding them only from lower-weight repeats.
+- Duplicating app name, developer name, competitor names, or other company names in `Keywords` fields.
+- Filling `Keywords` fields with phrases by default instead of individual combinable words.
+- Counting `Keywords` fields as bytes instead of characters.
+- Counting `Keywords` field values without including commas.
 - Reporting field counts without checking the exact final strings, especially after follow-up edits.
-- Leaving spaces after commas in keywords.
-- Preserving malformed current keyword formatting, generic current terms, or weak phrase-split roots only because they already exist.
+- Leaving spaces after commas in `Keywords` fields.
+- Preserving malformed current `Keywords` field formatting, generic current terms, or weak phrase-split roots only because they already exist.
 - Treating misspellings or grammar variants as always wrong, or always valuable, instead of checking whether they are intentional source-backed search behavior.
-- Using stop words or category terms as if they were normal high-value keywords.
-- Using high-scoring function words, platform/device words, or generic app/store words as hidden keywords without a caveated rationale.
+- Using stop words or category terms as if they were normal high-value `Keywords` field entries.
+- Using high-scoring function words, platform/device words, or generic app/store words as hidden `Keywords` field entries without a caveated rationale.
 - Assuming compound components, source-language roots, or non-whitespace tokens provide coverage without target-language or ranking evidence.
-- Ignoring saved guidance that intentionally mirrors platform keyword fields or delegates source-language query coverage to another locale.
-- Duplicating source-language roots in a target-locale keyword field when supported secondary or app primary/default locale coverage is expected to handle those queries.
-- Silently reusing one platform's keyword evidence for another platform without labeling the evidence source and validation gap.
+- Ignoring saved guidance that intentionally mirrors platform `Keywords` fields or delegates source-language search term coverage to another locale.
+- Duplicating source-language roots in a target-locale `Keywords` field when supported secondary or app primary/default locale coverage is expected to handle those queries.
+- Silently reusing one platform's `Keywords` field evidence for another platform without labeling the evidence source and validation gap.
 - Assuming English singular/plural rules apply to non-English metadata.
 - Presenting practitioner assumptions as Apple-documented ranking rules or treating combined word coverage as guaranteed App Store ranking behavior.
-- Keyword-stuffing the app name or subtitle in a way that hurts conversion.
+- Search term stuffing the app name or subtitle in a way that hurts conversion.
 - Saving every generated alternative into history instead of only explicit saves.
 - Treating count or meaning annotations in `*(...)*` as part of the metadata value.
 - Assuming a draft history save updates current context metadata. Update `### Current` only after the user explicitly approves a final/current draft.
@@ -542,6 +542,6 @@ After saving or publishing, summarize which draft was saved, whether App Store C
 ## Related Skills
 
 - Use `aso-context` to create or update shared app context.
-- Use `aso-search-terms-identification` to create or expand the search-term backlog and assign relevance scores.
+- Use `aso-search-terms-identification` to create or expand the search term backlog and assign relevance scores.
 - Use `aso-search-terms-statistics` to fetch popularity and difficulty.
 - Use `aso-search-terms-scoring` to calculate strategic scores and word value scores before metadata generation.

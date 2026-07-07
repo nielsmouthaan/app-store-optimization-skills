@@ -28,7 +28,7 @@ def main() -> int:
         action="append",
         default=[],
         metavar="PLATFORM=VALUE",
-        help="Platform keyword field; limit 100 characters. Repeat for multiple platforms.",
+        help="Platform Keywords field; limit 100 characters. Repeat for multiple platforms.",
     )
     parser.add_argument(
         "--field",

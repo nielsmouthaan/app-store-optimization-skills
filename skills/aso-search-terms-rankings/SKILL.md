@@ -1,13 +1,13 @@
 ---
 name: aso-search-terms-rankings
-description: Tracks App Store keyword rankings and trends for confirmed search terms. Use when the user asks for keyword rankings, rank tracking, ranking trends, search term positions, periodic monitoring, or checking search-term position movement after metadata changes. For popularity and difficulty statistics, use aso-search-terms-statistics.
+description: Tracks App Store search term rankings and trends for confirmed search terms. Use when the user asks for search term rankings, rank tracking, ranking trends, search term positions, periodic monitoring, or checking search term position movement after metadata changes. For popularity and difficulty statistics, use aso-search-terms-statistics.
 ---
 
 # ASO Search Terms Rankings
 
 ## Overview
 
-Act as an ASO ranking monitor. Fetch or import keyword rankings for saved search terms, append a ranking history, and maintain a compact overview that shows current position, current App Store version, previous position, movement, and best/worst observed ranks.
+Act as an ASO ranking monitor. Fetch or import search term rankings for saved search terms, append a ranking history, and maintain a compact overview that shows current position, current App Store version, previous position, movement, and best/worst observed ranks.
 
 Rankings are monitoring data for later evaluation. Do not use them as a replacement for popularity, difficulty, relevance, or strategic scoring inputs.
 
@@ -55,8 +55,8 @@ Before fetching, check whether ranking sources are available in the current envi
 
 Prefer sources in this order:
 
-1. **ASO Suite** when the `asosuite` skill or CLI is available and can return keyword positions for the target app, country or region, and search surface.
-2. **Astro** when relevant Astro tools are exposed and can return keyword positions for the target app, country or region, and search surface.
+1. **ASO Suite** when the `asosuite` skill or CLI is available and can return search term positions for the target app, country or region, and search surface.
+2. **Astro** when relevant Astro tools are exposed and can return search term positions for the target app, country or region, and search surface.
 3. **User-provided ranking data** from tables, CSV, JSON, spreadsheet-like exports, or free text.
 4. **iTunes Search API fallback** only when no better ranking source is available or when the user explicitly asks for it.
 
@@ -93,7 +93,7 @@ Use iTunes Search API only after better sources are unavailable or when the user
 
 Always show this warning before and after using iTunes data:
 
-> iTunes Search API rankings are somewhat unreliable search result positions that can differ from reality, but may still be representative of search-term performance.
+> iTunes Search API rankings are somewhat unreliable search result positions that can differ from reality, but may still be representative of search term performance.
 
 Use the bundled script:
 
@@ -107,7 +107,7 @@ Rules:
 - Pass the derived two-letter iTunes Search API `country` value, such as `US` derived from Apple country or region ISO code `USA`.
 - Derive the script `--platform` value from the resolved search surface: `iPhone` -> `iphone`, `iPad` -> `ipad`, `Mac` -> `mac`.
 - Use only `iphone`, `ipad`, or `mac` with the iTunes fallback. For other search surfaces, use ASO Suite, Astro, or user-provided data instead.
-- Treat positions as approximate. Do not claim iTunes results are actual App Store keyword rankings.
+- Treat positions as approximate. Do not claim iTunes results are actual App Store search term rankings.
 - Record `Source` as `iTunes Search API`.
 - Use `-` when the app is not found within the script's result limit.
 
@@ -118,13 +118,13 @@ Save ranking results outside the main ASO context so the context stays compact.
 For source-locale work, save:
 
 ```text
-.agents/aso/keyword-rankings.md
+.agents/aso/search-term-rankings.md
 ```
 
 For localized work, save:
 
 ```text
-.agents/aso/locales/<Locale>/keyword-rankings.md
+.agents/aso/locales/<Locale>/search-term-rankings.md
 ```
 
 Do not duplicate app, locale, country or region, or search surface in an artifact header when those values are available from `.agents/aso/context.md` or the locale workspace content. Keep country or region and search surface per row.
@@ -132,7 +132,7 @@ Do not duplicate app, locale, country or region, or search surface in an artifac
 Use this artifact structure exactly:
 
 ```markdown
-# Keyword Rankings
+# Search Term Rankings
 
 ## Overview
 
@@ -188,7 +188,7 @@ After saving, summarize:
 
 ## Common Mistakes
 
-- Treating iTunes Search API positions as precise App Store keyword rankings.
+- Treating iTunes Search API positions as precise App Store search term rankings.
 - Tracking a localized term against the source-locale country or region.
 - Changing ASO tool state without user approval.
 - Dropping existing ranking history while updating the overview.
@@ -200,6 +200,6 @@ After saving, summarize:
 ## Related Skills
 
 - Use `aso-context` to create or update shared app context.
-- Use `aso-search-terms-identification` to create or expand the search-term backlog and assign relevance scores.
+- Use `aso-search-terms-identification` to create or expand the search term backlog and assign relevance scores.
 - Use `aso-search-terms-statistics` to fetch popularity and difficulty statistics.
-- Use `aso-metadata-generation` before publishing metadata changes that will later be evaluated with keyword rankings.
+- Use `aso-metadata-generation` before publishing metadata changes that will later be evaluated with search term rankings.

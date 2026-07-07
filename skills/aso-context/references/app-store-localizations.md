@@ -103,7 +103,7 @@ Examples:
 Localized ranking artifacts live next to the locale workspace:
 
 ```text
-.agents/aso/locales/<Locale>/keyword-rankings.md
+.agents/aso/locales/<Locale>/search-term-rankings.md
 ```
 
 ## Source Locale Format
@@ -228,7 +228,7 @@ Common rows used by these skills:
 
 ## Storefront Locale Fallback Assumption
 
-Use this ASO planning assumption when deciding whether source-language keywords need to be duplicated in a localized metadata workspace:
+Use this ASO planning assumption when deciding whether source-language search terms need coverage in a localized metadata workspace:
 
 1. Prefer the storefront's default metadata locale.
 2. Then use additional metadata locales Apple supports for that storefront.

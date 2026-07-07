@@ -1,6 +1,6 @@
 # English Stop Words
 
-Use this list when evaluating English App Store metadata. These words are usually poor use of the 100-character keywords budget because they are common, low-intent, or treated as free/stop words by ASO convention.
+Use this list when evaluating English App Store metadata. These words are usually poor use of the 100-character `Keywords` field budget because they are common, low-intent, or treated as free/stop words by ASO convention.
 
 ## Words
 
@@ -187,7 +187,7 @@ yourselves
 
 ## Usage Notes
 
-- Treat these as low-priority candidate keywords, not absolute bans.
+- Treat these as low-priority `Keywords` field candidates, not absolute bans.
 - Use a stop word in visible metadata when it materially improves readability or conversion.
-- Use a stop word in keywords only when the user accepts the tradeoff or it is part of a tested strategic exception.
+- Use a stop word in a `Keywords` field only when the user accepts the tradeoff or it is part of a tested strategic exception.
 - Do not remove stop words from a visible-field phrase if removal makes the app name or subtitle unnatural.

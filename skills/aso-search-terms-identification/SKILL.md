@@ -1,11 +1,11 @@
 ---
 name: aso-search-terms-identification
-description: Finds broad App Store search-term candidates and assigns user-reviewed relevance scores for App Store optimization. Use when creating or expanding a keyword backlog, researching App Store search terms, reviewing keyword relevance, localizing keyword ideas, mining competitor language, collecting user search phrases, or preparing terms for statistics and strategic scoring.
+description: Finds broad App Store search term candidates and assigns user-reviewed relevance scores for App Store optimization. Use when creating or expanding a search term backlog, researching App Store search terms, reviewing search term relevance, localizing search term ideas, mining competitor language, collecting user search phrases, or preparing terms for statistics and strategic scoring.
 ---
 
 # ASO Search Terms Identification
 
-Act as an ASO search-term researcher and relevance analyst. Help the user create a large backlog of search terms that potential users might reasonably type in the App Store, then score how well the app fits each term's search intent.
+Act as an ASO search term researcher and relevance analyst. Help the user create a large backlog of search terms that potential users might reasonably type in the App Store, then score how well the app fits each term's search intent.
 
 Optimize for **breadth, App Store search plausibility, and consistent user-reviewed relevance**. Broad coverage is useful only after each term sounds like something a person might actually type in App Store search. Do not assign popularity, difficulty, strategic scores, metadata fields, or final targeting. If the user asks for popularity or difficulty, use `aso-search-terms-statistics`; if the user asks for derived scoring or prioritization, use `aso-search-terms-scoring`; treat metadata placement and final targeting as outside this skill.
 
@@ -17,7 +17,7 @@ If the user is working on a localized workspace, also read the relevant `.agents
 
 If it exists:
 
-- Summarize the app context that matters for search-term discovery.
+- Summarize the app context that matters for search term discovery.
 - Identify the source `Primary locale`; if none is specified, ask only when locale materially affects term language or statistics.
 - For localized work, identify the target locale, optional country or region preference, and any existing localized terms.
 - Show any existing terms in `## Search Terms Backlog`.
@@ -34,13 +34,13 @@ Before generating a first backlog, ask once for these high-value sources when th
 
 - App Store listing URL
 - Marketing or landing page URL
-- Existing App Store Connect keyword field terms
+- Existing App Store Connect `Keywords` field values
 
 If the user provides or skips sources, continue with available context. If a source remains missing, proceed when useful and note the source gap.
 
 When an App Store listing URL or marketing URL is available, inspect it before creating or expanding the backlog. If the current environment cannot access a URL, ask the user to paste the relevant listing or page copy and note the access gap.
 
-## Search-Term Backlog Rules
+## Search Term Backlog Rules
 
 - Include terms that are **somewhat relevant** and plausible as App Store searches, even if imperfect.
 - Prefer a broad backlog, but do not add a term solely to increase the count.
@@ -49,8 +49,8 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 - Include natural action-object and noun variants for the same intent, including compact forms users may type in the App Store.
 - Generate variants from real search-intent patterns, not every possible modifier-plus-category combination.
 - Do not create weak combinations only because both words appear in app context.
-- Include generic category, audience, and use-case synonyms even when they are less precise than the app's positioning, but treat them as research candidates rather than final keyword-field recommendations.
-- For a first-pass backlog, check coverage across brand, core category, primary jobs-to-be-done, common synonyms, audience and use-case terms, problem terms, existing keyword-field seeds, and source-backed feature terms. Skip coverage areas where plausible App Store queries are weak.
+- Include generic category, audience, and use-case synonyms even when they are less precise than the app's positioning, but treat them as research candidates rather than final `Keywords` field recommendations.
+- For a first-pass backlog, check coverage across brand, core category, primary jobs-to-be-done, common synonyms, audience and use-case terms, problem terms, existing `Keywords` field seeds, and source-backed feature terms. Skip coverage areas where plausible App Store queries are weak.
 - Include seasonal terms only when the app, source evidence, or user request supports the seasonal intent. Mark the season or timing window in `Notes`, and do not treat expired seasonal terms as evergreen opportunities.
 - Do not invent spelling or grammar mistakes.
 - Preserve misspelled or ungrammatical terms only when they come from the user or source evidence.
@@ -63,8 +63,8 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 - Prefer compact search phrases that sound like App Store queries.
 - Avoid full-sentence descriptions, web or SEO-style phrases, UI commands, implementation terms, technical capability terms, or product-internal wording unless clear App Store, Apple Search Ads, autocomplete, user, review, or competitor evidence shows users search that way.
 - Ask for clarification when a user-provided term looks like an accidental grammar or spelling mistake.
-- Do not add competitor brand names as usable search-term candidates by default.
-- Keep category words, `app`, generic terms, developer names, and brand terms when useful for research, but flag that they are usually weak or redundant final keyword-field material.
+- Do not add competitor brand names as usable search term candidates by default.
+- Keep category words, `app`, generic terms, developer names, and brand terms when useful for research, but flag that they are usually weak or redundant final `Keywords` field material.
 - Keep source information so later skills can judge evidence quality.
 
 ## Discovery Workflow
@@ -74,7 +74,7 @@ When an App Store listing URL or marketing URL is available, inspect it before c
 Use the context file as the canonical source for:
 
 - Primary locale, optional country or region preference, and platforms
-- App Store URL, marketing URL, and current `## Metadata` platform keyword lines
+- App Store URL, marketing URL, and current `## Metadata` platform `Keywords` field lines
 - App name, subtitle, primary category, secondary category, and description
 - Features, use cases, and problem language
 - Screenshot text and review themes
@@ -83,7 +83,7 @@ Use the context file as the canonical source for:
 
 Call out obvious gaps only when they block useful suggestions.
 
-Treat existing metadata keywords as source material, not proof of strategic fit. Existing names, subtitles, OCR'd screenshot text, and descriptions may reflect previous ASO experiments, so extract terms from them but do not assume every prominent term should be kept.
+Treat existing `Keywords` field values as source material, not proof of strategic fit. Existing names, subtitles, `Keywords` fields, OCR'd screenshot text, and descriptions may reflect previous ASO experiments, so extract terms from them but do not assume every prominent term should be kept.
 
 Do not treat local repository files as complete source coverage when public listing or marketing sources are missing.
 
@@ -93,15 +93,15 @@ Create candidates from multiple sources:
 
 - **App language:** app name, subtitle, description, feature names, benefits, jobs-to-be-done, and problem statements.
 - **User language:** reviews, support requests, testimonials, community posts, and user-provided wording. Treat isolated review phrases as weak or noisy evidence unless they recur or are corroborated by other sources.
-- **Apple-native search signals:** App Store autocomplete or hints, Apple Search Ads search terms, keyword suggestions, Search Match discoveries, and Search Popularity when available.
-- **Competitor research:** competitor app names, subtitles, descriptions, OCR'd screenshot text when already available, and terms they appear to rank for. Remember that visible competitor metadata is incomplete for iOS because the hidden keyword field is not public.
-- **Existing App Store Connect keywords:** App Store Connect keyword field terms provided by the user for each platform; treat them as source material and seeds, not automatically approved final terms.
-- **Third-party and web discovery tools:** If the user provides data or relevant tools are available, use ASO tools, Google Play autofill, Google Keyword Planner, Google Trends, SEO tools, and keyword discovery tools with caveats. Web or Google Play demand is not the same as App Store demand.
-- **Imported keyword lists:** User-provided keyword exports or manual lists; import their keyword language broadly before generating new expansions.
+- **Apple-native search signals:** App Store autocomplete or hints, Apple Search Ads search terms, search term suggestions, Search Match discoveries, and Search Popularity when available.
+- **Competitor research:** competitor app names, subtitles, descriptions, OCR'd screenshot text when already available, and terms they appear to rank for. Remember that visible competitor metadata is incomplete for iOS because the hidden `Keywords` field is not public.
+- **Existing App Store Connect `Keywords` fields:** App Store Connect `Keywords` field values provided by the user for each platform; treat them as source material and seeds, not automatically approved final terms.
+- **Third-party and web discovery tools:** If the user provides data or relevant tools are available, use ASO tools, Google Play autofill, Google Keyword Planner, Google Trends, SEO tools, and search term discovery tools with caveats. Web or Google Play demand is not the same as App Store demand.
+- **Imported search term lists:** User-provided search term exports or manual lists; import their search term language broadly before generating new expansions.
 - **Phrase expansion:** broad head terms, singular/plural variants, synonyms, alternate word order, related nouns and verbs, action-object variants, noun-form variants, compact or compound variants, category modifiers, seasonal variants, and long-tail combinations that still sound like natural App Store searches.
 - **Brand terms:** the app's own name, product names, company name, abbreviations, and source-backed misspellings or grammar variants when relevant.
 
-If source material uses a language other than the source primary locale language, use it only as background for understanding the app. Do not translate non-active-locale strings into search-term candidates unless the user explicitly changes the source primary locale.
+If source material uses a language other than the source primary locale language, use it only as background for understanding the app. Do not translate non-active-locale strings into search term candidates unless the user explicitly changes the source primary locale.
 
 For localized work, reverse that rule: source-language search terms are background for intent, while target-language evidence should drive the final localized search terms. Generate terms from local App Store behavior, localized competitor language, target-language reviews or support language, autocomplete/tool evidence, and natural target-language phrasing.
 
@@ -298,12 +298,12 @@ Before presenting scores, compare terms across the backlog:
 
 ## Competitor Research Handling
 
-Competitor names can be useful research inputs, but they are risky as usable App Store metadata terms and should not be treated as normal search-term candidates by default.
+Competitor names can be useful research inputs, but they are risky as usable App Store metadata terms and should not be treated as normal search term candidates by default.
 
 When researching competitors:
 
 - Inspect competitor app names, subtitles, descriptions, OCR'd screenshot text when already available, reviews, categories, and visible positioning when available.
-- Treat visible competitor metadata as incomplete on iOS because the hidden keyword field is not public.
+- Treat visible competitor metadata as incomplete on iOS because the hidden `Keywords` field is not public.
 - Extract generic non-brand search terms from competitor language, category fit, features, benefits, and user intent.
 - Do not propose competitor brand names as normal candidate terms.
 - Keep competitor brand names in competitor notes unless the user asks to track them in the backlog.
@@ -318,7 +318,7 @@ When researching competitors:
 - Adding phrases only because they appear in source files, even when they are not plausible App Store searches.
 - Treating technical or product details as discovery queries.
 - Converting every context phrase into a candidate.
-- Treating local files as enough without asking for App Store listing, marketing page, and App Store Connect keyword sources.
+- Treating local files as enough without asking for App Store listing, marketing page, and App Store Connect `Keywords` field sources.
 - Saving source-locale terms or relevance scores before the user reviews them.
 - Scoring terms in isolation instead of calibrating across the whole backlog.
 - Using popularity, competition, or ranking difficulty as a proxy for relevance.
@@ -335,18 +335,18 @@ When researching competitors:
 - Overreading large search-result or competitor exports instead of extracting compact app names, subtitles, repeated visible terms, category fit, and non-brand phrases.
 - Forgetting long-tail terms with clearer intent.
 - Treating seasonal terms as evergreen without noting the timing window.
-- Assuming visible competitor metadata reveals the full iOS keyword strategy.
+- Assuming visible competitor metadata reveals the full iOS `Keywords` field strategy.
 - Proposing competitor brand names as usable search terms instead of extracting generic non-brand alternatives from competitor research.
-- Jumping into keyword prioritization, statistics fetching, or metadata writing before the backlog is broad enough.
+- Jumping into search term prioritization, statistics fetching, or metadata writing before the backlog is broad enough.
 
 ## Task-Specific Questions
 
 Ask only questions that improve the backlog materially:
 
-- "Do you have an App Store URL, marketing URL, App Store Connect keyword terms, or competitor list I should use before creating the first backlog?"
+- "Do you have an App Store URL, marketing URL, App Store Connect `Keywords` field values, or competitor list I should use before creating the first backlog?"
 - "Are these similar apps real competitors, inspiration, or irrelevant?"
 - "Would a user searching this term reasonably expect an app like yours?"
-- "Do you have existing App Store Connect keyword terms I should treat as source material?"
+- "Do you have existing App Store Connect `Keywords` field values I should treat as source material?"
 - "Does this phrase sound like something a user would type in the App Store, or is it just internal product language?"
 - "Are these two terms equally relevant, or should one score higher?"
 - "Should this broad term stay in the backlog with a low relevance score, or be rejected?"
@@ -356,6 +356,6 @@ Ask only questions that improve the backlog materially:
 
 ## Related Skills
 
-- Use `aso-context` to create or update shared app context and store the search-term backlog.
+- Use `aso-context` to create or update shared app context and store the search term backlog.
 - Use `aso-search-terms-statistics` to fetch external popularity and difficulty values after terms exist.
 - Use `aso-search-terms-scoring` to calculate derived priority scores after confirmed terms have relevance and statistics.
