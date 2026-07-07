@@ -4,7 +4,7 @@ This suite contains agent skills for App Store Optimization (ASO). It helps you 
 
 The suite is maintained by Niels Mouthaan, the original founder of [ASO Suite](https://nielsmouthaan.dev/asosuite), a Mac-native ASO tool that was sold.
 
-The current skills focus mainly on generating data-backed, ranking-affecting App Store metadata: app name, subtitle, and App Store Connect `Keywords` fields. The workflow follows a methodology based on the [Advanced App Store Optimization Book](https://www.asoebook.com): identify a broad set of plausible search terms, collect popularity and difficulty statistics, score search terms and words, and draft metadata that helps the app rank for as many relevant search terms as possible while balancing search volume and ranking difficulty.
+The current skills focus mainly on generating data-backed, ranking-affecting App Store metadata: app name, subtitle, and keywords. The workflow follows a methodology based on the [Advanced App Store Optimization Book](https://www.asoebook.com/): identify a broad set of plausible search terms, collect popularity and difficulty statistics, score search terms and their individual words, and draft metadata that helps the app rank for as many relevant search terms as possible while balancing search volume and ranking difficulty. The suite also includes a skill for tracking and storing search term rankings over time.
 
 For example, for a receipt-scanning app, the suite could generate metadata like:
 
