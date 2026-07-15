@@ -64,7 +64,21 @@ Run installation commands from the repository where you want your agent to use t
 
 ### Option 1: CLI Install
 
-Availability and instructions for installing with `npx skills` are coming soon.
+Install all skills in the suite with the [Skills CLI](https://skills.sh/). This is the recommended option because the workflow and specialist skills use `aso-context` to share reusable app context and ASO data:
+
+```bash
+npx skills add nielsmouthaan/app-store-optimization-skills --skill '*'
+```
+
+To install only one specialist skill, install `aso-context` alongside it. For example, to install the search term rankings skill:
+
+```bash
+npx skills add nielsmouthaan/app-store-optimization-skills \
+  --skill aso-context \
+  --skill aso-search-terms-rankings
+```
+
+Replace `aso-search-terms-rankings` with the skill you want to install. When installing a workflow skill, install the full suite because workflows coordinate multiple specialist skills.
 
 ### Option 2: Claude Code Plugin
 
