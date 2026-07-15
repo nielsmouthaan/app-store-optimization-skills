@@ -82,7 +82,19 @@ Replace `aso-search-terms-rankings` with the skill you want to install. When ins
 
 ### Option 2: Claude Code Plugin
 
-Availability and instructions for installing as a Claude Code plugin are coming soon.
+Add this repository as a Claude Code plugin marketplace:
+
+```text
+/plugin marketplace add nielsmouthaan/app-store-optimization-skills
+```
+
+Install the complete skill suite:
+
+```text
+/plugin install app-store-optimization@app-store-optimization-skills
+```
+
+The plugin includes all workflow and specialist skills, including the required `aso-context` foundation skill.
 
 ### Option 3: Clone and Copy
 

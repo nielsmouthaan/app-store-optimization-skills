@@ -1,0 +1,27 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "app-store-optimization-skills",
+  "owner": {
+    "name": "Niels Mouthaan"
+  },
+  "description": "App Store Optimization skills and workflows for Claude Code.",
+  "plugins": [
+    {
+      "name": "app-store-optimization",
+      "displayName": "App Store Optimization Skills",
+      "description": "Evidence-based App Store Optimization workflows for search term research, scoring, metadata generation, localization, and ranking tracking.",
+      "source": "./",
+      "author": {
+        "name": "Niels Mouthaan"
+      },
+      "repository": "https://github.com/nielsmouthaan/app-store-optimization-skills",
+      "license": "MIT",
+      "category": "productivity",
+      "keywords": [
+        "app store",
+        "app store optimization",
+        "aso"
+      ]
+    }
+  ]
+}

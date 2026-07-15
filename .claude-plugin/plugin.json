@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "app-store-optimization",
+  "displayName": "App Store Optimization Skills",
+  "description": "Evidence-based App Store Optimization workflows for search term research, scoring, metadata generation, localization, and ranking tracking.",
+  "author": {
+    "name": "Niels Mouthaan"
+  },
+  "repository": "https://github.com/nielsmouthaan/app-store-optimization-skills",
+  "license": "MIT",
+  "keywords": [
+    "app store",
+    "app store optimization",
+    "aso"
+  ],
+  "skills": "./skills/"
+}
